@@ -1,6 +1,11 @@
 # PAP2023Z-Z20
 
+## Członkowie
 
+- Jakub Wróblewski
+- Wojciech Sarwiński
+- Binh Vuong Le Duc
+- Michał Sadlej
 
 ## Getting started
 
