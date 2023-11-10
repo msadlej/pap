@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="pap23z-z20:jar2">
+  <artifact type="jar" name="app">
     <output-path>$PROJECT_DIR$/release</output-path>
     <root id="archive" name="pap23z-z20.jar">
       <element id="directory" name="META-INF">
