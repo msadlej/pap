@@ -10,7 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f02cba32-e5d3-43bb-b3e7-3bb0a2b1fd6e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/sqlite-jdbc-3.44.0.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pap23z-z20.iml" beforeDir="false" afterPath="$PROJECT_DIR$/pap23z-z20.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/MainPage.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/MainPage.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/MainPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/MainPage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,12 +35,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/example/app/App.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2Xzu3T8YpRC6SumLNAOAwKEZo4r" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -46,11 +59,20 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/home/bvuongle/Documents/pap23z-z20/release",
-    "project.structure.last.edited": "Artifacts",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "746",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "test__ui",
+    "last_opened_file_path": "/home/bvuongle/Documents/pap23z-z20/lib/sqlite-jdbc-3.44.0.0.jar",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.fileTypes"
+    "settings.editor.selected.configurable": "build.tools",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -95,7 +117,87 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1699644032155</updated>
+      <workItem from="1700246509440" duration="135000" />
+      <workItem from="1700246851747" duration="35000" />
+      <workItem from="1700246895846" duration="66000" />
+      <workItem from="1700246970722" duration="599000" />
+      <workItem from="1700257155426" duration="322000" />
+      <workItem from="1700257484731" duration="47000" />
+      <workItem from="1700257545978" duration="1104000" />
+      <workItem from="1700258662952" duration="237000" />
+      <workItem from="1700258913935" duration="1509000" />
+      <workItem from="1700263321459" duration="403000" />
+      <workItem from="1700263735963" duration="343000" />
+      <workItem from="1700264238967" duration="29000" />
+      <workItem from="1700264282150" duration="238000" />
+      <workItem from="1700264534211" duration="709000" />
+      <workItem from="1700265256041" duration="32000" />
+      <workItem from="1700265300891" duration="507000" />
+      <workItem from="1700265821599" duration="1335000" />
+      <workItem from="1700306667449" duration="591000" />
+      <workItem from="1700307273268" duration="148000" />
+      <workItem from="1700307442378" duration="3924000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/main" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="HEAD" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

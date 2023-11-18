@@ -6,15 +6,15 @@ import java.awt.event.ActionListener;
 
 public class MainPage extends JFrame {
     private JPanel panelMain;
-    private JTextField textField1;
     private JLabel page;
     private JButton clickMeButton;
+    private JTable dataTable;
 
     public MainPage () {
         setContentPane(panelMain);
         setTitle("Simple GUI App");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(300, 200);
+        setSize(960, 600);
 
 
         setVisible(true);
