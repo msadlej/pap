@@ -10,14 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f02cba32-e5d3-43bb-b3e7-3bb0a2b1fd6e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/sqlite-jdbc-3.44.0.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/sqlite-jdbc-3.44.0.0.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pap23z-z20.iml" beforeDir="false" afterPath="$PROJECT_DIR$/pap23z-z20.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/MainPage.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/MainPage.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/MainPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/MainPage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +58,7 @@
     "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "746",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "test__ui",
-    "last_opened_file_path": "/home/bvuongle/Documents/pap23z-z20/lib/sqlite-jdbc-3.44.0.0.jar",
+    "last_opened_file_path": "/home/bvuongle/Documents/pap23z-z20/src/main/java/com/example/app/database/test.db",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -73,10 +69,19 @@
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "build.tools",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite",
+      "vertica",
+      "oracle"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/example/app" />
+      <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/release" />
       <recent name="$PROJECT_DIR$/src/main/resources/" />
     </key>
