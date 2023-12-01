@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="pap23z-z20:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/pap23z_z20_jar</output-path>
+    <root id="archive" name="pap23z-z20.jar">
+      <element id="module-output" name="pap23z-z20" />
+    </root>
+  </artifact>
+</component>
