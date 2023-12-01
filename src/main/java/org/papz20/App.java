@@ -1,4 +1,4 @@
-package main.java.com.example.app;
+package main.java.org.papz20;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
