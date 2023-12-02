@@ -10,13 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f02cba32-e5d3-43bb-b3e7-3bb0a2b1fd6e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a8207758-2af5-48c7-acad-b301b6313bd5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a8207758-2af5-48c7-acad-b301b6313bd5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a8207758-2af5-48c7-acad-b301b6313bd5/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a8207758-2af5-48c7-acad-b301b6313bd5/storage_v2/_src_/schema/main.uQUzAA.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/papz20/model/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/papz20/model/Book.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/papz20/model/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/papz20/model/Member.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/database/appDB.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/database/appDB.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/papz20/model/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/papz20/model/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/database/sql/create_table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/database/sql/create_table.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

@@ -70,3 +70,4 @@ CREATE TABLE IF NOT EXISTS `fines`
     FOREIGN KEY (copy_id) REFERENCES copies(copy_id)
 );
 
+
