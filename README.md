@@ -7,7 +7,7 @@ Program zarządzania biblioteką
 ## Wymagania
 
 - Program napisany w Java 17.
-- Połączenie z bazą danych Oracle SQL
+- Połączenie z bazą danych SQLite
 - Aplikacja napisana z użyciem biblioteki Swing
 
 
