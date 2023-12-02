@@ -1,4 +1,4 @@
-package main.java.com.example.app.model;
+package main.java.org.papz20.model;
 
 public class Member {
 }
