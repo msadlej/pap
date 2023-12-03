@@ -15,10 +15,13 @@ public class LoginForm extends JPanel {
 
     private void initUI(MainWindow mainWindow) {
         setLayout(new GridLayout(5, 2));
+        setBackground(UIConstants.FORM_BACKGROUND_COLOR);
 
         JLabel usernameLabel = new JLabel("Username:");
+        usernameLabel.setForeground(UIConstants.FORM_TEXT_COLOR);
         usernameField = new JTextField();
         JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setForeground(UIConstants.FORM_TEXT_COLOR);
         passwordField = new JPasswordField();
 
         JButton signInButton = new JButton("Sign In");
@@ -47,6 +50,10 @@ public class LoginForm extends JPanel {
             }
         });
 
+        customizeButton(signInButton);
+        customizeButton(exitButton);
+        customizeButton(createAccountButton);
+
         add(usernameLabel);
         add(usernameField);
         add(passwordLabel);
@@ -57,4 +64,9 @@ public class LoginForm extends JPanel {
         add(createAccountButton);
     }
 
+    private void customizeButton(JButton button) {
+        button.setBackground(UIConstants.BUTTON_COLOR);
+        button.setForeground(UIConstants.BUTTON_TEXT_COLOR);
+        button.setFocusPainted(false);
+    }
 }

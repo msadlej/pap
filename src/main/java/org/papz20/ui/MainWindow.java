@@ -6,6 +6,9 @@ import java.awt.*;
 public class MainWindow extends JFrame {
     private JPanel leftPanel;
     private JPanel rightPanel;
+    private JLabel titleLabel;
+    private LoginForm loginForm;
+    private CreateAccountForm createAccountForm;
 
     public MainWindow() {
         initUI();
@@ -18,10 +21,19 @@ public class MainWindow extends JFrame {
         setLayout(new GridLayout(1, 2));
 
         leftPanel = new JPanel(new BorderLayout());
+        leftPanel.setBackground(UIConstants.BACKGROUND_COLOR);
+        leftPanel.setBorder(BorderFactory.createEmptyBorder(
+                UIConstants.FORM_MARGIN_TOP,
+                UIConstants.FORM_MARGIN_SIDES,
+                UIConstants.FORM_MARGIN_BOTTOM,
+                UIConstants.FORM_MARGIN_SIDES
+                ));
         rightPanel = new JPanel();
+        rightPanel.setBackground(UIConstants.BACKGROUND_COLOR);
 
-        ImageIcon background = new ImageIcon("src/main/resources/image/mainBackground.jpg");
-        JLabel backgroundLabel = new JLabel(background);
+        ImageIcon background = new ImageIcon(getClass().getResource("/images/mainBackground.jpg"));
+        Image resizedBackground = background.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
+        JLabel backgroundLabel = new JLabel(new ImageIcon(resizedBackground));
         rightPanel.add(backgroundLabel);
 
         showLoginForm();
@@ -33,11 +45,19 @@ public class MainWindow extends JFrame {
         setVisible(true);
     }
 
+    private void showMainTitle() {
+        titleLabel = new JLabel(UIConstants.MAIN_WINDOW_TITLE, SwingConstants.CENTER);
+        titleLabel.setBounds(270, 1, 200, 100);
+        titleLabel.setFont(new Font("Geomanist", Font.BOLD, 25));
+        titleLabel.setForeground(UIConstants.FORM_TEXT_COLOR);
+        leftPanel.add(titleLabel, BorderLayout.NORTH);
+    }
+
     public void showLoginForm() {
         leftPanel.removeAll();
-        leftPanel.add(new JLabel("Library Management System", SwingConstants.CENTER), BorderLayout.NORTH);
+        showMainTitle();
 
-        LoginForm loginForm = new LoginForm(this);
+        loginForm = new LoginForm(this);
         leftPanel.add(loginForm, BorderLayout.CENTER);
         leftPanel.revalidate();
         leftPanel.repaint();
@@ -45,9 +65,9 @@ public class MainWindow extends JFrame {
 
     public void showCreateAccountForm() {
         leftPanel.removeAll();
-        leftPanel.add(new JLabel("Library Management System", SwingConstants.CENTER), BorderLayout.NORTH);
+        showMainTitle();
 
-        CreateAccountForm createAccountForm = new CreateAccountForm(this);
+        createAccountForm = new CreateAccountForm(this);
         leftPanel.add(createAccountForm, BorderLayout.CENTER);
         leftPanel.revalidate();
         leftPanel.repaint();

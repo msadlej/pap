@@ -21,16 +21,22 @@ public class CreateAccountForm extends JPanel {
         setLayout(new GridLayout(7, 2));
 
         JLabel firstNameLabel = new JLabel("First Name:");
+        firstNameLabel.setForeground(UIConstants.FORM_TEXT_COLOR);
         firstNameField = new JTextField();
         JLabel lastNameLabel = new JLabel("Last Name:");
+        lastNameLabel.setForeground(UIConstants.FORM_TEXT_COLOR);
         lastNameField = new JTextField();
         JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setForeground(UIConstants.FORM_TEXT_COLOR);
         emailField = new JTextField();
         JLabel usernameLabel = new JLabel("Username:");
+        usernameLabel.setForeground(UIConstants.FORM_TEXT_COLOR);
         usernameField = new JTextField();
         JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setForeground(UIConstants.FORM_TEXT_COLOR);
         passwordField = new JPasswordField();
         JLabel confirmPasswordLabel = new JLabel("Confirm Password:");
+        confirmPasswordLabel.setForeground(UIConstants.FORM_TEXT_COLOR);
         confirmPasswordField = new JPasswordField();
 
         JButton returnButton = new JButton("Return");
@@ -53,6 +59,9 @@ public class CreateAccountForm extends JPanel {
             }
         });
 
+        customizeButton(returnButton);
+        customizeButton(confirmButton);
+
         add(firstNameLabel);
         add(firstNameField);
         add(lastNameLabel);
@@ -67,5 +76,10 @@ public class CreateAccountForm extends JPanel {
         add(confirmPasswordField);
         add(returnButton);
         add(confirmButton);
+    }
+
+    private void customizeButton(JButton button) {
+        button.setBackground(UIConstants.BUTTON_COLOR);
+        button.setForeground(UIConstants.BUTTON_TEXT_COLOR);
     }
 }
