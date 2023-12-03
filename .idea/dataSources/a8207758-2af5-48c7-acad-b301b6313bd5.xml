@@ -446,8 +446,8 @@
     </routine>
     <schema id="177" parent="1" name="main">
       <Current>1</Current>
-      <IntrospectionTimestamp>2023-12-01.23:13:56.183</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-12-01.22:13:56</LocalIntrospectionTimestamp>
+      <IntrospectionTimestamp>2023-12-02.23:29:21.505</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-12-02.22:29:21</LocalIntrospectionTimestamp>
     </schema>
     <argument id="178" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1470,96 +1470,317 @@
       <Position>1</Position>
     </argument>
     <table id="518" parent="177" name="books"/>
-    <table id="519" parent="177" name="sqlite_master">
+    <table id="519" parent="177" name="copies"/>
+    <table id="520" parent="177" name="fines"/>
+    <table id="521" parent="177" name="orders"/>
+    <table id="522" parent="177" name="sqlite_master">
       <System>1</System>
     </table>
-    <table id="520" parent="177" name="users"/>
-    <column id="521" parent="518" name="book_id">
+    <table id="523" parent="177" name="transactions"/>
+    <table id="524" parent="177" name="users"/>
+    <column id="525" parent="518" name="book_id">
       <DasType>INTERGER|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="522" parent="518" name="title">
+    <column id="526" parent="518" name="title">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="523" parent="518" name="author">
+    <column id="527" parent="518" name="author">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="524" parent="518" name="genre">
+    <column id="528" parent="518" name="genre">
       <DasType>TEXT|0s</DasType>
-      <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="525" parent="518" name="publish_date">
-      <DasType>TEXT|0s</DasType>
-      <NotNull>1</NotNull>
+    <column id="529" parent="518" name="publish_date">
+      <DasType>DATE|0s</DasType>
       <Position>5</Position>
     </column>
-    <index id="526" parent="518" name="sqlite_autoindex_books_1">
+    <index id="530" parent="518" name="sqlite_autoindex_books_1">
       <ColNames>book_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="527" parent="518">
+    <index id="531" parent="518" name="sqlite_autoindex_books_2">
+      <ColNames>title
+author</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="532" parent="518">
       <ColNames>book_id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>sqlite_autoindex_books_1</UnderlyingIndexName>
     </key>
-    <column id="528" parent="519" name="type">
-      <DasType>TEXT|0s</DasType>
-      <Position>1</Position>
-    </column>
-    <column id="529" parent="519" name="name">
-      <DasType>TEXT|0s</DasType>
-      <Position>2</Position>
-    </column>
-    <column id="530" parent="519" name="tbl_name">
-      <DasType>TEXT|0s</DasType>
-      <Position>3</Position>
-    </column>
-    <column id="531" parent="519" name="rootpage">
-      <DasType>INT|0s</DasType>
-      <Position>4</Position>
-    </column>
-    <column id="532" parent="519" name="sql">
-      <DasType>TEXT|0s</DasType>
-      <Position>5</Position>
-    </column>
-    <column id="533" parent="520" name="user_id">
+    <key id="533" parent="518">
+      <ColNames>title
+author</ColNames>
+      <UnderlyingIndexName>sqlite_autoindex_books_2</UnderlyingIndexName>
+    </key>
+    <column id="534" parent="519" name="copy_id">
       <DasType>INTERGER|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="534" parent="520" name="username">
-      <DasType>TEXT|0s</DasType>
+    <column id="535" parent="519" name="book_id">
+      <DasType>INTERGER|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="535" parent="520" name="password">
-      <DasType>TEXT|0s</DasType>
+    <column id="536" parent="519" name="available">
+      <DasType>BOOLEAN|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="536" parent="520" name="email">
+    <foreign-key id="537" parent="519">
+      <ColNames>book_id</ColNames>
+      <OnDelete>cascade</OnDelete>
+      <RefColNames>book_id</RefColNames>
+      <RefTableName>books</RefTableName>
+    </foreign-key>
+    <index id="538" parent="519" name="sqlite_autoindex_copies_1">
+      <ColNames>copy_id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="539" parent="519">
+      <ColNames>copy_id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_copies_1</UnderlyingIndexName>
+    </key>
+    <check id="540" parent="520">
+      <Predicate>fine_status IN (&apos;unpaid&apos;, &apos;paid&apos;)</Predicate>
+    </check>
+    <column id="541" parent="520" name="fine_id">
+      <DasType>INTERGER|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="542" parent="520" name="transaction_id">
+      <DasType>INTERGER|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="543" parent="520" name="fine_amount">
+      <DasType>INTERGER|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="544" parent="520" name="fine_status">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="537" parent="520" name="user_type">
+    <foreign-key id="545" parent="520">
+      <ColNames>transaction_id</ColNames>
+      <OnDelete>cascade</OnDelete>
+      <RefColNames>transaction_id</RefColNames>
+      <RefTableName>transactions</RefTableName>
+    </foreign-key>
+    <index id="546" parent="520" name="sqlite_autoindex_fines_1">
+      <ColNames>fine_id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="547" parent="520">
+      <ColNames>fine_id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_fines_1</UnderlyingIndexName>
+    </key>
+    <check id="548" parent="521">
+      <Predicate>order_status IN (&apos;pending&apos;, &apos;approved&apos;, &apos;rejected&apos;)</Predicate>
+    </check>
+    <column id="549" parent="521" name="order_id">
+      <DasType>INTERGER|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="550" parent="521" name="user_id">
+      <DasType>INTERGER|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="551" parent="521" name="copy_id">
+      <DasType>INTERGER|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="552" parent="521" name="order_date">
+      <DasType>DATE|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="553" parent="521" name="order_period">
+      <DasType>INTEGER|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <column id="554" parent="521" name="order_status">
+      <DasType>TEXT|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+    </column>
+    <foreign-key id="555" parent="521">
+      <ColNames>user_id</ColNames>
+      <OnDelete>cascade</OnDelete>
+      <RefColNames>user_id</RefColNames>
+      <RefTableName>users</RefTableName>
+    </foreign-key>
+    <foreign-key id="556" parent="521">
+      <ColNames>copy_id</ColNames>
+      <OnDelete>cascade</OnDelete>
+      <RefColNames>copy_id</RefColNames>
+      <RefTableName>copies</RefTableName>
+    </foreign-key>
+    <index id="557" parent="521" name="sqlite_autoindex_orders_1">
+      <ColNames>order_id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="558" parent="521">
+      <ColNames>order_id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_orders_1</UnderlyingIndexName>
+    </key>
+    <column id="559" parent="522" name="type">
+      <DasType>TEXT|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="560" parent="522" name="name">
+      <DasType>TEXT|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="561" parent="522" name="tbl_name">
+      <DasType>TEXT|0s</DasType>
+      <Position>3</Position>
+    </column>
+    <column id="562" parent="522" name="rootpage">
+      <DasType>INT|0s</DasType>
+      <Position>4</Position>
+    </column>
+    <column id="563" parent="522" name="sql">
       <DasType>TEXT|0s</DasType>
       <Position>5</Position>
     </column>
-    <index id="538" parent="520" name="sqlite_autoindex_users_1">
+    <check id="564" parent="523">
+      <Predicate>transaction_status IN (&apos;checked out&apos;, &apos;returned&apos;)</Predicate>
+    </check>
+    <column id="565" parent="523" name="transaction_id">
+      <DasType>INTERGER|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="566" parent="523" name="order_id">
+      <DasType>INTERGER|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="567" parent="523" name="user_id">
+      <DasType>INTERGER|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="568" parent="523" name="copy_id">
+      <DasType>INTERGER|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="569" parent="523" name="checkout_date">
+      <DasType>DATE|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <column id="570" parent="523" name="due_date">
+      <DasType>DATE|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+    </column>
+    <column id="571" parent="523" name="transaction_status">
+      <DasType>TEXT|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>7</Position>
+    </column>
+    <foreign-key id="572" parent="523">
+      <ColNames>order_id</ColNames>
+      <OnDelete>cascade</OnDelete>
+      <RefColNames>order_id</RefColNames>
+      <RefTableName>orders</RefTableName>
+    </foreign-key>
+    <foreign-key id="573" parent="523">
+      <ColNames>user_id</ColNames>
+      <OnDelete>cascade</OnDelete>
+      <RefColNames>user_id</RefColNames>
+      <RefTableName>users</RefTableName>
+    </foreign-key>
+    <foreign-key id="574" parent="523">
+      <ColNames>copy_id</ColNames>
+      <OnDelete>cascade</OnDelete>
+      <RefColNames>copy_id</RefColNames>
+      <RefTableName>copies</RefTableName>
+    </foreign-key>
+    <index id="575" parent="523" name="sqlite_autoindex_transactions_1">
+      <ColNames>transaction_id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="576" parent="523">
+      <ColNames>transaction_id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_transactions_1</UnderlyingIndexName>
+    </key>
+    <check id="577" parent="524">
+      <Predicate>user_type IN (&apos;admin&apos;, &apos;member&apos;)</Predicate>
+    </check>
+    <column id="578" parent="524" name="user_id">
+      <DasType>INTERGER|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="579" parent="524" name="username">
+      <DasType>TEXT|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="580" parent="524" name="password">
+      <DasType>TEXT|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="581" parent="524" name="first_name">
+      <DasType>TEXT|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="582" parent="524" name="last_name">
+      <DasType>TEXT|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <column id="583" parent="524" name="email">
+      <DasType>TEXT|0s</DasType>
+      <Position>6</Position>
+    </column>
+    <column id="584" parent="524" name="user_type">
+      <DasType>TEXT|0s</DasType>
+      <Position>7</Position>
+    </column>
+    <index id="585" parent="524" name="sqlite_autoindex_users_1">
       <ColNames>user_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="539" parent="520">
+    <index id="586" parent="524" name="sqlite_autoindex_users_2">
+      <ColNames>username</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="587" parent="524">
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>sqlite_autoindex_users_1</UnderlyingIndexName>
+    </key>
+    <key id="588" parent="524">
+      <ColNames>username</ColNames>
+      <UnderlyingIndexName>sqlite_autoindex_users_2</UnderlyingIndexName>
     </key>
   </database-model>
 </dataSource>
