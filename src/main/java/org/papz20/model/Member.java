@@ -2,8 +2,7 @@ package main.java.org.papz20.model;
 
 public class Member extends User{
     public String role = "member";
-    public Member(String firstName, String lastName, String email, String username, String password) {
-        super(firstName, lastName, email, username, password);
-        this.setRole(this.role);
+    public Member(int id, String first_name, String last_name, String email, String username, String password) {
+        super(id, first_name, last_name, email, username, password);
     }
 }
