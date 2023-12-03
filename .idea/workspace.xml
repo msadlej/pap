@@ -10,12 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f02cba32-e5d3-43bb-b3e7-3bb0a2b1fd6e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a8207758-2af5-48c7-acad-b301b6313bd5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a8207758-2af5-48c7-acad-b301b6313bd5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a8207758-2af5-48c7-acad-b301b6313bd5/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a8207758-2af5-48c7-acad-b301b6313bd5/storage_v2/_src_/schema/main.uQUzAA.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/database/appDB.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/database/appDB.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/database/sql/create_table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/database/sql/create_table.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/papz20/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/papz20/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/papz20/model/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/papz20/model/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/papz20/model/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/papz20/model/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/papz20/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/papz20/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/papz20/ui/MainPage.form" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/papz20/ui/MainPage.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,9 +58,13 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "746",
+    "UI_DESIGNER_EDITOR_MODE.PaletteManager.STATE": "right",
+    "UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH": "8",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.STATE": "left",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "483",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "database",
+    "full.screen.before.presentation.mode": "false",
+    "git-widget-placeholder": "user",
     "last_opened_file_path": "/home/bvuongle/Documents/pap2023z-z20/src/main/resources/database/appDB.db",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -70,7 +75,7 @@
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "database.query.execution",
+    "settings.editor.selected.configurable": "preferences.keymap",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -86,14 +91,14 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src/main/resources/database" />
       <recent name="$PROJECT_DIR$/src/main/resources/database/sql" />
       <recent name="$PROJECT_DIR$/docs/report" />
       <recent name="$PROJECT_DIR$/docs" />
-      <recent name="$PROJECT_DIR$/src/main/java/com/example/app" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.App">
+  <component name="RunManager" selected="Application.MainWindow">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.java.com.example.app.App" />
       <module name="pap23z-z20" />
@@ -114,6 +119,24 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MainWindow" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="main.java.org.papz20.ui.MainWindow" />
+      <module name="pap23z-z20" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="main.java.org.papz20.ui.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MainWindow" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -145,6 +168,7 @@
       <workItem from="1700307442378" duration="3924000" />
       <workItem from="1701466243404" duration="56000" />
       <workItem from="1701466332039" duration="2738000" />
+      <workItem from="1701618277664" duration="11971000" />
     </task>
     <servers />
   </component>
