@@ -17,6 +17,7 @@ public class Database {
         }
         return conn;
     }
+
     public void connectDB() {
         try(Connection conn = this.connect()) {
             System.out.println("Connection to SQLite has been established.");
@@ -24,6 +25,61 @@ public class Database {
         catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void closeConnection(Connection connection) {
+        try {
+            connection.close();
+            System.out.println("Connection to SQLite has been terminated.");
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public String[][] selectBooks(String title_key, String author_key, String genre_key) {
+        String[][] book_array = null;
+        String query = "SELECT * FROM books WHERE title LIKE ? AND author LIKE ? AND genre LIKE ?";
+
+        if (!title_key.equals("%")) {
+            title_key = "%" + title_key + "%";
+        }
+        if (!author_key.equals("%")) {
+            author_key = "%" + author_key + "%";
+        }
+        if (!genre_key.equals("%")) {
+            genre_key = "%" + genre_key + "%";
+        }
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(query)){
+
+            statement.setString(1, title_key);
+            statement.setString(2, author_key);
+            statement.setString(3, genre_key);
+
+            try (ResultSet query_results = statement.executeQuery()){
+                int row_count = 0;
+                while (query_results.next()) {
+                    row_count++;
+                }
+                book_array = new String[row_count][5];
+                query_results.beforeFirst();
+                int index = 0;
+                while (query_results.next()) {
+                    book_array[index][0] = query_results.getString("book_id");
+                    book_array[index][1] = query_results.getString("title");
+                    book_array[index][2] = query_results.getString("author");
+                    book_array[index][3] = query_results.getString("date_published");
+                    book_array[index][4] = query_results.getString("genre");
+                    index++;
+                }
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return book_array;
     }
 
     public void alterTable() {
