@@ -20,4 +20,17 @@ public class LoginPanel extends JPanel {
         login_button.addActionListener(login_listener);
         create_account_button.addActionListener(account_creaton_listener);
     }
+
+    public String getUsername() {
+        return username_field.getText();
+    }
+
+    public String getPassword() {
+        return new String(password_field.getPassword());
+    }
+
+    public void clearFields() {
+        username_field.setText("");
+        password_field.setText("");
+    }
 }
