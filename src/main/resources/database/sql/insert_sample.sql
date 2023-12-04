@@ -41,14 +41,14 @@ INSERT INTO books (book_id, title, author, genre, publish_date) VALUES
 (40, 'The Sanatorium', 'Sarah Pearse', 'Thriller', '2021-02-02');
 
 INSERT INTO users (user_id, username, password, email, user_type) VALUES
-(1, 'john_doe', 'password123', 'john.doe@pw.edu.pl', 'member'),
-(2, 'alice_smith', 'secret432', 'alice.smith@outlook.com', 'member'),
-(3, 'bob_jones', 'password', 'bob.jones@yahoo.com', 'member'),
-(4, 'emma_white', 'verysecure89', 'emma.white@wp.pl', 'member'),
-(5, 'admin1', 'admin1234', 'admin1@paplibrary.com', 'admin'),
-(6, 'sarah_miller', 'sarahlovesbooks', 'sara.miller@aol.com', 'member'),
-(7, 'leeroy_jenkins', 'ieatchicken', 'leeroy.jenkins@gmail.com', 'member'),
-(8, 'admin2', 'admin2345', 'admin2@paplibrary.com', 'admin'),
+(1, 'admin1', 'admin1234', 'admin1@paplibrary.com', 'admin'),
+(2, 'admin2', 'admin2345', 'admin2@paplibrary.com', 'admin'),
+(3, 'john_doe', 'password123', 'john.doe@pw.edu.pl', 'member'),
+(4, 'alice_smith', 'secret432', 'alice.smith@outlook.com', 'member'),
+(5, 'bob_jones', 'password', 'bob.jones@yahoo.com', 'member'),
+(6, 'emma_white', 'verysecure89', 'emma.white@wp.pl', 'member'),
+(7, 'sarah_miller', 'sarahlovesbooks', 'sara.miller@aol.com', 'member'),
+(8, 'leeroy_jenkins', 'ieatchicken', 'leeroy.jenkins@gmail.com', 'member'),
 (9, 'olivia_brown', 'olivia1999', 'olivia.brown@gmail.com', 'member'),
 (10, 'leo_taylor', 'javaissomuchfun', 'leo.taylor@gmail.com', 'member');
 
@@ -97,9 +97,30 @@ INSERT INTO copies (copy_id, book_id, available) VALUES
 (42, 2, 0),
 (43, 3, 0),
 (44, 4, 0),
-(45, 5, 0),
-(46, 6, 0),
-(47, 7, 0),
-(48, 8, 0),
-(49, 9, 0),
-(50, 10, 0);
+(45, 5, 0);
+
+INSERT INTO orders (order_id, user_id, copy_id, order_date, order_period, order_status) VALUES
+(1, 3, 12, '2022-04-01', 10, 'approved'),
+(2, 4, 3, '2023-07-27', 50, 'approved'),
+(3, 6, 33, '2023-08-30', 24, 'approved'),
+(4, 7, 28, '2023-09-01', 10, 'approved'),
+(5, 8, 41, '2023-10-01', 30, 'approved'),
+(6, 10, 42, '2023-11-10', 30, 'approved'),
+(7, 10, 43, '2023-11-13', 40, 'approved'),
+(8, 10, 44, '2023-11-29', 30, 'approved'),
+(9, 7, 45, '2023-12-01', 14, 'approved'),
+(10, 9, 14, '2023-12-04', 20, 'pending');
+
+INSERT INTO transactions (transaction_id, order_id, user_id, copy_id, checkout_date, due_date, transaction_status) VALUES
+(1, 1, 3, 12, '2022-04-02', '2022-04-12', 'returned'),
+(2, 2, 4, 3, '2023-07-27', '2023-09-14', 'returned'),
+(3, 3, 6, 33, '2023-08-31', '2023-09-24', 'returned'),
+(4, 4, 7, 28, '2023-09-01', '2023-09-11', 'returned'),
+(5, 5, 8, 41, '2023-10-01', '2023-10-31', 'checked out'),
+(6, 6, 10, 42, '2023-11-10', '2023-12-10', 'checked out'),
+(7, 7, 10, 43, '2023-11-13', '2023-12-23', 'checked out'),
+(8, 8, 10, 44, '2023-11-30', '2023-12-30', 'checked out'),
+(9, 9, 7, 45, '2023-12-02', '2023-12-16', 'checked out');
+
+INSERT INTO fines (fine_id, transaction_id, fine_amount, fine_status) VALUES
+(1, 5, 30, 'unpaid');                                                                          
