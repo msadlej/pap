@@ -31,7 +31,7 @@ public class MainWindow extends JFrame {
         rightPanel = new JPanel();
         rightPanel.setBackground(UIConstants.BACKGROUND_COLOR);
 
-        ImageIcon background = new ImageIcon(getClass().getResource("/images/mainBackground.jpg"));
+        ImageIcon background = new ImageIcon(getClass().getResource(UIConstants.BACKGROUND_IMAGE_PATH));
         Image resizedBackground = background.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
         JLabel backgroundLabel = new JLabel(new ImageIcon(resizedBackground));
         rightPanel.add(backgroundLabel);

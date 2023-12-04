@@ -17,20 +17,14 @@ public class Database {
         }
         return conn;
     }
-    public void connectDB() {
-        try(Connection conn = this.connect()) {
+    public Connection connectDB() {
+        try {
+            Connection conn = this.connect();
             System.out.println("Connection to SQLite has been established.");
+            return conn;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
     }
-
-    public void alterTable() {
-    }
-
-    public void insert(String name, String email, String password) {
-    }
-
-
 }
