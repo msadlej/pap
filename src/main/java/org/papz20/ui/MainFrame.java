@@ -36,7 +36,7 @@ public class MainFrame extends JFrame {
                 //TODO: Handle loging in
                 String username = login_panel.getUsername();
                 String password = login_panel.getPassword();
-                System.out.format("Login: %s\nPassword: %s", username, password);
+                System.out.format("Login: %s\nPassword: %s\n", username, password);
                 boolean isAuthenticated = authentication_service.authenticateUser(username, password);
                 if (isAuthenticated) {
                     System.out.println("Login successful!");
