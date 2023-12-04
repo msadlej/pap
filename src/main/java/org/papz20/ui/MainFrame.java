@@ -78,8 +78,8 @@ public class MainFrame extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            JFrame window = new MainFrame();
-            ((MainFrame)window).init();
+            MainFrame window = new MainFrame();
+            window.init();
             window.setTitle("Library");
             window.setDefaultCloseOperation(EXIT_ON_CLOSE);
             window.setSize(600, 600);
