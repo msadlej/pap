@@ -17,13 +17,14 @@ public class Database {
         }
         return conn;
     }
-
-    public void connectDB() {
-        try(Connection conn = this.connect()) {
+    public Connection connectDB() {
+        try {
+            Connection conn = this.connect();
             System.out.println("Connection to SQLite has been established.");
-        }
-        catch (SQLException e) {
-            System.out.println(e.getMessage());
+            return conn;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -35,6 +36,23 @@ public class Database {
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
+    }
+
+    public int getRowCount(String tableName) {
+        String sql = "SELECT COUNT(*) FROM " + tableName;
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql);
+             ResultSet result = statement.executeQuery()) {
+
+            if (result.next()) {
+                return result.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public String[][] selectBooks(String title_key, String author_key, String genre_key) {
@@ -58,20 +76,20 @@ public class Database {
             statement.setString(2, author_key);
             statement.setString(3, genre_key);
 
-            try (ResultSet query_results = statement.executeQuery()){
+            try (ResultSet results = statement.executeQuery()){
                 int row_count = 0;
-                while (query_results.next()) {
+                while (results.next()) {
                     row_count++;
                 }
                 book_array = new String[row_count][5];
-                query_results.beforeFirst();
+                results.beforeFirst();
                 int index = 0;
-                while (query_results.next()) {
-                    book_array[index][0] = query_results.getString("book_id");
-                    book_array[index][1] = query_results.getString("title");
-                    book_array[index][2] = query_results.getString("author");
-                    book_array[index][3] = query_results.getString("date_published");
-                    book_array[index][4] = query_results.getString("genre");
+                while (results.next()) {
+                    book_array[index][0] = results.getString("book_id");
+                    book_array[index][1] = results.getString("title");
+                    book_array[index][2] = results.getString("author");
+                    book_array[index][3] = results.getString("date_published");
+                    book_array[index][4] = results.getString("genre");
                     index++;
                 }
             }
@@ -80,6 +98,89 @@ public class Database {
             e.printStackTrace();
         }
         return book_array;
+    }
+
+    public void removeBook(int book_id) {
+        String sql = "DELETE FROM books WHERE book_id = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, book_id);
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("Book with book_id " + book_id + " removed successfully.");
+            } else {
+                System.out.println("Book with book_id " + book_id + " not found.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addBook(int book_id, String title, String author, String genre, String publish_date) {
+        String sql = "INSERT INTO books (book_id, title, author, genre, publish_date) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, book_id);
+            statement.setString(2, title);
+            statement.setString(3, author);
+            statement.setString(4, genre);
+            statement.setString(5, publish_date);
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("Book added successfully.");
+            } else {
+                System.out.println("Failed to add book.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addBook(String title, String author, String genre, String publish_date){
+        int book_id = getRowCount("books") + 1;
+        addBook(book_id, title, author, genre, publish_date);
+    }
+
+    public void addUser(int user_id, String username, String password, String first_name, String last_name, String email, String user_type){
+        String sql = "INSERT INTO users (user_id, username, password, first_name, last_name, email, user_type) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, user_id);
+            statement.setString(2, username);
+            statement.setString(3, password);
+            statement.setString(4, first_name);
+            statement.setString(5, last_name);
+            statement.setString(6, email);
+            statement.setString(7, user_type);
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("User added successfully.");
+            } else {
+                System.out.println("Failed to add user.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addUser(String username, String password, String first_name, String last_name, String email, String user_type){
+        int user_id = getRowCount("users") + 1;
+        addUser(user_id, username, password, first_name, last_name, email, user_type);
     }
 
     public void alterTable() {

@@ -1,5 +1,6 @@
 package main.java.org.papz20.ui;
 
+import main.java.org.papz20.services.AuthenticationService;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,8 +9,10 @@ import java.awt.event.ActionListener;
 public class LoginForm extends JPanel {
     private JTextField usernameField;
     private JPasswordField passwordField;
+    private AuthenticationService authenticationService;
 
     public LoginForm(MainWindow mainWindow) {
+        this.authenticationService = new AuthenticationService();
         initUI(mainWindow);
     }
 
@@ -31,8 +34,16 @@ public class LoginForm extends JPanel {
         signInButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Handle sign-in logic
-                // TODO: Check user credentials
+                String username = usernameField.getText();
+                String password = new String(passwordField.getPassword());
+
+                boolean isAuthenticated = authenticationService.authenticateUser(username, password);
+                if (isAuthenticated) {
+                    JOptionPane.showMessageDialog(LoginForm.this, "Login successful!");
+                }
+                else {
+                    JOptionPane.showMessageDialog(LoginForm.this, "Invalid username or password!");
+                }
             }
         });
 
