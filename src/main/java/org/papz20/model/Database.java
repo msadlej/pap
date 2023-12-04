@@ -82,6 +82,52 @@ public class Database {
         return book_array;
     }
 
+    public void removeBook(int book_id) {
+        String sql = "DELETE FROM books WHERE book_id = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, book_id);
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected == 1) {
+                System.out.println("Book with book_id " + book_id + " removed successfully.");
+            } else {
+                System.out.println("Book with book_id " + book_id + " not found.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addBook(int book_id, String title, String author, String genre, String publish_date) {
+        String sql = "INSERT INTO books (book_id, title, author, genre, publish_date) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, book_id);
+            statement.setString(2, title);
+            statement.setString(3, author);
+            statement.setString(4, genre);
+            statement.setString(5, publish_date);
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected == 1) {
+                System.out.println("Book added successfully.");
+            } else {
+                System.out.println("Failed to add the book.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void alterTable() {
     }
 
