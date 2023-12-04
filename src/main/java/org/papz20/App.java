@@ -1,4 +1,6 @@
 package main.java.org.papz20;
+import main.java.org.papz20.ui.MainPage;
+
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -8,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 
-import main.java.com.example.app.ui.MainPage;
+//import main.java.com.example.app.ui.MainPage;
 
 public class App {
     private Connection connect() {
@@ -33,5 +35,8 @@ public class App {
     public static void main(String[] args) throws IOException {
         App app = new App();
         app.connectDB();
+        MainPage ui = new MainPage();
+        ui.setLocationRelativeTo(null);
+        ui.setVisible(true);
     }
 }
