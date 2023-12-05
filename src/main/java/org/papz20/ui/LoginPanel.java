@@ -18,7 +18,7 @@ public class LoginPanel extends JPanel {
         setLayout(new BorderLayout());
         add(login_panel, BorderLayout.CENTER);
         login_button.addActionListener(login_listener);
-        password_field.addActionListener(login_listener);
+        password_field.addActionListener(login_listener); // pressing enter activates action listener
         create_account_button.addActionListener(account_creaton_listener);
     }
 
