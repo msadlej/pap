@@ -85,7 +85,7 @@ public class Database {
                     book[0] = results.getString("book_id");
                     book[1] = results.getString("title");
                     book[2] = results.getString("author");
-                    book[3] = results.getString("date_published");
+                    book[3] = results.getString("publish_date");
                     book[4] = results.getString("genre");
                     book_list.add(book);
                 }
