@@ -7,7 +7,7 @@ public abstract class User {
     private String email;
     private String username;
     private String password;
-    public String role; // i changed this to public for addUser to work
+    private String role;
 
     public User(int id, String first_name, String last_name, String email, String username, String password) {
         this.setId(id);

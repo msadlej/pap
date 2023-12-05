@@ -16,10 +16,6 @@ public class Book {
         setPublishDate(publish_date);
     }
 
-    public int getBookId() {
-        return this.book_id;
-    }
-
     public int getId(){ // consistency with User class getter
         return this.book_id;
     }

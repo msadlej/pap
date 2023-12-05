@@ -236,12 +236,12 @@ public class Database {
              PreparedStatement statement = conn.prepareStatement(sql)) {
 
             statement.setInt(1, new_user.getId());
-            statement.setString(2, new_user.getEmail());
+            statement.setString(2, new_user.getUsername());
             statement.setString(3, new_user.getPassword());
             statement.setString(4, new_user.getFirstName());
             statement.setString(5, new_user.getLastName());
             statement.setString(6, new_user.getEmail());
-            statement.setString(7, new_user.role);
+            statement.setString(7, new_user.getRole());
 
             int rows_affected = statement.executeUpdate();
 
