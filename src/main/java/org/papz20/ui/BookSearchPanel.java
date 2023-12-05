@@ -46,7 +46,7 @@ public class BookSearchPanel extends JPanel{
                 list_model.clear();
                 for (String[] book_data : results)
                 {
-                    list_model.addElement(String.join(" ", book_data));
+                    list_model.addElement(String.join("\t", book_data));
                 }
             }
         });
