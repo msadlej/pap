@@ -70,7 +70,7 @@ public class Database {
         }
 
         try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(query)){
+             PreparedStatement statement = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)){
 
             statement.setString(1, title_key);
             statement.setString(2, author_key);
