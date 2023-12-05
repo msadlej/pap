@@ -1,13 +1,13 @@
 package main.java.org.papz20.model;
 
 public class User {
-    private int id;
-    private String first_name;
-    private String last_name;
-    private String email;
-    private String username;
-    private String password;
-    private String role;
+    protected int id;
+    protected String first_name;
+    protected String last_name;
+    protected String email;
+    protected String username;
+    protected String password;
+    protected String role;
 
     public User(int id, String first_name, String last_name, String email, String username, String password) {
         this.setId(id);
