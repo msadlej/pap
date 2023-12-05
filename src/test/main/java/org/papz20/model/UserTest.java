@@ -90,6 +90,15 @@ public class UserTest {
     }
 
     @Test
+    public void testSetInvalidId() {
+        User user = new User(1, "John", "Smith", "john.smith@gmail.com", "jsmith", "password");
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            user.setId(-1);
+        });
+    }
+
+    @Test
     public void testSetInvalidFirstName() {
         User user = new User(1, "John", "Smith", "john.smith@gmail.com", "jsmith", "password");
 
