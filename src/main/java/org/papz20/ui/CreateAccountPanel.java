@@ -34,7 +34,7 @@ public class CreateAccountPanel extends JPanel {
         return username_field.getText();
     }
 
-    public String getName() {
+    public String getFirstName() {
         return name_field.getText();
     }
 
