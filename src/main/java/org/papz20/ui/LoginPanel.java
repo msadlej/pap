@@ -2,7 +2,6 @@ package main.java.org.papz20.ui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoginPanel extends JPanel {
@@ -13,6 +12,7 @@ public class LoginPanel extends JPanel {
     private JTextField username_field;
     private JButton create_account_button;
     private JPanel log_in_square;
+    private JLabel message_text;
 
     public LoginPanel(ActionListener login_listener, ActionListener account_creaton_listener) {
         setLayout(new BorderLayout());
@@ -29,8 +29,21 @@ public class LoginPanel extends JPanel {
         return new String(password_field.getPassword());
     }
 
-    public void clearFields() {
+    public void clearUsernamePassword() {
         username_field.setText("");
         password_field.setText("");
+    }
+
+    public void clearPasswordField() {
+        password_field.setText("");
+    }
+
+    public void showMessage(String Message)
+    {
+        message_text.setText(Message);
+    }
+
+    public void clearMessage() {
+        message_text.setText("");
     }
 }
