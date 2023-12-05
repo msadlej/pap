@@ -23,6 +23,7 @@ public class CreateAccountPanel extends JPanel {
         setLayout(new BorderLayout());
         add(main_panel, BorderLayout.CENTER);
         submit_button.addActionListener(account_creation);
+        password_conformation_field.addActionListener(account_creation); // pressing enter also activates action listener
         backButton.addActionListener(go_back);
     };
 
@@ -34,7 +35,7 @@ public class CreateAccountPanel extends JPanel {
         return username_field.getText();
     }
 
-    public String getName() {
+    public String getFirstName() {
         return name_field.getText();
     }
 

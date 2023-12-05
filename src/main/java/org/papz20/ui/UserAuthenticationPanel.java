@@ -1,6 +1,7 @@
 package main.java.org.papz20.ui;
 
 import main.java.org.papz20.services.AuthenticationService;
+import main.java.org.papz20.services.CreateAccountService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,7 @@ public class UserAuthenticationPanel extends JPanel {
     private final JPanel main_card_panel;
     private final CardLayout main_card_layout;
     private AuthenticationService authentication_service;
+    private CreateAccountService create_account_service;
 
     public UserAuthenticationPanel() {
         main_card_panel = new JPanel();
@@ -21,23 +23,24 @@ public class UserAuthenticationPanel extends JPanel {
         setLayout(new BorderLayout());
         add(main_card_panel, BorderLayout.CENTER);
         authentication_service = new AuthenticationService();
+        create_account_service = new CreateAccountService();
     }
 
-    public void init() {
-        initLoginPanel();
+    public void init(ActionListener on_login) {
+        initLoginPanel(on_login);
         initCreateAccountPanel();
     }
 
-    private void initLoginPanel() {
+    private void initLoginPanel(ActionListener on_login) {
         ActionListener login_listener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Handle loging in
+                login_panel.clearMessage();
                 String username = login_panel.getUsername();
                 String password = login_panel.getPassword();
                 boolean isAuthenticated = authentication_service.authenticateUser(username, password);
                 if (isAuthenticated) {
-                    System.out.println("Login successful!");
+                    on_login.actionPerformed(e);
                 } else {
                     login_panel.clearPasswordField();
                     login_panel.showMessage("Invalid username or password!");
@@ -72,10 +75,15 @@ public class UserAuthenticationPanel extends JPanel {
                 create_account_panel.clearMessage();
                 String username = create_account_panel.getUsername();
                 String email = create_account_panel.getEmail();
-                String name = create_account_panel.getName();
+                String first_name = create_account_panel.getFirstName();
                 String surname = create_account_panel.getSurname();
                 String password = create_account_panel.getPassword();
-                create_account_panel.showMessage("Account creation request received!");
+                if(create_account_service.createAccount(first_name, surname, email, username, password, "member")) {
+                    create_account_panel.showMessage("Account created successfully");
+                    create_account_panel.clearAllFields();
+                } else {
+                    create_account_panel.showMessage("Username taken!");
+                };
             }
         };
         ActionListener back_listener = new ActionListener() {
