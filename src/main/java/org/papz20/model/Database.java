@@ -121,13 +121,13 @@ public class Database {
         }
     }
 
-    public void removeBook(Book new_book) {
+    public void removeBook(Book book) {
         String sql = "DELETE FROM books WHERE book_id = ?";
 
         try (Connection conn = this.connect();
              PreparedStatement statement = conn.prepareStatement(sql)) {
 
-            int book_id = new_book.getId();
+            int book_id = book.getId();
             statement.setInt(1, book_id);
 
             int rows_affected = statement.executeUpdate();
