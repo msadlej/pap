@@ -28,8 +28,12 @@ public class LoginPanel extends JPanel {
         return new String(password_field.getPassword());
     }
 
-    public void clearFields() {
+    public void clearUsernamePassword() {
         username_field.setText("");
+        password_field.setText("");
+    }
+
+    public void clearPasswordField() {
         password_field.setText("");
     }
 }
