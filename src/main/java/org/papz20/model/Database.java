@@ -121,6 +121,28 @@ public class Database {
         }
     }
 
+    public void removeBook(Book new_book) {
+        String sql = "DELETE FROM books WHERE book_id = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            int book_id = new_book.getId();
+            statement.setInt(1, book_id);
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("Book with book_id " + book_id + " removed successfully.");
+            } else {
+                System.out.println("Book with book_id " + book_id + " not found.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void addBook(int book_id, String title, String author, String genre, String publish_date) {
         String sql = "INSERT INTO books (book_id, title, author, genre, publish_date) VALUES (?, ?, ?, ?, ?)";
 
@@ -149,6 +171,30 @@ public class Database {
     public void addBook(String title, String author, String genre, String publish_date){
         int book_id = getRowCount("books") + 1;
         addBook(book_id, title, author, genre, publish_date);
+    }
+    public void addBook(Book new_book) {
+        String sql = "INSERT INTO books (book_id, title, author, genre, publish_date) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, new_book.getId());
+            statement.setString(2, new_book.getTitle());
+            statement.setString(3, new_book.getAuthor());
+            statement.setString(4, new_book.getGenre());
+            statement.setString(5, new_book.getPublishDate());
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("Book added successfully.");
+            } else {
+                System.out.println("Failed to add book.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addUser(int user_id, String username, String password, String first_name, String last_name, String email, String user_type){
@@ -183,11 +229,30 @@ public class Database {
         addUser(user_id, username, password, first_name, last_name, email, user_type);
     }
 
-    public void alterTable() {
-    }
+    public void addUser(User new_user){
+        String sql = "INSERT INTO users (user_id, username, password, first_name, last_name, email, user_type) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-    public void insert(String name, String email, String password) {
-    }
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
 
+            statement.setInt(1, new_user.getId());
+            statement.setString(2, new_user.getEmail());
+            statement.setString(3, new_user.getPassword());
+            statement.setString(4, new_user.getFirstName());
+            statement.setString(5, new_user.getLastName());
+            statement.setString(6, new_user.getEmail());
+            statement.setString(7, new_user.role);
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("User added successfully.");
+            } else {
+                System.out.println("Failed to add user.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
