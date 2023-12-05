@@ -99,11 +99,6 @@
               <text value="Don't have an account?"/>
             </properties>
           </component>
-          <vspacer id="b05fc">
-            <constraints>
-              <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
           <vspacer id="c2cfc">
             <constraints>
               <grid row="10" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
@@ -114,6 +109,17 @@
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
           </vspacer>
+          <component id="6833e" class="javax.swing.JLabel" binding="message_text">
+            <constraints>
+              <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="-1" height="30"/>
+              </grid>
+            </constraints>
+            <properties>
+              <foreground color="-36234"/>
+              <text value=""/>
+            </properties>
+          </component>
         </children>
       </grid>
       <hspacer id="e48d9">
