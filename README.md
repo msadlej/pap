@@ -17,3 +17,11 @@ Program zarządzania biblioteką
 - Wojciech Sarwiński
 - Binh Vuong Le Duc
 - Michał Sadlej
+
+## Instalacja
+
+Zakładając, że repozytorium zostało sklonowane w folderze otwartym w terminalu:
+# Instalacja
+.release/install_app.sh
+# Uruchomienie
+java -jar /opt/app/pap23z-z20.jar
