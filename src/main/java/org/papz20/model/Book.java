@@ -69,7 +69,6 @@ public class Book {
     }
 
     public void setPublishDate(String publish_date) {
-        // Add additional validation for date format if needed
         if (!publish_date.isEmpty()) {
             this.publish_date = publish_date;
         } else{
