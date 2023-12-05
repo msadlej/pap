@@ -35,13 +35,12 @@ public class UserAuthenticationPanel extends JPanel {
                 //TODO: Handle loging in
                 String username = login_panel.getUsername();
                 String password = login_panel.getPassword();
-                System.out.format("Login: %s\nPassword: %s\n", username, password);
                 boolean isAuthenticated = authentication_service.authenticateUser(username, password);
                 if (isAuthenticated) {
                     System.out.println("Login successful!");
                 } else {
                     login_panel.clearPasswordField();
-                    System.out.println("Invalid username or password!");
+                    login_panel.showMessage("Invalid username or password!");
                 }
             }
         };
@@ -50,6 +49,7 @@ public class UserAuthenticationPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 login_panel.clearUsernamePassword();
+                login_panel.clearMessage();
                 main_card_layout.show(main_card_panel, "CreateAccount");
             }
         };
@@ -63,12 +63,26 @@ public class UserAuthenticationPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO: Handle creating account
-                System.out.println("Account creation requested!");
+                if (!create_account_panel.arePasswordsMatching())
+                {
+                    create_account_panel.showErrorMessage("Passwords aren't matching!");
+                    create_account_panel.clearConformationPassword();
+                    return;
+                }
+                create_account_panel.clearMessage();
+                String username = create_account_panel.getUsername();
+                String email = create_account_panel.getEmail();
+                String name = create_account_panel.getName();
+                String surname = create_account_panel.getSurname();
+                String password = create_account_panel.getPassword();
+                create_account_panel.showMessage("Account creation request received!");
             }
         };
         ActionListener back_listener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                create_account_panel.clearAllFields();
+                create_account_panel.clearMessage();
                 main_card_layout.show(main_card_panel, "Login");
             }
         };
