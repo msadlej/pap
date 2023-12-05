@@ -40,6 +40,7 @@ public class UserAuthenticationPanel extends JPanel {
                 if (isAuthenticated) {
                     System.out.println("Login successful!");
                 } else {
+                    login_panel.clearPasswordField();
                     System.out.println("Invalid username or password!");
                 }
             }
@@ -48,7 +49,7 @@ public class UserAuthenticationPanel extends JPanel {
         ActionListener account_creation_listener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                login_panel.clearFields();
+                login_panel.clearUsernamePassword();
                 main_card_layout.show(main_card_panel, "CreateAccount");
             }
         };
