@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class BookSearchPanel extends JPanel{
     private JPanel main_panel;
@@ -27,6 +28,7 @@ public class BookSearchPanel extends JPanel{
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                list_model.clear();
                 String title = title_search.getText();
                 String author = author_search.getText();
                 String genre = genre_search.getText();
@@ -39,14 +41,13 @@ public class BookSearchPanel extends JPanel{
                 if (genre.isBlank()) {
                     genre = "%";
                 }
-                String[][] results = database.selectBooks(title, author, genre);
-                if (results.length == 0) {
+                List<String[]> results = database.selectBooks(title, author, genre);
+                if (results.isEmpty()) {
                     return;
                 }
-                list_model.clear();
                 for (String[] book_data : results)
                 {
-                    list_model.addElement(String.join("\t", book_data));
+                    list_model.addElement(String.join("   ", book_data[1], book_data[2], book_data[3], book_data[4]));
                 }
             }
         });
