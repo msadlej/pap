@@ -47,14 +47,18 @@ public class User {
     }
 
     public void setId(int id) {
-        this.id = id;
+        if (id > 0) {
+            this.id = id;
+        } else {
+            throw new IllegalArgumentException("User id must be a positive integer!");
+        }
     }
 
     public void setFirstName(String firstName) throws IllegalArgumentException{
         if (!firstName.isEmpty() && firstName.length() <= 30) {
             this.first_name = firstName;
         } else {
-            throw new IllegalArgumentException("First name cannot be empty or over 30 characters");
+            throw new IllegalArgumentException("First name cannot be empty or over 30 characters!");
         }
     }
 
@@ -62,7 +66,7 @@ public class User {
         if (!lastName.isEmpty() && lastName.length() <= 30) {
             this.last_name = lastName;
         } else {
-            throw new IllegalArgumentException("Last name cannot be empty or over 30 characters");
+            throw new IllegalArgumentException("Last name cannot be empty or over 30 characters!");
         }
     }
 
@@ -70,7 +74,7 @@ public class User {
         if (!email.isEmpty() && email.length() <= 30) {
             this.email = email;
         } else {
-            throw new IllegalArgumentException("Email cannot be empty or over 30 characters");
+            throw new IllegalArgumentException("Email cannot be empty or over 30 characters!");
         }
     }
 
@@ -78,7 +82,7 @@ public class User {
         if (!username.isEmpty() && username.length() <= 30) {
             this.username = username;
         } else {
-            throw new IllegalArgumentException("Username cannot be empty or over 30 characters");
+            throw new IllegalArgumentException("Username cannot be empty or over 30 characters!");
         }
     }
 
@@ -86,7 +90,7 @@ public class User {
         if (!password.isEmpty() && password.length() <= 30) {
             this.password = password;
         } else {
-            throw new IllegalArgumentException("Password cannot be empty or over 30 characters");
+            throw new IllegalArgumentException("Password cannot be empty or over 30 characters!");
         }
     }
 }
