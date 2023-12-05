@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Database {
     private Connection connect() {
@@ -27,7 +29,6 @@ public class Database {
             return null;
         }
     }
-
     public void closeConnection(Connection connection) {
         try {
             connection.close();
@@ -55,8 +56,9 @@ public class Database {
         return 0;
     }
 
-    public String[][] selectBooks(String title_key, String author_key, String genre_key) {
-        String[][] book_array = null;
+    public List<String[]> selectBooks(String title_key, String author_key, String genre_key) {
+        List<String[]> book_list = new ArrayList<>();
+
         String query = "SELECT * FROM books WHERE title LIKE ? AND author LIKE ? AND genre LIKE ?";
 
         if (!title_key.equals("%")) {
@@ -77,27 +79,22 @@ public class Database {
             statement.setString(3, genre_key);
 
             try (ResultSet results = statement.executeQuery()){
-                int row_count = 0;
+
                 while (results.next()) {
-                    row_count++;
-                }
-                book_array = new String[row_count][5];
-                results.beforeFirst();
-                int index = 0;
-                while (results.next()) {
-                    book_array[index][0] = results.getString("book_id");
-                    book_array[index][1] = results.getString("title");
-                    book_array[index][2] = results.getString("author");
-                    book_array[index][3] = results.getString("date_published");
-                    book_array[index][4] = results.getString("genre");
-                    index++;
+                    String[] book = new String[5];
+                    book[0] = results.getString("book_id");
+                    book[1] = results.getString("title");
+                    book[2] = results.getString("author");
+                    book[3] = results.getString("date_published");
+                    book[4] = results.getString("genre");
+                    book_list.add(book);
                 }
             }
         }
         catch (SQLException e){
             e.printStackTrace();
         }
-        return book_array;
+        return book_list;
     }
 
     public void removeBook(int book_id) {
