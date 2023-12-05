@@ -40,17 +40,17 @@ INSERT INTO books (book_id, title, author, genre, publish_date) VALUES
 (39, 'The Four Winds', 'Kristin Hannah', 'Historical Fiction', '2021-02-02'),
 (40, 'The Sanatorium', 'Sarah Pearse', 'Thriller', '2021-02-02');
 
-INSERT INTO users (user_id, username, password, email, user_type) VALUES
-(1, 'admin1', 'admin1234', 'admin1@paplibrary.com', 'admin'),
-(2, 'admin2', 'admin2345', 'admin2@paplibrary.com', 'admin'),
-(3, 'john_doe', 'password123', 'john.doe@pw.edu.pl', 'member'),
-(4, 'alice_smith', 'secret432', 'alice.smith@outlook.com', 'member'),
-(5, 'bob_jones', 'password', 'bob.jones@yahoo.com', 'member'),
-(6, 'emma_white', 'verysecure89', 'emma.white@wp.pl', 'member'),
-(7, 'sarah_miller', 'sarahlovesbooks', 'sara.miller@aol.com', 'member'),
-(8, 'leeroy_jenkins', 'ieatchicken', 'leeroy.jenkins@gmail.com', 'member'),
-(9, 'olivia_brown', 'olivia1999', 'olivia.brown@gmail.com', 'member'),
-(10, 'leo_taylor', 'javaissomuchfun', 'leo.taylor@gmail.com', 'member');
+INSERT INTO users (user_id, username, password, first_name, last_name, email, user_type) VALUES
+(1, 'admin1', 'admin1234', 'admin', '1', 'admin1@paplibrary.com', 'admin'),
+(2, 'admin2', 'admin2345', 'admin', '2', 'admin2@paplibrary.com', 'admin'),
+(3, 'john_doe', 'password123', 'john', 'doe', 'john.doe@pw.edu.pl', 'member'),
+(4, 'alice_smith', 'secret432', 'alice', 'smith', 'alice.smith@outlook.com', 'member'),
+(5, 'bob_jones', 'password', 'bob', 'jones', 'bob.jones@yahoo.com', 'member'),
+(6, 'emma_white', 'verysecure89', 'emma', 'white', 'emma.white@wp.pl', 'member'),
+(7, 'sarah_miller', 'sarahlovesbooks', 'sara', 'miller', 'sara.miller@aol.com', 'member'),
+(8, 'leeroy_jenkins', 'ieatchicken', 'leeroy', 'jenkins', 'leeroy.jenkins@gmail.com', 'member'),
+(9, 'olivia_brown', 'olivia1999', 'olivia', 'brown', 'olivia.brown@gmail.com', 'member'),
+(10, 'leo_taylor', 'javaissomuchfun', 'leo', 'taylor', 'leo.taylor@gmail.com', 'member');
 
 INSERT INTO copies (copy_id, book_id, available) VALUES
 (1, 1, 1),
