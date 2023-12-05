@@ -12,6 +12,7 @@ public class LoginPanel extends JPanel {
     private JTextField username_field;
     private JButton create_account_button;
     private JPanel log_in_square;
+    private JLabel message_text;
 
     public LoginPanel(ActionListener login_listener, ActionListener account_creaton_listener) {
         setLayout(new BorderLayout());
@@ -35,5 +36,14 @@ public class LoginPanel extends JPanel {
 
     public void clearPasswordField() {
         password_field.setText("");
+    }
+
+    public void showMessage(String Message)
+    {
+        message_text.setText(Message);
+    }
+
+    public void clearMessage() {
+        message_text.setText("");
     }
 }
