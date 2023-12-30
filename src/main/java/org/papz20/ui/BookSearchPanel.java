@@ -11,11 +11,11 @@ import java.util.List;
 public class BookSearchPanel extends JPanel{
     private JPanel main_panel;
     private JTextField title_search;
-    private DefaultListModel<String> list_model;
-    private JList book_list;
     private JButton searchButton;
     private JTextField author_search;
     private JTextField genre_search;
+    private JLabel query_report;
+    private JScrollPane query_scroll;
 
     private Database database;
 
@@ -28,7 +28,6 @@ public class BookSearchPanel extends JPanel{
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                list_model.clear();
                 String title = title_search.getText();
                 String author = author_search.getText();
                 String genre = genre_search.getText();
@@ -42,19 +41,26 @@ public class BookSearchPanel extends JPanel{
                     genre = "%";
                 }
                 List<String[]> results = database.selectBooks(title, author, genre);
+
                 if (results.isEmpty()) {
+                    query_report.setText(String.format("No titles found.", results.size()));
+                    query_report.setForeground(new Color(255, 114, 118));
                     return;
                 }
+                query_report.setForeground(new Color(0, 0, 0));
+                query_report.setText(String.format("Found %d titles", results.size()));
                 for (String[] book_data : results)
                 {
-                    list_model.addElement(String.join("   ", book_data[1], book_data[2], book_data[3], book_data[4]));
+                    for (String book_field: book_data) System.out.print(book_field);
+                    System.out.println();
                 }
             }
         });
     }
 
     private void createUIComponents() {
-        list_model = new DefaultListModel<>();
-        book_list = new JList<>(list_model);
+        // TODO: place custom component creation code here
+        query_scroll.setLayout(new BoxLayout(query_scroll, BoxLayout.PAGE_AXIS));
+
     }
 }
