@@ -16,4 +16,56 @@ public class Transaction {
         setDueDate(due_date);
         setStatus(status);
     }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public Copy getCopy() {
+        return this.copy;
+    }
+
+    public String getCheckoutDate() {
+        return this.checkout_date;
+    }
+
+    public String getDueDate() {
+        return this.due_date;
+    }
+
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setId(int id) throws IllegalArgumentException {
+        if (id > 0) {
+            this.id = id;
+        } else {
+            throw new IllegalArgumentException("Transaction id must be a positive integer.");
+        }
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setCopy(Copy copy) {
+        this.copy = copy;
+    }
+
+    public void setCheckoutDate(String checkout_date) {
+        this.checkout_date = checkout_date;
+    }
+
+    public void setDueDate(String due_date) {
+        this.due_date = due_date;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
