@@ -25,4 +25,20 @@ public class AuthenticationService {
             return false;
         }
     }
+    public boolean changePassword(String username, String oldPassword, String newPassword) {
+        String query = "UPDATE users SET password = ? WHERE username = ? AND password = ?";
+        try (
+                Connection connection = database.connectDB();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)
+        ) {
+            preparedStatement.setString(1, newPassword);
+            preparedStatement.setString(2, username);
+            preparedStatement.setString(3, oldPassword);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
