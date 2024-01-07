@@ -1,5 +1,7 @@
 package main.java.org.papz20.model;
 
+import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Copy;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -196,6 +198,80 @@ public class Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    ///part: Copy
+
+    public void addCopy(Copy new_copy){
+        String sql = "INSERT INTO copies (copy_id, book_id, available) VALUES (?, ?, ?)";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, new_copy.getId());
+            statement.setInt(2, new_copy.getBook().getId());
+            statement.setBoolean(3, new_copy.getAvailable());
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("Copy added successfully.");
+            } else {
+                System.out.println("Failed to add copy.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addCopy(Book new_book){
+        String sql = "INSERT INTO copies (copy_id, book_id, available) VALUES (?, ?, ?)";
+
+        try (Connection conn = this.connect();
+            PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, getRowCount("copies")+1);
+            statement.setInt(2, new_book.getId());
+            statement.setBoolean(3, true);
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("Copy added successfully.");
+            } else {
+                System.out.println("Failed to add copy.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setAvailableCopy(int copy_id, boolean new_availability){
+        String sql = "UPDATE copies SET available = ? WHERE copy_id = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setBoolean(1, new_availability);
+            statement.setInt(2, copy_id);
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("Copy availability changed successfully.");
+            } else {
+                System.out.println("Failed to change copy availability.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setAvailableCopy(Copy target_copy, boolean new_availability){
+        int copy_id = target_copy.getId();
+        setAvailableCopy(copy_id, new_availability);
     }
 
     ///part: User
