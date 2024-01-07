@@ -1,5 +1,7 @@
 package main.java.org.papz20.model;
 
+import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Copy;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,8 +9,11 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
+
 
 public class Database {
+    /// part: misc
     private Connection connect() {
         String url = "jdbc:sqlite:src/main/resources/database/appDB.db";
         Connection conn = null;
@@ -56,6 +61,7 @@ public class Database {
         return 0;
     }
 
+    ///part: Book
     public List<String[]> selectBooks(String title_key, String author_key, String genre_key) {
         List<String[]> book_list = new ArrayList<>();
 
@@ -194,6 +200,81 @@ public class Database {
         }
     }
 
+    ///part: Copy
+
+    public void addCopy(Copy new_copy){
+        String sql = "INSERT INTO copies (copy_id, book_id, available) VALUES (?, ?, ?)";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, new_copy.getId());
+            statement.setInt(2, new_copy.getBook().getId());
+            statement.setBoolean(3, new_copy.getAvailable());
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("Copy added successfully.");
+            } else {
+                System.out.println("Failed to add copy.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addCopy(Book new_book){
+        String sql = "INSERT INTO copies (copy_id, book_id, available) VALUES (?, ?, ?)";
+
+        try (Connection conn = this.connect();
+            PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, getRowCount("copies")+1);
+            statement.setInt(2, new_book.getId());
+            statement.setBoolean(3, true);
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("Copy added successfully.");
+            } else {
+                System.out.println("Failed to add copy.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setAvailableCopy(int copy_id, boolean new_availability){
+        String sql = "UPDATE copies SET available = ? WHERE copy_id = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setBoolean(1, new_availability);
+            statement.setInt(2, copy_id);
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("Copy availability changed successfully.");
+            } else {
+                System.out.println("Failed to change copy availability.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setAvailableCopy(Copy target_copy, boolean new_availability){
+        int copy_id = target_copy.getId();
+        setAvailableCopy(copy_id, new_availability);
+    }
+
+    ///part: User
     public void addUser(int user_id, String username, String password, String first_name, String last_name, String email, String user_type){
         String sql = "INSERT INTO users (user_id, username, password, first_name, last_name, email, user_type) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -252,4 +333,91 @@ public class Database {
         }
     }
 
+    public void removeUser(User target_user){
+        int user_id = target_user.getId();
+        removeUser(user_id);
+    }
+
+    public void removeUser(int user_id){
+        String sql = "DELETE FROM users WHERE user_id = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, user_id);
+
+            int rows_affected = statement.executeUpdate();      //
+
+            if (rows_affected > 0) {
+                System.out.println("User removed successfully.");
+            } else {
+                System.out.println("Failed to remove user.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateUserData(User u){
+        updateUserData(u.getId(), u.getUsername(), u.getPassword(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getRole());
+    }
+
+    public void updateUserData(int user_id, String username, String password, String first_name, String last_name, String email, String user_type){
+        String sql = "UPDATE users SET user_id = ?, username = ?, password = ?, first_name = ?, last_name = ?, email = ?, user_type = ? WHERE user_id = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, user_id);
+            statement.setString(2, username);
+            statement.setString(3, password);
+            statement.setString(4, first_name);
+            statement.setString(5, last_name);
+            statement.setString(6, email);
+            statement.setString(7, user_type);
+            statement.setInt(8, user_id);
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("User data updated successfully.");
+            } else {
+                System.out.println("Failed to update user data.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public User fetchUser(int user_id){
+        String sql = "SELECT * FROM users WHERE user_id = ?";
+        User result_user = null;
+
+        try (Connection conn = this.connect();
+            PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setInt(1, user_id);
+            try (ResultSet result = statement.executeQuery()) {
+                if (result.next()) {
+                    int got_user_id = result.getInt("user_id");
+                    String got_username = result.getString("username");
+                    String got_password = result.getString("password");
+                    String got_first_name = result.getString("first_name");
+                    String got_last_name = result.getString("last_name");
+                    String got_email = result.getString("email");
+                    String got_user_type = result.getString("user_type");
+                    if (Objects.equals(got_user_type, "member")) {
+                        result_user = new Member(got_user_id, got_first_name, got_last_name, got_email, got_username, got_password);
+                    } else {
+                        result_user = new Admin(got_user_id, got_first_name, got_last_name, got_email, got_username, got_password);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (result_user == null)
+            System.out.println("Failed to fetch user data.");
+        return result_user;
+    }
 }
