@@ -66,6 +66,10 @@ public class Transaction {
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        if (status.equals("checked out") || status.equals("returned")) {
+            this.status = status;
+        } else {
+            throw new IllegalArgumentException("Status must be either \"checked out\" or \"returned\".");
+        }
     }
 }
