@@ -50,6 +50,10 @@ public class Fine {
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        if (status.equals("unpaid") || status.equals("paid")) {
+            this.status = status;
+        } else {
+            throw new IllegalArgumentException("Status must be either \"unpaid\" or \"paid\".");
+        }
     }
 }
