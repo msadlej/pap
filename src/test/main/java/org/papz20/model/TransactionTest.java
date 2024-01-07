@@ -86,4 +86,11 @@ public class TransactionTest {
             transaction.setId(-1);
         });
     }
+
+    @Test
+    public void testSetInvalidStatus() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            transaction.setStatus("invalid");
+        });
+    }
 }
