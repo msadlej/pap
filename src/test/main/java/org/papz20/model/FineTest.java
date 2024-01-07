@@ -64,7 +64,14 @@ public class FineTest {
     @Test
     public void testSetInvalidAmount() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            fine.setAmount(-100);
+            fine.setAmount(-1);
+        });
+    }
+
+    @Test
+    public void testSetInvalidStatus() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            fine.setStatus("invalid");
         });
     }
 }
