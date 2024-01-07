@@ -57,10 +57,4 @@ public class BookSearchPanel extends JPanel{
             }
         });
     }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-        query_scroll.setLayout(new BoxLayout(query_scroll, BoxLayout.PAGE_AXIS));
-
-    }
 }
