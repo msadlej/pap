@@ -64,8 +64,8 @@ public class OrderTest {
 
     @Test
     public void testSetDate() {
-        order.setDate("21/10/2021");
-        Assertions.assertEquals("21/10/2021", order.getDate());
+        order.setDate("22/09/2021");
+        Assertions.assertEquals("22/09/2021", order.getDate());
     }
 
     @Test
@@ -91,6 +91,13 @@ public class OrderTest {
     public void testSetInvalidPeriod() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             order.setPeriod(-1);
+        });
+    }
+
+    @Test
+    public void testSetInvalidStatus() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            order.setStatus("invalid");
         });
     }
 }
