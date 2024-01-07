@@ -2,16 +2,16 @@ package main.java.org.papz20.model;
 
 public class Order {
     int id;
-    User user;
-    Copy copy;
+    int userID;
+    int copyID;
     String date;
     int period;
     String status;
 
-    public Order(int id, User user, Copy copy, String date, int period, String status) {
+    public Order(int id, int userID, int copyID, String date, int period, String status) {
         setId(id);
-        setUser(user);
-        setCopy(copy);
+        setUserID(userID);
+        setCopyID(copyID);
         setDate(date);
         setPeriod(period);
         setStatus(status);
@@ -22,12 +22,12 @@ public class Order {
         return this.id;
     }
 
-    public User getUser() {
-        return this.user;
+    public int getUserID() {
+        return this.userID;
     }
 
-    public Copy getCopy() {
-        return this.copy;
+    public int getCopyID() {
+        return this.copyID;
     }
 
     public String getDate() {
@@ -50,12 +50,20 @@ public class Order {
         }
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserID(int userID) throws IllegalArgumentException {
+        if (userID > 0) {
+            this.userID = userID;
+        } else {
+            throw new IllegalArgumentException("User id must be a positive integer.");
+        }
     }
 
-    public void setCopy(Copy copy) {
-        this.copy = copy;
+    public void setCopyID(int copyID) throws IllegalArgumentException {
+        if (copyID > 0) {
+            this.copyID = copyID;
+        } else {
+            throw new IllegalArgumentException("Copy id must be a positive integer.");
+        }
     }
 
     public void setDate(String date) {
