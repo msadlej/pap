@@ -17,7 +17,6 @@ public class Order {
         setStatus(status);
     }
 
-
     public int getId() {
         return this.id;
     }
@@ -71,6 +70,10 @@ public class Order {
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        if (status.equals("pending") || status.equals("approved") || status.equals("rejected")) {
+            this.status = status;
+        } else {
+            throw new IllegalArgumentException("Status must be either \"pending\", \"approved\", or \"rejected\".");
+        }
     }
 }
