@@ -81,5 +81,4 @@ public class OrderService {
     public boolean removeOrder(int orderID) {
         return this.deleteQuery(orderID);
     }
-
 }

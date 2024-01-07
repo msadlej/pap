@@ -9,7 +9,8 @@ public class AuthenticationService {
     public AuthenticationService() {
         this.database = new Database();
     }
-    public boolean authenticateUser(String username, String password) {
+    // return user id if user is authenticated, else return -1
+    public int authenticateUser(String username, String password) {
         String query = "SELECT * FROM users WHERE username = ? AND password = ?";
         try (
                 Connection connection = database.connectDB();
@@ -18,11 +19,15 @@ public class AuthenticationService {
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                return resultSet.next();
+                if (resultSet.next()) {
+                    return resultSet.getInt("user_id");
+                } else {
+                    return -1;
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return -1;
         }
     }
     public boolean changePassword(String username, String oldPassword, String newPassword) {
