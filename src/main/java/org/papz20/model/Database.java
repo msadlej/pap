@@ -1,7 +1,5 @@
 package main.java.org.papz20.model;
 
-import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Copy;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -44,21 +42,41 @@ public class Database {
         }
     }
 
-    public int getRowCount(String tableName) {
-        String sql = "SELECT COUNT(*) FROM " + tableName;
+    public int getNextId(String tableName) {    /// java 11 has no match case instruction
+        String id_name = getIdString(tableName);
+
+        String sql = "SELECT MAX(" + id_name + ") FROM " + tableName;
 
         try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql);
+            PreparedStatement statement = conn.prepareStatement(sql);
              ResultSet result = statement.executeQuery()) {
-
-            if (result.next()) {
-                return result.getInt(1);
-            }
-
+                if (result.next()) {
+                    return result.getInt(1) + 1;
+                }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    private static String getIdString(String tableName) {
+        String id_name = "none";
+        if (Objects.equals(tableName, "users"))
+            id_name = "user_id";
+        if (Objects.equals(tableName, "books"))
+            id_name = "book_id";
+        if (Objects.equals(tableName, "copies"))
+            id_name = "copy_id";
+        if (Objects.equals(tableName, "orders"))
+            id_name = "order_id";
+        if (Objects.equals(tableName, "transactions"))
+            id_name = "transaction_id";
+        if (Objects.equals(tableName, "fines"))
+            id_name = "copy_id";
+
+        if (Objects.equals((id_name), "none"))
+            throw new IllegalArgumentException("Invalid table name");
+        return id_name;
     }
 
     ///part: Book
@@ -172,7 +190,7 @@ public class Database {
     }
 
     public void addBook(String title, String author, String genre, String publish_date){
-        int book_id = getRowCount("books") + 1;
+        int book_id = getNextId("books");
         addBook(book_id, title, author, genre, publish_date);
     }
     public void addBook(Book new_book) {
@@ -200,8 +218,29 @@ public class Database {
         }
     }
 
-    ///part: Copy
+    boolean copyAvailableBook(int book_id){
 
+        String query = "SELECT COUNT(*) FROM copies WHERE book_id = ? AND available = true";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(query)){
+
+            statement.setInt(1, book_id);
+
+            try (ResultSet results = statement.executeQuery()){
+                if (results.next()) {
+                    return (results.getInt(1) > 0);
+                }
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    ///part: Copy
     public void addCopy(Copy new_copy){
         String sql = "INSERT INTO copies (copy_id, book_id, available) VALUES (?, ?, ?)";
 
@@ -231,7 +270,7 @@ public class Database {
         try (Connection conn = this.connect();
             PreparedStatement statement = conn.prepareStatement(sql)) {
 
-            statement.setInt(1, getRowCount("copies")+1);
+            statement.setInt(1, getNextId("copies"));
             statement.setInt(2, new_book.getId());
             statement.setBoolean(3, true);
 
@@ -303,7 +342,7 @@ public class Database {
     }
 
     public void addUser(String username, String password, String first_name, String last_name, String email, String user_type){
-        int user_id = getRowCount("users") + 1;
+        int user_id = getNextId("users");
         addUser(user_id, username, password, first_name, last_name, email, user_type);
     }
 
