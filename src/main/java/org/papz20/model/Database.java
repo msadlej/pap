@@ -337,7 +337,7 @@ public class Database {
              PreparedStatement statement = conn.prepareStatement(sql)) {
 
             statement.setInt(1, new_copy.getId());
-            statement.setInt(2, new_copy.getBook().getId());
+            statement.setInt(2, new_copy.getBookId());
             statement.setBoolean(3, new_copy.getAvailable());
 
             int rows_affected = statement.executeUpdate();
@@ -347,7 +347,6 @@ public class Database {
             } else {
                 System.out.println("Failed to add copy.");
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -550,11 +549,44 @@ public class Database {
     }
 
     ///part: Order
-
     public void addOrder(Order new_order){
         int order_id = new_order.getId();
+        int user_id = new_order.getUserId();
+        int copy_id = new_order.getCopyId();
+        String date = new_order.getDate();
+        int period = new_order.getPeriod();
+        String status = new_order.getStatus();
+
+        addOrder(order_id, user_id, copy_id, date, period, status);
     }
 
-    public void addOrder(){
+    public void addOrder(int order_id, int user_id, int copy_id, String date, int period, String status){
+        String sql = "INSERT INTO orders (order_id, user_id, copy_id, order_date, order_period, order_status) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, order_id);
+            statement.setInt(2, user_id);
+            statement.setInt(3, copy_id);
+            statement.setString(4, date);
+            statement.setInt(5, period);
+            statement.setString(6, status);
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("Order added successfully.");
+            } else {
+                System.out.println("Failed to add order.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setOrderStatus(String new_status){
 
     }
+
+}
