@@ -42,7 +42,7 @@ public class Database {
         }
     }
 
-    public int getNextId(String tableName) {    /// java 11 has no match case instruction
+    public int getNextId(String tableName) {
         String id_name = getIdString(tableName);
 
         String sql = "SELECT MAX(" + id_name + ") FROM " + tableName;
@@ -109,14 +109,31 @@ public class Database {
                     book[0] = results.getString("book_id");
                     book[1] = results.getString("title");
                     book[2] = results.getString("author");
-                    book[3] = results.getString("publish_date");
-                    book[4] = results.getString("genre");
+                    book[3] = results.getString("genre");
+                    book[4] = results.getString("publish_date");
                     book_list.add(book);
                 }
             }
         }
         catch (SQLException e){
             e.printStackTrace();
+        }
+        return book_list;
+    }
+
+    public List<Book> selectBookObjects(String title_key, String author_key, String genre_key) {
+        List<String[]> selected_book_strings = selectBooks(title_key, author_key, genre_key);
+        List<Book> book_list = new ArrayList<>();
+
+        for (String[] book_strings : selected_book_strings) {
+            int book_id = Integer.parseInt(book_strings[0]);
+            String title = book_strings[1];
+            String author = book_strings[2];
+            String genre = book_strings[3];
+            String publish_date = book_strings[4];
+
+            Book book = new Book(book_id, title, author, genre, publish_date);
+            book_list.add(book);
         }
         return book_list;
     }
