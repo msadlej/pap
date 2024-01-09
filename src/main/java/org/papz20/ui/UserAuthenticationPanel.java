@@ -38,12 +38,12 @@ public class UserAuthenticationPanel extends JPanel {
                 login_panel.clearMessage();
                 String username = login_panel.getUsername();
                 String password = login_panel.getPassword();
-                boolean isAuthenticated = authentication_service.authenticateUser(username, password);
-                if (isAuthenticated) {
-                    on_login.actionPerformed(e);
-                } else {
+                Integer isAuthenticated = authentication_service.authenticateUser(username, password);
+                if (isAuthenticated.equals(-1)) {
                     login_panel.clearPasswordField();
                     login_panel.showMessage("Invalid username or password!");
+                } else {
+                    on_login.actionPerformed(e);
                 }
             }
         };

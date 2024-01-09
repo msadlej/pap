@@ -19,8 +19,8 @@ public class OrderService {
                 PreparedStatement preparedStatement = connection.prepareStatement(query)
         ) {
             preparedStatement.setInt(1, order.getId());
-            preparedStatement.setInt(2, order.getUserID());
-            preparedStatement.setInt(3, order.getCopyID());
+            preparedStatement.setInt(2, order.getUserId());
+            preparedStatement.setInt(3, order.getCopyId());
             preparedStatement.setString(4, order.getDate());
             preparedStatement.setInt(5, order.getPeriod());
             preparedStatement.setString(6, order.getStatus());
@@ -39,8 +39,8 @@ public class OrderService {
                 PreparedStatement preparedStatement = connection.prepareStatement(query)
         ) {
             preparedStatement.setInt(1, newOrder.getId());
-            preparedStatement.setInt(2, newOrder.getUserID());
-            preparedStatement.setInt(3, newOrder.getCopyID());
+            preparedStatement.setInt(2, newOrder.getUserId());
+            preparedStatement.setInt(3, newOrder.getCopyId());
             preparedStatement.setString(4, newOrder.getDate());
             preparedStatement.setInt(5, newOrder.getPeriod());
             preparedStatement.setString(6, newOrder.getStatus());
