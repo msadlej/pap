@@ -1,7 +1,5 @@
 package main.java.org.papz20.model;
 
-import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Copy;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -44,6 +42,43 @@ public class Database {
         }
     }
 
+    public int getNextId(String tableName) {
+        String id_name = getIdString(tableName);
+
+        String sql = "SELECT MAX(" + id_name + ") FROM " + tableName;
+
+        try (Connection conn = this.connect();
+            PreparedStatement statement = conn.prepareStatement(sql);
+             ResultSet result = statement.executeQuery()) {
+                if (result.next()) {
+                    return result.getInt(1) + 1;
+                }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private static String getIdString(String tableName) {
+        String id_name = "none";
+        if (Objects.equals(tableName, "users"))
+            id_name = "user_id";
+        if (Objects.equals(tableName, "books"))
+            id_name = "book_id";
+        if (Objects.equals(tableName, "copies"))
+            id_name = "copy_id";
+        if (Objects.equals(tableName, "orders"))
+            id_name = "order_id";
+        if (Objects.equals(tableName, "transactions"))
+            id_name = "transaction_id";
+        if (Objects.equals(tableName, "fines"))
+            id_name = "copy_id";
+
+        if (Objects.equals((id_name), "none"))
+            throw new IllegalArgumentException("Invalid table name");
+        return id_name;
+    }
+
     public int getRowCount(String tableName) {
         String sql = "SELECT COUNT(*) FROM " + tableName;
 
@@ -65,7 +100,7 @@ public class Database {
     public List<String[]> selectBooks(String title_key, String author_key, String genre_key) {
         List<String[]> book_list = new ArrayList<>();
 
-        String query = "SELECT * FROM books WHERE title LIKE ? AND author LIKE ? AND genre LIKE ?";
+        String sql = "SELECT * FROM books WHERE title LIKE ? AND author LIKE ? AND genre LIKE ?";
 
         if (!title_key.equals("%")) {
             title_key = "%" + title_key + "%";
@@ -78,7 +113,7 @@ public class Database {
         }
 
         try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(query)){
+             PreparedStatement statement = conn.prepareStatement(sql)){
 
             statement.setString(1, title_key);
             statement.setString(2, author_key);
@@ -91,8 +126,8 @@ public class Database {
                     book[0] = results.getString("book_id");
                     book[1] = results.getString("title");
                     book[2] = results.getString("author");
-                    book[3] = results.getString("publish_date");
-                    book[4] = results.getString("genre");
+                    book[3] = results.getString("genre");
+                    book[4] = results.getString("publish_date");
                     book_list.add(book);
                 }
             }
@@ -101,6 +136,78 @@ public class Database {
             e.printStackTrace();
         }
         return book_list;
+    }
+
+    public List<Book> selectBookObjects(String title_key, String author_key, String genre_key) {
+        List<String[]> selected_book_strings = selectBooks(title_key, author_key, genre_key);
+        List<Book> book_list = new ArrayList<>();
+
+        for (String[] book_strings : selected_book_strings) {
+            int book_id = Integer.parseInt(book_strings[0]);
+            String title = book_strings[1];
+            String author = book_strings[2];
+            String genre = book_strings[3];
+            String publish_date = book_strings[4];
+
+            Book book = new Book(book_id, title, author, genre, publish_date);
+            book_list.add(book);
+        }
+        return book_list;
+    }
+
+    public Book selectBookObject(int book_id) {
+        String sql = "SELECT * FROM books WHERE book_id = ?";
+        Book selected_book = null;
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)){
+
+            statement.setInt(1, book_id);
+
+            try (ResultSet results = statement.executeQuery()){
+                if (results.next()) {
+                    book_id = results.getInt("book_id");
+                    String title = results.getString("title");
+                    String author = results.getString("author");
+                    String genre = results.getString("genre");
+                    String publish_date = results.getString("publish_date");
+                    selected_book = new Book(book_id, title, author, genre, publish_date);
+                }
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return selected_book;
+    }
+
+    public List<Book> findBorrowedBooks(int user_id) {
+        List<Book> borrowed_books = new ArrayList<>();
+        String sql = "SELECT books.book_id, books.title, books.author, books.genre, books.publish_date " +
+                "FROM books " +
+                "JOIN copies ON books.book_id = copies.book_id " +
+                "JOIN orders ON copies.copy_id = orders.copy_id " +
+                "WHERE orders.user_id = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)){
+            statement.setInt(1, user_id);
+
+            try(ResultSet results = statement.executeQuery()){
+                while (results.next()) {
+                    int book_id = results.getInt("book_id");
+                    String title = results.getString("title");
+                    String author = results.getString("author");
+                    String genre = results.getString("genre");
+                    String publish_date = results.getString("publish_date");
+                    borrowed_books.add(new Book(book_id, title, author, genre, publish_date));
+                }
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return borrowed_books;
     }
 
     public void removeBook(int book_id) {
@@ -172,7 +279,7 @@ public class Database {
     }
 
     public void addBook(String title, String author, String genre, String publish_date){
-        int book_id = getRowCount("books") + 1;
+        int book_id = getNextId("books");
         addBook(book_id, title, author, genre, publish_date);
     }
     public void addBook(Book new_book) {
@@ -200,8 +307,29 @@ public class Database {
         }
     }
 
-    ///part: Copy
+    boolean copyAvailableBook(int book_id){
 
+        String sql = "SELECT COUNT(*) FROM copies WHERE book_id = ? AND available = true";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)){
+
+            statement.setInt(1, book_id);
+
+            try (ResultSet results = statement.executeQuery()){
+                if (results.next()) {
+                    return (results.getInt(1) > 0);
+                }
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    ///part: Copy
     public void addCopy(Copy new_copy){
         String sql = "INSERT INTO copies (copy_id, book_id, available) VALUES (?, ?, ?)";
 
@@ -231,7 +359,7 @@ public class Database {
         try (Connection conn = this.connect();
             PreparedStatement statement = conn.prepareStatement(sql)) {
 
-            statement.setInt(1, getRowCount("copies")+1);
+            statement.setInt(1, getNextId("copies"));
             statement.setInt(2, new_book.getId());
             statement.setBoolean(3, true);
 
@@ -303,7 +431,7 @@ public class Database {
     }
 
     public void addUser(String username, String password, String first_name, String last_name, String email, String user_type){
-        int user_id = getRowCount("users") + 1;
+        int user_id = getNextId("users");
         addUser(user_id, username, password, first_name, last_name, email, user_type);
     }
 
