@@ -337,7 +337,7 @@ public class Database {
              PreparedStatement statement = conn.prepareStatement(sql)) {
 
             statement.setInt(1, new_copy.getId());
-            statement.setInt(2, new_copy.getBook().getId());
+            statement.setInt(2, new_copy.getBookId());
             statement.setBoolean(3, new_copy.getAvailable());
 
             int rows_affected = statement.executeUpdate();

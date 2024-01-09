@@ -10,7 +10,7 @@ public class AuthenticationService {
         this.database = new Database();
     }
     // return user id if user is authenticated, else return -1
-    public int authenticateUser(String username, String password) {
+    public Integer authenticateUser(String username, String password) {
         String query = "SELECT * FROM users WHERE username = ? AND password = ?";
         try (
                 Connection connection = database.connectDB();
