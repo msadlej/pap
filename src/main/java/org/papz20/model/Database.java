@@ -620,4 +620,30 @@ public class Database {
             e.printStackTrace();
         }
     }
+
+    public void setFineStatus(int fine_id, String new_status){
+        String sql = "UPDATE fines SET fine_status = ? WHERE fine_id = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setString(1, new_status);
+            statement.setInt(2, fine_id);
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("Fine status changed successfully.");
+            } else {
+                System.out.println("Failed to change fine availability.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setFineStatus(Fine target_fine, boolean new_status){
+        int fine_id = target_fine.getId();
+        setAvailableCopy(fine_id, new_status);
+    }
 }
