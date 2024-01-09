@@ -4,11 +4,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class TransactionTest {
-    private Transaction transaction = new Transaction(1, 1, 1, "21/09/2021", "21/10/2021", "checked out");
+    private Transaction transaction = new Transaction(1, 1,1, 1, "21/09/2021", "21/10/2021", "checked out");
 
     @Test
     public void testGetId() {
         Assertions.assertEquals(1, transaction.getId());
+    }
+
+    @Test
+    public void testGetOrderId() {
+        Assertions.assertEquals(1, transaction.getOrderId());
     }
 
     @Test
@@ -40,6 +45,12 @@ public class TransactionTest {
     public void testSetId() {
         transaction.setId(2);
         Assertions.assertEquals(2, transaction.getId());
+    }
+
+    @Test
+    public void testSetOrderId() {
+        transaction.setOrderId(2);
+        Assertions.assertEquals(2, transaction.getOrderId());
     }
 
     @Test
@@ -76,6 +87,13 @@ public class TransactionTest {
     public void testSetInvalidId() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             transaction.setId(-1);
+        });
+    }
+
+    @Test
+    public void testSetInvalidOrderId() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            transaction.setOrderId(-1);
         });
     }
 

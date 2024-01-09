@@ -2,14 +2,16 @@ package main.java.org.papz20.model;
 
 public class Transaction {
     private int id;
+    private int order_id;
     private int user_id;
     private int copy_id;
     private String checkout_date;
-    private  String due_date;
+    private String due_date;
     private String status;
 
-    public Transaction(int id, int user_id, int copy_id, String checkout_date, String due_date, String status) {
+    public Transaction(int id, int order_id, int user_id, int copy_id, String checkout_date, String due_date, String status) {
         setId(id);
+        setOrderId(order_id);
         setUserId(user_id);
         setCopyId(copy_id);
         setCheckoutDate(checkout_date);
@@ -19,6 +21,10 @@ public class Transaction {
 
     public int getId() {
         return this.id;
+    }
+
+    public int getOrderId() {
+        return this.order_id;
     }
 
     public int getUserId() {
@@ -46,6 +52,14 @@ public class Transaction {
             this.id = id;
         } else {
             throw new IllegalArgumentException("Transaction id must be a positive integer.");
+        }
+    }
+
+    public void setOrderId(int order_id) throws IllegalArgumentException {
+        if (order_id > 0) {
+            this.order_id = order_id;
+        } else {
+            throw new IllegalArgumentException("Order id must be a positive integer.");
         }
     }
 
