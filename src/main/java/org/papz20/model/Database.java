@@ -926,7 +926,6 @@ public class Database {
     }
 
     ///part: Fine
-
     public Fine fetchFine(int fine_id){
         String sql = "SELECT * FROM fines WHERE fine_id = ?";
         Fine selected_fine = null;
