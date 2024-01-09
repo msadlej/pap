@@ -589,4 +589,35 @@ public class Database {
 
     }
 
+    public void addFine(Fine new_fine){
+        int fine_id = new_fine.getId();
+        int transaction_id = new_fine.getTransactionId();
+        int amount = new_fine.getAmount();
+        String status = new_fine.getStatus();
+
+        addFine(fine_id, transaction_id, amount, status);
+    }
+
+    public void addFine(int fine_id, int transaction_id, int amount, String status) {
+        String sql = "INSERT INTO fines (fine_id, transaction_id, amount, status) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+
+            statement.setInt(1, fine_id);
+            statement.setInt(2, transaction_id);
+            statement.setInt(3, amount);
+            statement.setString(4, status);
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("Fine added successfully.");
+            } else {
+                System.out.println("Failed to add fine.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
