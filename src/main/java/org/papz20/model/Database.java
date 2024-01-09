@@ -1,5 +1,6 @@
 package main.java.org.papz20.model;
 
+import javax.swing.plaf.basic.BasicTreeUI;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -379,6 +380,31 @@ public class Database {
         return all_copies;
     }
 
+    public Copy fetchCopy(int copy_id) {
+        String sql = "SELECT * FROM copies WHERE copy_id = ?";
+        Copy selected_copy = null;
+
+        try (Connection conn = this.connect();
+            PreparedStatement statement = conn.prepareStatement(sql)){
+
+            statement.setInt(1, copy_id);
+
+            try (ResultSet results = statement.executeQuery()){
+                if (results.next()) {
+                    copy_id = results.getInt("copy_id");
+                    int book_id = results.getInt("book_id");
+                    boolean available = results.getBoolean("available");
+
+                    selected_copy = new Copy(copy_id, book_id, available);
+                }
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return selected_copy;
+    }
+
     public void addCopy(Copy new_copy){
         String sql = "INSERT INTO copies (copy_id, book_id, available) VALUES (?, ?, ?)";
 
@@ -607,17 +633,17 @@ public class Database {
             statement.setInt(1, user_id);
             try (ResultSet result = statement.executeQuery()) {
                 if (result.next()) {
-                    int got_user_id = result.getInt("user_id");
-                    String got_username = result.getString("username");
-                    String got_password = result.getString("password");
-                    String got_first_name = result.getString("first_name");
-                    String got_last_name = result.getString("last_name");
-                    String got_email = result.getString("email");
-                    String got_user_type = result.getString("user_type");
-                    if (Objects.equals(got_user_type, "member")) {
-                        result_user = new Member(got_user_id, got_first_name, got_last_name, got_email, got_username, got_password);
+                    user_id = result.getInt("user_id");
+                    String username = result.getString("username");
+                    String password = result.getString("password");
+                    String first_name = result.getString("first_name");
+                    String last_name = result.getString("last_name");
+                    String email = result.getString("email");
+                    String user_type = result.getString("user_type");
+                    if (Objects.equals(user_type, "member")) {
+                        result_user = new Member(user_id, first_name, last_name, email, username, password);
                     } else {
-                        result_user = new Admin(got_user_id, got_first_name, got_last_name, got_email, got_username, got_password);
+                        result_user = new Admin(user_id, first_name, last_name, email, username, password);
                     }
                 }
             }
@@ -655,6 +681,31 @@ public class Database {
             e.printStackTrace();
         }
         return all_orders;
+    }
+
+    public Order fetchOrder(int order_id){
+        String sql = "SELECT * FROM orders WHERE order_id = ?";
+        Order selected_order  = null;
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setInt(1, order_id);
+            try (ResultSet result = statement.executeQuery()) {
+                if (result.next()) {
+                    order_id = result.getInt("order_id");
+                    int user_id = result.getInt("user_id");
+                    int copy_id = result.getInt("copy_id");
+                    String order_date = result.getString("order_date");
+                    int order_period = result.getInt("order_period");
+                    String order_status = result.getString("order_status");
+
+                    selected_order = new Order(order_id, user_id, copy_id, order_date, order_period, order_status);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return selected_order;
     }
 
     public void addOrder(Order new_order){
@@ -747,6 +798,32 @@ public class Database {
         return all_transactions;
     }
 
+    public Transaction fetchTransaction(int transaction_id){
+        String sql = "SELECT * FROM transactions WHERE transaction_id = ?";
+        Transaction selected_transaction = null;
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setInt(1, transaction_id);
+            try (ResultSet result = statement.executeQuery()) {
+                if (result.next()) {
+                    transaction_id = result.getInt("transaction_id");
+                    int order_id = result.getInt("order_id");
+                    int user_id = result.getInt("user_id");
+                    int copy_id = result.getInt("copy_id");
+                    String checkout_date = result.getString("checkout_date");
+                    String due_date = result.getString("due_date");
+                    String transaction_status = result.getString("transaction_status");
+
+                    selected_transaction = new Transaction(transaction_id, order_id, user_id, copy_id, checkout_date, due_date, transaction_status);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return selected_transaction;
+    }
+
     public void addTransaction(Transaction new_transaction){
         int transaction_id = new_transaction.getId();
         int order_id = new_transaction.getOrderId();
@@ -836,7 +913,6 @@ public class Database {
         return current_date.isAfter(due_date);
     }
 
-
     public List<Transaction> getLateTransactions(){
         List<Transaction> all_transactions = getAllTransactions();
         List<Transaction> late_transactions = new ArrayList<>();
@@ -850,6 +926,29 @@ public class Database {
     }
 
     ///part: Fine
+
+    public Fine fetchFine(int fine_id){
+        String sql = "SELECT * FROM fines WHERE fine_id = ?";
+        Fine selected_fine = null;
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setInt(1,fine_id);
+            try (ResultSet result = statement.executeQuery()) {
+                if (result.next()) {
+                    fine_id = result.getInt("fine_id");
+                    int transaction_id = result.getInt("transaction_id");
+                    int fine_amount = result.getInt("fine_amount");
+                    String fine_status = result.getString("fine_status");
+
+                    selected_fine = new Fine(fine_id, transaction_id, fine_amount, fine_status);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return selected_fine;
+    }
 
     public List<Fine> getAllFines(){
         List<Fine> all_fines = new ArrayList<>();
