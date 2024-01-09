@@ -2,16 +2,16 @@ package main.java.org.papz20.model;
 
 public class Transaction {
     private int id;
-    private User user;
-    private Copy copy;
+    private int user_id;
+    private int copy_id;
     private String checkout_date;
     private  String due_date;
     private String status;
 
-    public Transaction(int id, User user, Copy copy, String checkout_date, String due_date, String status) {
+    public Transaction(int id, int user_id, int copy_id, String checkout_date, String due_date, String status) {
         setId(id);
-        setUser(user);
-        setCopy(copy);
+        setUserId(user_id);
+        setCopyId(copy_id);
         setCheckoutDate(checkout_date);
         setDueDate(due_date);
         setStatus(status);
@@ -21,12 +21,12 @@ public class Transaction {
         return this.id;
     }
 
-    public User getUser() {
-        return this.user;
+    public int getUserId() {
+        return this.user_id;
     }
 
-    public Copy getCopy() {
-        return this.copy;
+    public int getCopyId() {
+        return this.copy_id;
     }
 
     public String getCheckoutDate() {
@@ -49,12 +49,20 @@ public class Transaction {
         }
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int user_id) throws IllegalArgumentException {
+        if (user_id > 0) {
+            this.user_id = user_id;
+        } else {
+            throw new IllegalArgumentException("User id must be a positive integer.");
+        }
     }
 
-    public void setCopy(Copy copy) {
-        this.copy = copy;
+    public void setCopyId(int copy_id) throws IllegalArgumentException {
+        if (copy_id > 0) {
+            this.copy_id = copy_id;
+        } else {
+            throw new IllegalArgumentException("Copy id must be a positive integer.");
+        }
     }
 
     public void setCheckoutDate(String checkout_date) {

@@ -2,12 +2,12 @@ package main.java.org.papz20.model;
 
 public class Copy {
     private int id;
-    private Book book;
+    private int book_id;
     private boolean available;
 
-    public Copy(int id, Book book, boolean available) {
+    public Copy(int id, int book_id, boolean available) {
         setId(id);
-        setBook(book);
+        setBookId(book_id);
         setAvailable(available);
     }
 
@@ -15,8 +15,8 @@ public class Copy {
         return this.id;
     }
 
-    public Book getBook() {
-        return this.book;
+    public int getBookId() {
+        return this.book_id;
     }
 
     public boolean getAvailable() {
@@ -31,8 +31,12 @@ public class Copy {
         }
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setBookId(int book_id) {
+        if (book_id > 0) {
+            this.book_id = book_id;
+        } else {
+            throw new IllegalArgumentException("Book id must be a positive integer.");
+        }
     }
 
     public void setAvailable(boolean available) {

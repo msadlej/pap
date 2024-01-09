@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class CopyTest {
-    private Book book = new Book(1, "The Hobbit", "J.R.R. Tolkien", "Fantasy", "21/09/1937");
-    private Copy copy = new Copy(1, book, true);
+    private Copy copy = new Copy(1, 1, true);
 
     @Test
     public void testGetId() {
@@ -14,7 +13,7 @@ public class CopyTest {
 
     @Test
     public void testGetBook() {
-        Assertions.assertEquals(book, copy.getBook());
+        Assertions.assertEquals(1, copy.getBookId());
     }
 
     @Test
@@ -29,11 +28,9 @@ public class CopyTest {
     }
 
     @Test
-    public void testSetBook() {
-        Book book1 = new Book(2, "Pan Tadeusz", "Adam Mickiewicz", "Epic Poem", "28/06/1834");
-
-        copy.setBook(book1);
-        Assertions.assertEquals(book1, copy.getBook());
+    public void testSetBookId() {
+        copy.setBookId(2);
+        Assertions.assertEquals(2, copy.getBookId());
     }
 
     @Test
@@ -46,6 +43,13 @@ public class CopyTest {
     public void testSetInvalidId() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             copy.setId(-1);
+        });
+    }
+
+    @Test
+    public void testSetInvalidBookId() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            copy.setBookId(-1);
         });
     }
 }

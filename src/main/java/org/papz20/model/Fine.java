@@ -2,13 +2,13 @@ package main.java.org.papz20.model;
 
 public class Fine {
     private int id;
-    private Transaction transaction;
+    private int transaction_id;
     private int amount;
     private String status;
 
-    public Fine(int id, Transaction transaction, int amount, String status) {
+    public Fine(int id, int transaction_id, int amount, String status) {
         setId(id);
-        setTransaction(transaction);
+        setTransactionId(transaction_id);
         setAmount(amount);
         setStatus(status);
     }
@@ -17,8 +17,8 @@ public class Fine {
         return this.id;
     }
 
-    public Transaction getTransaction() {
-        return this.transaction;
+    public int getTransactionId() {
+        return this.transaction_id;
     }
 
     public int getAmount() {
@@ -37,8 +37,12 @@ public class Fine {
         }
     }
 
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
+    public void setTransactionId(int transaction_id) throws IllegalArgumentException {
+        if (transaction_id > 0) {
+            this.transaction_id = transaction_id;
+        } else {
+            throw new IllegalArgumentException("Transaction id must be a positive integer.");
+        }
     }
 
     public void setAmount(int amount) throws IllegalArgumentException {

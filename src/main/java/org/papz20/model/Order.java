@@ -1,17 +1,17 @@
 package main.java.org.papz20.model;
 
 public class Order {
-    int id;
-    int userID;
-    int copyID;
-    String date;
-    int period;
-    String status;
+    private int id;
+    private int user_id;
+    private int copy_id;
+    private String date;
+    private int period;
+    private String status;
 
-    public Order(int id, int userID, int copyID, String date, int period, String status) {
+    public Order(int id, int user_id, int copy_id, String date, int period, String status) {
         setId(id);
-        setUserID(userID);
-        setCopyID(copyID);
+        setUserId(user_id);
+        setCopyId(copy_id);
         setDate(date);
         setPeriod(period);
         setStatus(status);
@@ -21,12 +21,12 @@ public class Order {
         return this.id;
     }
 
-    public int getUserID() {
-        return this.userID;
+    public int getUserId() {
+        return this.user_id;
     }
 
-    public int getCopyID() {
-        return this.copyID;
+    public int getCopyId() {
+        return this.copy_id;
     }
 
     public String getDate() {
@@ -49,17 +49,17 @@ public class Order {
         }
     }
 
-    public void setUserID(int userID) throws IllegalArgumentException {
-        if (userID > 0) {
-            this.userID = userID;
+    public void setUserId(int user_id) throws IllegalArgumentException {
+        if (user_id > 0) {
+            this.user_id = user_id;
         } else {
             throw new IllegalArgumentException("User id must be a positive integer.");
         }
     }
 
-    public void setCopyID(int copyID) throws IllegalArgumentException {
-        if (copyID > 0) {
-            this.copyID = copyID;
+    public void setCopyId(int copy_id) throws IllegalArgumentException {
+        if (copy_id > 0) {
+            this.copy_id = copy_id;
         } else {
             throw new IllegalArgumentException("Copy id must be a positive integer.");
         }

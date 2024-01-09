@@ -4,10 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class OrderTest {
-    private User user = new User(1, "John", "Smith", "john.smith@gmail.com", "jsmith", "password");
-    private Book book = new Book(1, "The Hobbit", "J.R.R. Tolkien", "Fantasy", "21/09/1937");
-    private Copy copy = new Copy(1, book, true);
-    private Order order = new Order(1, user, copy, "21/09/2021", 30, "pending");
+    private Order order = new Order(1, 1, 1, "21/09/2021", 30, "pending");
 
     @Test
     public void testGetId() {
@@ -15,13 +12,13 @@ public class OrderTest {
     }
 
     @Test
-    public void testGetUser() {
-        Assertions.assertEquals(user, order.getUser());
+    public void testGetUserId() {
+        Assertions.assertEquals(1, order.getUserId());
     }
 
     @Test
-    public void testGetCopy() {
-        Assertions.assertEquals(copy, order.getCopy());
+    public void testGetCopyId() {
+        Assertions.assertEquals(1, order.getCopyId());
     }
 
     @Test
@@ -46,20 +43,15 @@ public class OrderTest {
     }
 
     @Test
-    public void testSetUser() {
-        User user1 = new User(2, "Jane", "Doe", "jane.doe@gmail.com", "jdoe", "newpassword");
-
-        order.setUser(user1);
-        Assertions.assertEquals(user1, order.getUser());
+    public void testSetUserId() {
+        order.setUserId(2);
+        Assertions.assertEquals(2, order.getUserId());
     }
 
     @Test
-    public void testSetCopy() {
-        Book book1 = new Book(2, "The Lord of the Rings", "J.R.R. Tolkien", "Fantasy", "29/07/1954");
-        Copy copy1 = new Copy(2, book1, true);
-
-        order.setCopy(copy1);
-        Assertions.assertEquals(copy1, order.getCopy());
+    public void testSetCopyId() {
+        order.setCopyId(2);
+        Assertions.assertEquals(2, order.getCopyId());
     }
 
     @Test
@@ -84,6 +76,20 @@ public class OrderTest {
     public void testSetInvalidId() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             order.setId(-1);
+        });
+    }
+
+    @Test
+    public void testSetInvalidUserId() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            order.setUserId(-1);
+        });
+    }
+
+    @Test
+    public void testSetInvalidCopyId() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            order.setCopyId(-1);
         });
     }
 
