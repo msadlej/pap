@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.time.LocalDate;
 
 
 public class Database {
@@ -38,14 +39,14 @@ public class Database {
             System.out.println("Connection to SQLite has been terminated.");
         }
         catch (SQLException e){
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    public int getNextId(String tableName) {
-        String id_name = getIdString(tableName);
+    public int getNextId(String table_name) {
+        String id_name = getIdString(table_name);
 
-        String sql = "SELECT MAX(" + id_name + ") FROM " + tableName;
+        String sql = "SELECT MAX(" + id_name + ") FROM " + table_name;
 
         try (Connection conn = this.connect();
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -59,19 +60,19 @@ public class Database {
         return 0;
     }
 
-    private static String getIdString(String tableName) {
+    private static String getIdString(String table_name) {
         String id_name = "none";
-        if (Objects.equals(tableName, "users"))
+        if (Objects.equals(table_name, "users"))
             id_name = "user_id";
-        if (Objects.equals(tableName, "books"))
+        if (Objects.equals(table_name, "books"))
             id_name = "book_id";
-        if (Objects.equals(tableName, "copies"))
+        if (Objects.equals(table_name, "copies"))
             id_name = "copy_id";
-        if (Objects.equals(tableName, "orders"))
+        if (Objects.equals(table_name, "orders"))
             id_name = "order_id";
-        if (Objects.equals(tableName, "transactions"))
+        if (Objects.equals(table_name, "transactions"))
             id_name = "transaction_id";
-        if (Objects.equals(tableName, "fines"))
+        if (Objects.equals(table_name, "fines"))
             id_name = "copy_id";
 
         if (Objects.equals((id_name), "none"))
@@ -79,8 +80,8 @@ public class Database {
         return id_name;
     }
 
-    public int getRowCount(String tableName) {
-        String sql = "SELECT COUNT(*) FROM " + tableName;
+    public int getRowCount(String table_name) {
+        String sql = "SELECT COUNT(*) FROM " + table_name;
 
         try (Connection conn = this.connect();
              PreparedStatement statement = conn.prepareStatement(sql);
@@ -97,6 +98,31 @@ public class Database {
     }
 
     ///part: Book
+    public List<Book> getAllBooks(){
+        List<Book> all_books = new ArrayList<>();
+
+        String sql = "SELECT * FROM books";
+
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+
+            try(ResultSet results = statement.executeQuery()){
+                while (results.next()) {
+                    int book_id = results.getInt("book_id");
+                    String title = results.getString("title");
+                    String author = results.getString("author");
+                    String genre = results.getString("genre");
+                    String publish_date = results.getString("publish_date");
+                    all_books.add(new Book(book_id, title, author, genre, publish_date));
+                }
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return all_books;
+    }
+
     public List<String[]> selectBooks(String title_key, String author_key, String genre_key) {
         List<String[]> book_list = new ArrayList<>();
 
@@ -155,7 +181,7 @@ public class Database {
         return book_list;
     }
 
-    public Book selectBookObject(int book_id) {
+    public Book fetchBook(int book_id) {
         String sql = "SELECT * FROM books WHERE book_id = ?";
         Book selected_book = null;
 
@@ -282,6 +308,7 @@ public class Database {
         int book_id = getNextId("books");
         addBook(book_id, title, author, genre, publish_date);
     }
+
     public void addBook(Book new_book) {
         String sql = "INSERT INTO books (book_id, title, author, genre, publish_date) VALUES (?, ?, ?, ?, ?)";
 
@@ -307,7 +334,7 @@ public class Database {
         }
     }
 
-    boolean copyAvailableBook(int book_id){
+   public boolean copyAvailableBook(int book_id){
 
         String sql = "SELECT COUNT(*) FROM copies WHERE book_id = ? AND available = true";
 
@@ -328,8 +355,30 @@ public class Database {
         return false;
     }
 
-
     ///part: Copy
+    public List<Copy> getAllCopies(){
+        List<Copy> all_copies = new ArrayList<>();
+
+        String sql = "SELECT * FROM copies";
+
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+
+            try(ResultSet results = statement.executeQuery()){
+                while (results.next()) {
+                    int copy_id = results.getInt("copy_id");
+                    int book_id = results.getInt("book_id");
+                    boolean available = results.getBoolean("available");
+                    all_copies.add(new Copy(copy_id, book_id, available));
+                }
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return all_copies;
+    }
+
     public void addCopy(Copy new_copy){
         String sql = "INSERT INTO copies (copy_id, book_id, available) VALUES (?, ?, ?)";
 
@@ -402,6 +451,38 @@ public class Database {
     }
 
     ///part: User
+    public List<User> getAllUsers(){
+        List<User> all_users = new ArrayList<>();
+
+        String sql = "SELECT * FROM users";
+
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+
+            try(ResultSet results = statement.executeQuery()){
+                while (results.next()) {
+                    int user_id = results.getInt("user_id");
+                    String username = results.getString("username");
+                    String password = results.getString("password");
+                    String first_name = results.getString("first_name");
+                    String last_name = results.getString("last_name");
+                    String email = results.getString("email");
+                    String user_type = results.getString("user_type");
+
+                    if (user_type == "member"){
+                        all_users.add(new Member(user_id, first_name, last_name, email, username, password));
+                    }else{
+                        all_users.add(new Admin(user_id, first_name, last_name, email, username, password));
+                    }
+                }
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return all_users;
+    }
+
     public void addUser(int user_id, String username, String password, String first_name, String last_name, String email, String user_type){
         String sql = "INSERT INTO users (user_id, username, password, first_name, last_name, email, user_type) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -549,6 +630,33 @@ public class Database {
     }
 
     ///part: Order
+    public List<Order> getAllOrders(){
+        List<Order> all_orders = new ArrayList<>();
+
+        String sql = "SELECT * FROM orders";
+
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+
+            try(ResultSet results = statement.executeQuery()){
+                while (results.next()) {
+                    int order_id = results.getInt("order_id");
+                    int user_id = results.getInt("user_id");
+                    int copy_id = results.getInt("copy_id");
+                    String order_date = results.getString("order_date");
+                    int order_period = results.getInt("order_period");
+                    String order_status = results.getString("order_status");
+
+                    all_orders.add(new Order(order_id, user_id, copy_id, order_date, order_period, order_status));
+                }
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return all_orders;
+    }
+
     public void addOrder(Order new_order){
         int order_id = new_order.getId();
         int user_id = new_order.getUserId();
@@ -585,8 +693,186 @@ public class Database {
         }
     }
 
-    public void setOrderStatus(String new_status){
+    public void setOrderStatus(int order_id, String new_status){
+        String sql = "UPDATE orders SET order_status = ? WHERE order_id = ?";
 
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setString(1, new_status);
+            statement.setInt(2, order_id);
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("Order status changed successfully.");
+            } else {
+                System.out.println("Failed to change order status.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setOrderStatus(Order target_order, String new_status){
+        int order_id = target_order.getId();
+        setOrderStatus(order_id, new_status);
+    }
+
+    ///part: Transaction
+    public List<Transaction> getAllTransactions(){
+        List<Transaction> all_transactions = new ArrayList<>();
+
+        String sql = "SELECT * FROM transactions";
+
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+
+            try(ResultSet results = statement.executeQuery()){
+                while (results.next()) {
+                    int transaction_id = results.getInt("transaction_id");
+                    int order_id = results.getInt("order_id");
+                    int user_id = results.getInt("user_id");
+                    int copy_id = results.getInt("copy_id");
+                    String checkout_date = results.getString("checkout_date");
+                    String due_date = results.getString("due_date");
+                    String transaction_status = results.getString("transaction_status");
+                    all_transactions.add(new Transaction(transaction_id, order_id, user_id, copy_id, checkout_date, due_date, transaction_status));
+                }
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return all_transactions;
+    }
+
+    public void addTransaction(Transaction new_transaction){
+        int transaction_id = new_transaction.getId();
+        int order_id = new_transaction.getOrderId();
+        int user_id = new_transaction.getUserId();
+        int copy_id = new_transaction.getCopyId();
+        String checkout_date = new_transaction.getCheckoutDate();
+        String due_date = new_transaction.getDueDate();
+        String status = new_transaction.getStatus();
+        addTransaction(transaction_id, order_id, user_id, copy_id, checkout_date, due_date, status);
+    }
+
+    public void addTransaction(int transaction_id, int order_id, int user_id, int copy_id, String checkout_date, String due_date, String status){
+        String sql = "INSERT INTO transactions (transaction_id, order_id, user_id, copy_id, checkout_date, due_date, transaction_status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+
+            statement.setInt(1, transaction_id);
+            statement.setInt(2, order_id);
+            statement.setInt(3, user_id);
+            statement.setInt(4, copy_id);
+            statement.setString(5, checkout_date);
+            statement.setString(6, due_date);
+            statement.setString(7, status);
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("Transaction added successfully.");
+            } else {
+                System.out.println("Failed to add transaction.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setTransactionStatus(int transaction_id, String new_status){
+        String sql = "UPDATE transactions SET transaction_status = ? WHERE transaction_id = ?";
+
+        try(Connection conn = this.connect();
+            PreparedStatement statement = conn.prepareStatement(sql)){
+            statement.setString(1, new_status);
+            statement.setInt(2, transaction_id);
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("Transaction status changed successfully.");
+            } else {
+                System.out.println("Failed to change transaction status.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setTransactionStatus(Transaction target_transaction, String new_status){
+        int transaction_id = target_transaction.getId();
+        setTransactionStatus(transaction_id, new_status);
+    }
+
+    public boolean isLateTransaction(int transaction_id){
+        String sql = "SELECT due_date FROM transactions WHERE transaction_id = ?";
+
+        try (Connection conn = this.connect();
+            PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, transaction_id);
+
+            try(ResultSet results = statement.executeQuery()){
+                if (results.next()) {
+                    LocalDate due_date = LocalDate.parse(results.getString("due_date"));
+                    LocalDate current_date = LocalDate.now();
+                    return current_date.isAfter(due_date);
+                }
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean isLateTransaction(Transaction target_transaction){
+        LocalDate due_date = LocalDate.parse(target_transaction.getDueDate());
+        LocalDate current_date = LocalDate.now();
+        return current_date.isAfter(due_date);
+    }
+
+
+    public List<Transaction> getLateTransactions(){
+        List<Transaction> all_transactions = getAllTransactions();
+        List<Transaction> late_transactions = new ArrayList<>();
+
+        for (Transaction this_transaction: all_transactions){
+            if (isLateTransaction(this_transaction)){
+                late_transactions.add(this_transaction);
+            }
+        }
+        return late_transactions;
+    }
+
+    ///part: Fine
+
+    public List<Fine> getAllFines(){
+        List<Fine> all_fines = new ArrayList<>();
+
+        String sql = "SELECT * FROM fines";
+
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+
+            try(ResultSet results = statement.executeQuery()){
+                while (results.next()) {
+                    int fine_id = results.getInt("fine_id");
+                    int transaction_id = results.getInt("transaction_id");
+                    int fine_amount = results.getInt("fine_amount");
+                    String fine_status = results.getString("fine_status");
+                    all_fines.add(new Fine(fine_id, transaction_id, fine_amount, fine_status));
+                }
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return all_fines;
     }
 
     public void addFine(Fine new_fine){
@@ -599,7 +885,7 @@ public class Database {
     }
 
     public void addFine(int fine_id, int transaction_id, int amount, String status) {
-        String sql = "INSERT INTO fines (fine_id, transaction_id, amount, status) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO fines (fine_id, transaction_id, fine_amount, fine_status) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = this.connect()) {
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -635,7 +921,7 @@ public class Database {
             if (rows_affected > 0) {
                 System.out.println("Fine status changed successfully.");
             } else {
-                System.out.println("Failed to change fine availability.");
+                System.out.println("Failed to change fine status.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
