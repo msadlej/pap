@@ -83,7 +83,7 @@ public class Database {
     public List<String[]> selectBooks(String title_key, String author_key, String genre_key) {
         List<String[]> book_list = new ArrayList<>();
 
-        String query = "SELECT * FROM books WHERE title LIKE ? AND author LIKE ? AND genre LIKE ?";
+        String sql = "SELECT * FROM books WHERE title LIKE ? AND author LIKE ? AND genre LIKE ?";
 
         if (!title_key.equals("%")) {
             title_key = "%" + title_key + "%";
@@ -96,7 +96,7 @@ public class Database {
         }
 
         try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(query)){
+             PreparedStatement statement = conn.prepareStatement(sql)){
 
             statement.setString(1, title_key);
             statement.setString(2, author_key);
@@ -139,11 +139,11 @@ public class Database {
     }
 
     public Book selectBookObject(int book_id) {
-        String query = "SELECT * FROM books WHERE book_id = ?";
+        String sql = "SELECT * FROM books WHERE book_id = ?";
         Book selected_book = null;
 
         try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(query)){
+             PreparedStatement statement = conn.prepareStatement(sql)){
 
             statement.setInt(1, book_id);
 
@@ -162,6 +162,35 @@ public class Database {
             e.printStackTrace();
         }
         return selected_book;
+    }
+
+    public List<Book> findBorrowedBooks(int user_id) {
+        List<Book> borrowed_books = new ArrayList<>();
+        String sql = "SELECT books.book_id, books.title, books.author, books.genre, books.publish_date " +
+                "FROM books " +
+                "JOIN copies ON books.book_id = copies.book_id " +
+                "JOIN orders ON copies.copy_id = orders.copy_id " +
+                "WHERE orders.user_id = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)){
+            statement.setInt(1, user_id);
+
+            try(ResultSet results = statement.executeQuery()){
+                while (results.next()) {
+                    int book_id = results.getInt("book_id");
+                    String title = results.getString("title");
+                    String author = results.getString("author");
+                    String genre = results.getString("genre");
+                    String publish_date = results.getString("publish_date");
+                    borrowed_books.add(new Book(book_id, title, author, genre, publish_date));
+                }
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return borrowed_books;
     }
 
     public void removeBook(int book_id) {
@@ -263,10 +292,10 @@ public class Database {
 
     boolean copyAvailableBook(int book_id){
 
-        String query = "SELECT COUNT(*) FROM copies WHERE book_id = ? AND available = true";
+        String sql = "SELECT COUNT(*) FROM copies WHERE book_id = ? AND available = true";
 
         try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(query)){
+             PreparedStatement statement = conn.prepareStatement(sql)){
 
             statement.setInt(1, book_id);
 
