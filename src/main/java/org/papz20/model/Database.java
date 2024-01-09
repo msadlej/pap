@@ -646,4 +646,32 @@ public class Database {
         int fine_id = target_fine.getId();
         setAvailableCopy(fine_id, new_status);
     }
+
+    public List<Fine> viewFines(int user_id) {
+        List<Fine> fines = new ArrayList<>();
+        String sql = "SELECT fines.fine_id, fines.transaction_id, fines.fine_amount, fines.fine_status " +
+                "FROM fines " +
+                "JOIN transactions ON fines.transaction_id = transactions.transaction_id " +
+                "WHERE transactions.user_id = ?";
+
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, user_id);
+
+            try(ResultSet results = statement.executeQuery()){
+                while (results.next()) {
+                    int fine_id = results.getInt("fine_id");
+                    int transaction_id = results.getInt("transaction_id");
+                    int fine_amount = results.getInt("fine_amount");
+                    String fine_status = results.getString("fine_status");
+                    fines.add(new Fine(fine_id, transaction_id, fine_amount, fine_status));
+                }
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return fines;
+    }
 }
