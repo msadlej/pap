@@ -138,6 +138,32 @@ public class Database {
         return book_list;
     }
 
+    public Book selectBookObject(int book_id) {
+        String query = "SELECT * FROM books WHERE book_id = ?";
+        Book selected_book = null;
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(query)){
+
+            statement.setInt(1, book_id);
+
+            try (ResultSet results = statement.executeQuery()){
+                if (results.next()) {
+                    book_id = results.getInt("book_id");
+                    String title = results.getString("title");
+                    String author = results.getString("author");
+                    String genre = results.getString("genre");
+                    String publish_date = results.getString("publish_date");
+                    selected_book = new Book(book_id, title, author, genre, publish_date);
+                }
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return selected_book;
+    }
+
     public void removeBook(int book_id) {
         String sql = "DELETE FROM books WHERE book_id = ?";
 
