@@ -79,6 +79,23 @@ public class Database {
         return id_name;
     }
 
+    public int getRowCount(String tableName) {
+        String sql = "SELECT COUNT(*) FROM " + tableName;
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql);
+             ResultSet result = statement.executeQuery()) {
+
+            if (result.next()) {
+                return result.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     ///part: Book
     public List<String[]> selectBooks(String title_key, String author_key, String genre_key) {
         List<String[]> book_list = new ArrayList<>();
