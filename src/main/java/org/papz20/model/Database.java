@@ -548,4 +548,13 @@ public class Database {
             System.out.println("Failed to fetch user data.");
         return result_user;
     }
-}
+
+    ///part: Order
+
+    public void addOrder(Order new_order){
+        int order_id = new_order.getId();
+    }
+
+    public void addOrder(){
+
+    }
