@@ -3,6 +3,7 @@ package main.java.org.papz20.services;
 import main.java.org.papz20.model.Database;
 import main.java.org.papz20.model.Book;
 import java.sql.SQLException;
+import java.util.List;
 
 public class BookService {
     private Database database;
@@ -27,5 +28,9 @@ public class BookService {
 
     private void removeBook(int bookId) {
         database.removeBook(bookId);
+    }
+
+    public List<Book> findBorrowedBooks(int user_id) {
+        return database.findBorrowedBooks(user_id);
     }
 }
