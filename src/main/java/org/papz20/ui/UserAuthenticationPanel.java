@@ -15,6 +15,8 @@ public class UserAuthenticationPanel extends JPanel {
     private final CardLayout main_card_layout;
     private AuthenticationService authentication_service;
     private CreateAccountService create_account_service;
+    int user_id;
+
 
     public UserAuthenticationPanel() {
         main_card_panel = new JPanel();
@@ -24,6 +26,7 @@ public class UserAuthenticationPanel extends JPanel {
         add(main_card_panel, BorderLayout.CENTER);
         authentication_service = new AuthenticationService();
         create_account_service = new CreateAccountService();
+        user_id = -1;
     }
 
     public void init(ActionListener on_login) {
@@ -42,9 +45,9 @@ public class UserAuthenticationPanel extends JPanel {
                     login_panel.showMessage("Missing username or password!");
                     return;
                 }
-                Integer isAuthenticated = authentication_service.authenticateUser(username, password);
+                user_id = authentication_service.authenticateUser(username, password);
                 login_panel.clearPasswordField();
-                if (isAuthenticated.equals(-1)) {
+                if (user_id == -1) {
                     login_panel.showMessage("Invalid username or password!");
                 } else {
                     on_login.actionPerformed(e);
@@ -100,5 +103,13 @@ public class UserAuthenticationPanel extends JPanel {
         };
         create_account_panel = new CreateAccountPanel(account_creation_listener, back_listener);
         main_card_panel.add(create_account_panel, "CreateAccount");
+    }
+
+    public int getUserId() {
+        return user_id;
+    }
+
+    public void resetUserId() {
+        user_id = -1;
     }
 }
