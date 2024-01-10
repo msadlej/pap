@@ -1025,6 +1025,31 @@ public class Database {
         return late_transactions;
     }
 
+    public List<Transaction> getUserTransactions(int user_id) {
+        List<Transaction> user_transactions = new ArrayList<>();
+        String sql = "SELECT * FROM transactions WHERE user_id = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)){
+            statement.setInt(1, user_id);
+
+            ResultSet results = statement.executeQuery();
+            while (results.next()) {
+                int transaction_id = results.getInt("transaction_id");
+                int order_id = results.getInt("order_id");
+                int copy_id = results.getInt("copy_id");
+                String status = results.getString("transaction_status");
+                String checkout_date = results.getString("checkout_date");
+                String due_date = results.getString("due_date");
+                user_transactions.add(new Transaction(transaction_id, order_id, user_id, copy_id, checkout_date, due_date, status));
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return user_transactions;
+    }
+
     ///part: Fine
     public Fine fetchFine(int fine_id){
         String sql = "SELECT * FROM fines WHERE fine_id = ?";
