@@ -4,7 +4,6 @@ import main.java.org.papz20.model.Database;
 import main.java.org.papz20.model.User;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,9 +17,14 @@ public class Workspace extends JPanel {
     private BookSearchPanel search;
     private JButton my_books_select;
     private MyBooksPanel my_books;
-    private JButton my_account_select;
+    private JButton my_penalties_select;
+    private JButton lend_book_select;
+    private JButton collect_fines_select;
+    private JButton manage_members_select;
     private JButton logOut;
     private JLabel username_field;
+
+
     private User user;
 
 
@@ -42,7 +46,13 @@ public class Workspace extends JPanel {
         selectBookSearch();
     }
 
-    public void setUser(int user_id) {
+    public void login(int user_id) {
+        setUser(user_id);
+        setFunctionalities();
+        my_books.load_data(user_id);
+    }
+
+    private void setUser(int user_id) {
         Database db = new Database();
         user = db.fetchUser(user_id);
         username_field.setText(user.getUsername());
@@ -86,10 +96,22 @@ public class Workspace extends JPanel {
         logOut.addActionListener(logout_listener);
     }
 
+    private void setFunctionalities() {
+        if (user.getRole().equals("admin")) {
+            lend_book_select.setVisible(true);
+            collect_fines_select.setVisible(true);
+            manage_members_select.setVisible(true);
+        } else {
+            lend_book_select.setVisible(false);
+            collect_fines_select.setVisible(false);
+            manage_members_select.setVisible(false);
+        }
+    }
+
     private void enable_buttons() {
         search_select.setEnabled(true);
         my_books_select.setEnabled(true);
-        my_account_select.setEnabled(true);
+        my_penalties_select.setEnabled(true);
     }
 
     private void selectBookSearch() {
