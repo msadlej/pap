@@ -413,15 +413,14 @@ public class Database {
             PreparedStatement statement = conn.prepareStatement(sql)){
 
             statement.setInt(1, copy_id);
+            ResultSet results = statement.executeQuery();
 
-            try (ResultSet results = statement.executeQuery()){
-                if (results.next()) {
-                    copy_id = results.getInt("copy_id");
-                    int book_id = results.getInt("book_id");
-                    boolean available = results.getBoolean("available");
+            if (results.next()) {
+                copy_id = results.getInt("copy_id");
+                int book_id = results.getInt("book_id");
+                boolean available = results.getBoolean("available");
 
-                    selected_copy = new Copy(copy_id, book_id, available);
-                }
+                selected_copy = new Copy(copy_id, book_id, available);
             }
         }
         catch (SQLException e){
