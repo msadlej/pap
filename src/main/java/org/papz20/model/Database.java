@@ -374,8 +374,8 @@ public class Database {
                 penalty_book_id = results.getInt("book_id");
                 return penalty_book_id;
             }
-
-        }catch (SQLException e){
+        }
+        catch (SQLException e){
             e.printStackTrace();
         }
         return -1;
