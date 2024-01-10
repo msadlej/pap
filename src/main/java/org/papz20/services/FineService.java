@@ -13,12 +13,12 @@ public class FineService {
         database.addFine(fine);
     }
 
-    public void addFine(int fine_id, int transaction_id, int amount, String status) {
-        database.addFine(fine_id, transaction_id, amount, status);
+    public void addFine(int fine_id, int transaction_id, int amount) {
+        database.addFine(fine_id, transaction_id, amount, "unpaid");
     }
 
-    public void addFine(int transaction_id, int amount, String status) {
-        database.addFine(transaction_id, amount, status);
+    public void addFine(int transaction_id, int amount) {
+        database.addFine(transaction_id, amount, "unpaid");
     }
 
     public void setFineStatus(int fine_id, String new_status) throws IllegalArgumentException{
