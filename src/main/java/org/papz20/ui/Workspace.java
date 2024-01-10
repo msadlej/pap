@@ -22,6 +22,7 @@ public class Workspace extends JPanel {
     private JButton lend_book_select;
     private LendBooks lend_books;
     private JButton collect_fines_select;
+    private CollectFines collect_fines;
     private JButton manage_members_select;
     private JButton logOut;
     private JLabel username_field;
@@ -50,6 +51,9 @@ public class Workspace extends JPanel {
         // init LendBooks
         lend_books = new LendBooks();
 
+        // init CollectFines
+        collect_fines = new CollectFines();
+
         // Set Search as starting view
         selectBookSearch();
     }
@@ -67,6 +71,7 @@ public class Workspace extends JPanel {
         initMyBooks();
         initMyPenalties();
         initLendBooks();
+        initCollectFines();
     }
 
     private void initBookSearch() {
@@ -113,6 +118,17 @@ public class Workspace extends JPanel {
         workspace_panel.add(lend_books, "lendBooks");
     }
 
+    private void initCollectFines() {
+        ActionListener collect_fines_select_listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectCollectFines();
+            }
+        };
+        collect_fines_select.addActionListener(collect_fines_select_listener);
+        workspace_panel.add(collect_fines, "collectFines");
+    }
+
     private void initLogout(ActionListener on_logout) {
         ActionListener logout_listener = new ActionListener() {
             @Override
@@ -147,6 +163,7 @@ public class Workspace extends JPanel {
         my_books_select.setEnabled(true);
         my_penalties_select.setEnabled(true);
         lend_book_select.setEnabled(true);
+        collect_fines_select.setEnabled(true);
     }
 
     private void selectBookSearch() {
@@ -171,5 +188,11 @@ public class Workspace extends JPanel {
         enable_buttons();
         lend_book_select.setEnabled(false);
         workspace_layout.show(workspace_panel, "lendBooks");
+    }
+
+    private void selectCollectFines() {
+        enable_buttons();
+        collect_fines_select.setEnabled(false);
+        workspace_layout.show(workspace_panel, "collectFines");
     }
 }
