@@ -21,16 +21,16 @@ public class BookService {
         database.addBook(title, author, genre, publishDate);
     }
 
-    public void removeBook(Book book) {
-        removeBook(book.getId());
-    }
-
     public void removeBook(int bookId) throws IllegalArgumentException{
         if (database.fetchBook(bookId) != null) {
             database.removeBook(bookId);
         } else {
             throw new IllegalArgumentException("Book does not exist.");
         }
+    }
+
+    public void removeBook(Book book) {
+        removeBook(book.getId());
     }
 
     public List<Book> findBorrowedBooks(int user_id) {
