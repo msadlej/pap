@@ -24,6 +24,7 @@ public class Workspace extends JPanel {
     private JButton collect_fines_select;
     private CollectFines collect_fines;
     private JButton manage_members_select;
+    private ManageMembers manage_members;
     private JButton logOut;
     private JLabel username_field;
 
@@ -54,6 +55,9 @@ public class Workspace extends JPanel {
         // init CollectFines
         collect_fines = new CollectFines();
 
+        // init ManageMember
+        manage_members = new ManageMembers();
+
         // Set Search as starting view
         selectBookSearch();
     }
@@ -62,6 +66,7 @@ public class Workspace extends JPanel {
         setUser(user_id);
         setFunctionalities();
         my_books.load_data(user_id);
+        my_penalties.load_penalties(user_id);
         selectBookSearch();
     }
 
@@ -72,7 +77,9 @@ public class Workspace extends JPanel {
         initMyPenalties();
         initLendBooks();
         initCollectFines();
+        initManageMembers();
     }
+
 
     private void initBookSearch() {
         ActionListener search_select_listener = new ActionListener() {
@@ -129,6 +136,17 @@ public class Workspace extends JPanel {
         workspace_panel.add(collect_fines, "collectFines");
     }
 
+    private void initManageMembers() {
+        ActionListener manage_members_listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectManageMembers();
+            }
+        };
+        manage_members_select.addActionListener(manage_members_listener);
+        workspace_panel.add(manage_members, "manageMembers");
+    }
+
     private void initLogout(ActionListener on_logout) {
         ActionListener logout_listener = new ActionListener() {
             @Override
@@ -164,6 +182,7 @@ public class Workspace extends JPanel {
         my_penalties_select.setEnabled(true);
         lend_book_select.setEnabled(true);
         collect_fines_select.setEnabled(true);
+        manage_members_select.setEnabled(true);
     }
 
     private void selectBookSearch() {
@@ -194,5 +213,11 @@ public class Workspace extends JPanel {
         enable_buttons();
         collect_fines_select.setEnabled(false);
         workspace_layout.show(workspace_panel, "collectFines");
+    }
+
+    private void selectManageMembers() {
+        enable_buttons();
+        manage_members_select.setEnabled(false);
+        workspace_layout.show(workspace_panel, "manageMembers");
     }
 }

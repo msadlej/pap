@@ -27,9 +27,9 @@ public class MyPenalties extends JPanel {
     public void load_penalties(int user_id) {
         penalties_model.setRowCount(0); // delete existing data
         Database db = new Database();
-        List<Fine> fines = db.getAllFines();
+        List<Fine> user_fines = db.viewFines(user_id);
         int total = 0;
-        for (Fine fine : fines) {
+        for (Fine fine : user_fines) {
             if (fine.getStatus().equals("unpaid")) {
                 total += fine.getAmount();
                 penalties_model.addRow(new String[]{String.valueOf(fine.getAmount()), fine.getStatus()}); // add new data
