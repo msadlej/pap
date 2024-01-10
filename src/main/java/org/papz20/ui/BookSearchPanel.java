@@ -9,15 +9,15 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class BookSearchPanel extends JPanel{
+    private Database database;
     private JPanel main_panel;
     private JTextField title_search;
     private JButton searchButton;
     private JTextField author_search;
     private JTextField genre_search;
     private JLabel query_report;
-    private JScrollPane query_scroll;
-
-    private Database database;
+    private JScrollPane query_scrollable;
+    private JPanel query;
 
 
     public BookSearchPanel() {
@@ -25,6 +25,8 @@ public class BookSearchPanel extends JPanel{
         database.connectDB();
         setLayout(new BorderLayout());
         add(main_panel, BorderLayout.CENTER);
+        query.setLayout(new BoxLayout(query, BoxLayout.Y_AXIS));
+
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,11 +51,12 @@ public class BookSearchPanel extends JPanel{
                 }
                 query_report.setForeground(new Color(0, 0, 0));
                 query_report.setText(String.format("Found %d titles", results.size()));
-                for (String[] book_data : results)
-                {
-                    for (String book_field: book_data) System.out.print(book_field);
-                    System.out.println();
-                }
+
+                query.removeAll();
+                query.add(new BookSearchListElement("Title", "Author", "Genre", true));
+                query.add(new BookSearchListElement("Title", "Author", "Genre", true));
+                query.add(new BookSearchListElement("Title", "Author", "Genre", true));
+                query.add(new BookSearchListElement("Title", "Author", "Genre", true));
             }
         });
     }
