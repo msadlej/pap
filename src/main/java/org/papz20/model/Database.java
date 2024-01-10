@@ -334,9 +334,7 @@ public class Database {
             e.printStackTrace();
         }
     }
-
-   public boolean copyAvailableBook(int book_id){
-
+    public boolean copyAvailableBook(int book_id){
         String sql = "SELECT COUNT(*) FROM copies WHERE book_id = ? AND available = true";
 
         try (Connection conn = this.connect();
@@ -435,6 +433,29 @@ public class Database {
 
             statement.setInt(1, getNextId("copies"));
             statement.setInt(2, new_book.getId());
+            statement.setBoolean(3, true);
+
+            int rows_affected = statement.executeUpdate();
+
+            if (rows_affected > 0) {
+                System.out.println("Copy added successfully.");
+            } else {
+                System.out.println("Failed to add copy.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addCopy(int book_id){
+        String sql = "INSERT INTO copies (copy_id, book_id, available) VALUES (?, ?, ?)";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, getNextId("copies"));
+            statement.setInt(2, book_id);
             statement.setBoolean(3, true);
 
             int rows_affected = statement.executeUpdate();
@@ -655,6 +676,22 @@ public class Database {
         return result_user;
     }
 
+    public int getUsernameId(String username){
+        String query = "SELECT user_id FROM users WHERE username = ?";
+        try (Connection connection = this.connect();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)){
+
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                return resultSet.getInt("user_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     ///part: Order
     public List<Order> getAllOrders(){
         List<Order> all_orders = new ArrayList<>();
@@ -742,6 +779,11 @@ public class Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addOrder(int user_id, int copy_id, String date, int period, String status){
+        int order_id = getNextId("orders");
+        addOrder(order_id, user_id, copy_id, date, period, status);
     }
 
     public void setOrderStatus(int order_id, String new_status){
@@ -858,6 +900,11 @@ public class Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addTransaction(int order_id, int user_id, int copy_id, String checkout_date, String due_date, String status){
+        int transaction_id = getNextId("transactions");
+        addTransaction(transaction_id, order_id, user_id, copy_id, checkout_date, due_date, status);
     }
 
     public void setTransactionStatus(int transaction_id, String new_status){
@@ -1003,6 +1050,11 @@ public class Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addFine(int transaction_id, int amount, String status) {
+        int fine_id = getNextId("fines");
+        addFine(fine_id, transaction_id, amount, status);
     }
 
     public void setFineStatus(int fine_id, String new_status){
