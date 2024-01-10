@@ -23,11 +23,15 @@ public class BookService {
     }
 
     private void removeBook(Book book) {
-        database.removeBook(book);
+        removeBook(book.getId());
     }
 
-    private void removeBook(int bookId) {
-        database.removeBook(bookId);
+    private void removeBook(int bookId) throws IllegalArgumentException{
+        if (database.selectBookObject(bookId) != null) {
+            database.removeBook(bookId);
+        } else {
+            throw new IllegalArgumentException("Book does not exist.");
+        }
     }
 
     public List<Book> findBorrowedBooks(int user_id) {
