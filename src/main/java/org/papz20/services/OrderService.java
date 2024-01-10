@@ -33,9 +33,8 @@ public class OrderService {
             return false;
         }
 
-        String dataToHash = String.valueOf(userID) + "-" + String.valueOf(copyId) + "-" + String.valueOf(bookID);
-        dataToHash += "-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-        int orderId = dataToHash.hashCode();
+
+        int orderId = database.getNextId("orders");
 
         Order order = new Order(orderId, userID, copyId, LocalDate.now().toString(), defaultPeriod, "pending");
         try {

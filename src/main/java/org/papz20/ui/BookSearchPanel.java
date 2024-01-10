@@ -4,6 +4,7 @@ import main.java.org.papz20.model.Database;
 import main.java.org.papz20.model.Book;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +26,7 @@ public class BookSearchPanel extends JPanel{
     private JButton left_button;
     private JButton right_button;
     private JLabel page_number;
+    private int curr_user_id;
 
 
     public BookSearchPanel() {
@@ -50,6 +52,21 @@ public class BookSearchPanel extends JPanel{
                 }
                 query_report.setForeground(new Color(0, 0, 0));
                 query_report.setText(String.format("Found %d titles", query_books.size()));
+            }
+        });
+
+        right_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int page_nr = Integer.parseInt(page_number.getText());
+                update_list(page_nr);
+            }
+        });
+        left_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int page_nr = Integer.parseInt(page_number.getText()) - 2;
+                update_list(page_nr);
             }
         });
     }
@@ -79,16 +96,19 @@ public class BookSearchPanel extends JPanel{
 
     private void update_list(int page_nr) {
         query.removeAll();
+        Database db = new Database();
+        db.connectDB();
         ListIterator<Book> it = query_books.subList(page_nr * 5, Math.min(query_books.size(), page_nr * 5 + 5)).listIterator();
         while (it.hasNext()) {
             Book curr_book = it.next();
-            query.add(new BookSearchListElement(curr_book.getTitle(), curr_book.getAuthor(), curr_book.getGenre(), true));
+            boolean available = db.copyAvailableBook(curr_book.getId());
+            query.add(new BookSearchListElement(curr_book, available, curr_user_id));
         }
 
         JPanel white_space = new JPanel();
         white_space.setPreferredSize(new Dimension(1, 1000));
         white_space.setOpaque(false);
-        query.add(white_space);
+        //query.add(white_space);
 
         page_number.setText(String.valueOf(page_nr + 1));
         if (page_nr == 0) {
@@ -101,5 +121,16 @@ public class BookSearchPanel extends JPanel{
         } else {
             right_button.setEnabled(true);
         }
+        // scroll to top
+        query_scrollable.getVerticalScrollBar().setValue(query_scrollable.getVerticalScrollBar().getMinimum());
+    }
+    public void setUserId(int user_id) {
+        curr_user_id = user_id;
+    }
+
+    public void clear() {
+        curr_user_id = -1;
+        query_books = null;
+        query.removeAll();
     }
 }
