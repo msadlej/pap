@@ -41,7 +41,9 @@
         <children>
           <component id="d5217" class="javax.swing.JTable" binding="fine_table">
             <constraints/>
-            <properties/>
+            <properties>
+              <fillsViewportHeight value="true"/>
+            </properties>
           </component>
         </children>
       </scrollpane>
