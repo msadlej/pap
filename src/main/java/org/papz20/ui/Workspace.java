@@ -13,7 +13,7 @@ public class Workspace extends JPanel {
     private JPanel view_panel;
     private JPanel side_panel;
     private JPanel workspace_panel;
-    private final CardLayout workspace_layout;
+    private CardLayout workspace_layout;
     private JButton search_select;
     private BookSearchPanel search;
     private JButton my_books_select;
@@ -73,7 +73,7 @@ public class Workspace extends JPanel {
             }
         };
         my_books_select.addActionListener(my_books_select_listener);
-        workspace_panel.add(search, "myBooks");
+        workspace_panel.add(my_books, "myBooks");
     }
 
     private void initLogout(ActionListener on_logout) {
