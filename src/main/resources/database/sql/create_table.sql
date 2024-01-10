@@ -1,5 +1,5 @@
 /* Create tables for the database */
-/* Uwaga: This is also a reset database script */
+/* Caution: This is also a reset database script */
 /* Do not run unless the structure of the database is changed */
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `books`;
