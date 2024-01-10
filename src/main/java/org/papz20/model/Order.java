@@ -78,10 +78,10 @@ public class Order {
     }
 
     public void setStatus(String status) {
-        if (status.equals("pending") || status.equals("approved") || status.equals("rejected")) {
+        if (status.equals("pending") || status.equals("approved") || status.equals("rejected") || status.equals("hidden")) {
             this.status = status;
         } else {
-            throw new IllegalArgumentException("Status must be either \"pending\", \"approved\", or \"rejected\".");
+            throw new IllegalArgumentException("Status must be either \"pending\", \"approved\", \"rejected\", or \"hidden\".");
         }
     }
 }
