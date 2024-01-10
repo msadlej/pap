@@ -3,12 +3,12 @@
   <grid id="27dc6" binding="view_panel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="23" y="15" width="604" height="548"/>
+      <xy x="23" y="15" width="668" height="717"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="1f26" binding="side_panel" layout-manager="GridLayoutManager" row-count="9" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="1f26" binding="side_panel" layout-manager="GridLayoutManager" row-count="15" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="20" left="15" bottom="25" right="15"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -40,19 +40,19 @@
               <text value="My Books"/>
             </properties>
           </component>
-          <component id="8da54" class="javax.swing.JButton" binding="my_account_select">
+          <component id="8da54" class="javax.swing.JButton" binding="my_penalties_select">
             <constraints>
               <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-13554349"/>
               <foreground color="-1"/>
-              <text value="My Account"/>
+              <text value="My Penalties"/>
             </properties>
           </component>
           <component id="bcd65" class="javax.swing.JButton" binding="logOut">
             <constraints>
-              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="14" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-13554349"/>
@@ -89,9 +89,62 @@
               </grid>
             </constraints>
           </vspacer>
-          <vspacer id="5ab8e">
+          <component id="4befd" class="javax.swing.JButton" binding="lend_book_select">
             <constraints>
-              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-13554349"/>
+              <foreground color="-1"/>
+              <text value="Lend Book"/>
+            </properties>
+          </component>
+          <vspacer id="68cea">
+            <constraints>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <preferred-size width="-1" height="10"/>
+              </grid>
+            </constraints>
+          </vspacer>
+          <component id="d155c" class="javax.swing.JButton" binding="collect_fines_select">
+            <constraints>
+              <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-13554349"/>
+              <foreground color="-1"/>
+              <text value="Collect Fines"/>
+            </properties>
+          </component>
+          <vspacer id="22599">
+            <constraints>
+              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <preferred-size width="-1" height="10"/>
+              </grid>
+            </constraints>
+          </vspacer>
+          <component id="542dd" class="javax.swing.JButton" binding="manage_members_select">
+            <constraints>
+              <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="147" height="15"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-13554349"/>
+              <foreground color="-1"/>
+              <text value="Manage Members"/>
+            </properties>
+          </component>
+          <vspacer id="5dfb6">
+            <constraints>
+              <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <preferred-size width="-1" height="10"/>
+              </grid>
+            </constraints>
+          </vspacer>
+          <vspacer id="10ca4">
+            <constraints>
+              <grid row="13" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
           </vspacer>
         </children>

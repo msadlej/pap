@@ -35,7 +35,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Logging in!");
-                workspace.setUser(user_authentication_panel.getUserId());
+                workspace.login(user_authentication_panel.getUserId());
                 user_authentication_panel.resetUserId();
                 main_card_layout.show(main_card_panel, "workspace");
             }
