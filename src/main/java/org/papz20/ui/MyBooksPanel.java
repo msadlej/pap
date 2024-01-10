@@ -2,6 +2,8 @@ package main.java.org.papz20.ui;
 
 import main.java.org.papz20.model.Book;
 import main.java.org.papz20.model.Database;
+import main.java.org.papz20.model.Order;
+import main.java.org.papz20.services.OrderService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -33,8 +35,10 @@ public class MyBooksPanel extends JPanel {
     public void load_data(int user_id) {
         book_model.setRowCount(0);
         Database db = new Database();
-        List<Book> borrowed_books = db.findBorrowedBooks(user_id);
-        for (Book book : borrowed_books) {
+        db.connectDB();
+
+        List<Order> orders = new OrderService().fetchUserOrders(user_id);
+        for (Order order : orders) {
             book_model.addRow(new String[]{book.getTitle(), book.getAuthor(), book.getGenre()});
         }
     }
