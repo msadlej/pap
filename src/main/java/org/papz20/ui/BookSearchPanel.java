@@ -9,15 +9,15 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class BookSearchPanel extends JPanel{
+    private Database database;
     private JPanel main_panel;
     private JTextField title_search;
-    private DefaultListModel<String> list_model;
-    private JList book_list;
     private JButton searchButton;
     private JTextField author_search;
     private JTextField genre_search;
-
-    private Database database;
+    private JLabel query_report;
+    private JScrollPane query_scrollable;
+    private JPanel query;
 
 
     public BookSearchPanel() {
@@ -25,10 +25,11 @@ public class BookSearchPanel extends JPanel{
         database.connectDB();
         setLayout(new BorderLayout());
         add(main_panel, BorderLayout.CENTER);
+        query.setLayout(new BoxLayout(query, BoxLayout.Y_AXIS));
+
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                list_model.clear();
                 String title = title_search.getText();
                 String author = author_search.getText();
                 String genre = genre_search.getText();
@@ -42,19 +43,21 @@ public class BookSearchPanel extends JPanel{
                     genre = "%";
                 }
                 List<String[]> results = database.selectBooks(title, author, genre);
+
                 if (results.isEmpty()) {
+                    query_report.setText(String.format("No titles found.", results.size()));
+                    query_report.setForeground(new Color(255, 114, 118));
                     return;
                 }
-                for (String[] book_data : results)
-                {
-                    list_model.addElement(String.join("   ", book_data[1], book_data[2], book_data[3], book_data[4]));
-                }
+                query_report.setForeground(new Color(0, 0, 0));
+                query_report.setText(String.format("Found %d titles", results.size()));
+
+                query.removeAll();
+                query.add(new BookSearchListElement("Title", "Author", "Genre", true));
+                query.add(new BookSearchListElement("Title", "Author", "Genre", true));
+                query.add(new BookSearchListElement("Title", "Author", "Genre", true));
+                query.add(new BookSearchListElement("Title", "Author", "Genre", true));
             }
         });
-    }
-
-    private void createUIComponents() {
-        list_model = new DefaultListModel<>();
-        book_list = new JList<>(list_model);
     }
 }

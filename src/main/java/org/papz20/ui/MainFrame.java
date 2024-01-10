@@ -11,34 +11,45 @@ public class MainFrame extends JFrame {
     private final JPanel main_card_panel;
     private final CardLayout main_card_layout;
     private UserAuthenticationPanel user_authentication_panel;
-    private BookSearchPanel workspace_panel;
+    private Workspace workspace;
 
     public MainFrame() {
         main_card_panel = new JPanel();
         main_card_layout = new CardLayout();
         main_card_panel.setLayout(main_card_layout);
         user_authentication_panel = new UserAuthenticationPanel();
-        workspace_panel = new BookSearchPanel();
-
+        workspace = new Workspace();
     }
+
     public void init() {
         setContentPane(main_card_panel);
         initAuthenticationPanel();
+        initWorkspace();
         main_card_panel.add(user_authentication_panel, "authentication");
+        main_card_panel.add(workspace, "workspace");
         main_card_layout.show(main_card_panel, "authentication");
-        main_card_panel.add(workspace_panel, "workspace");
     }
 
     private void initAuthenticationPanel() {
         ActionListener on_login = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Implement main panel
-                System.out.println("Switching view!");
+                System.out.println("Logging in!");
                 main_card_layout.show(main_card_panel, "workspace");
             }
         };
         user_authentication_panel.init(on_login);
+    }
+
+    private void initWorkspace() {
+        ActionListener on_logout = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Logging out!");
+                main_card_layout.show(main_card_panel, "authentication");
+            }
+        };
+        workspace.init(on_logout);
     }
 
     public static void main(String[] args) {

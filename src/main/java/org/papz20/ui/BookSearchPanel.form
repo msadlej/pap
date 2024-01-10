@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="main.java.org.papz20.ui.BookSearchPanel">
   <grid id="27dc6" binding="main_panel" layout-manager="GridLayoutManager" row-count="8" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-    <margin top="40" left="10" bottom="10" right="10"/>
+    <margin top="35" left="10" bottom="10" right="10"/>
     <constraints>
-      <xy x="7" y="3" width="756" height="703"/>
+      <xy x="7" y="3" width="748" height="654"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -31,14 +31,6 @@
         <properties>
           <text value="Book Title"/>
         </properties>
-      </component>
-      <component id="bdfda" class="javax.swing.JList" binding="book_list" custom-create="true">
-        <constraints>
-          <grid row="7" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="200" height="50"/>
-          </grid>
-        </constraints>
-        <properties/>
       </component>
       <component id="52905" class="javax.swing.JButton" binding="searchButton" default-binding="true">
         <constraints>
@@ -82,7 +74,7 @@
           <text value="Genre"/>
         </properties>
       </component>
-      <component id="a0b20" class="javax.swing.JLabel">
+      <component id="a0b20" class="javax.swing.JLabel" binding="query_report">
         <constraints>
           <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="-1" height="20"/>
@@ -92,6 +84,25 @@
           <text value=""/>
         </properties>
       </component>
+      <scrollpane id="b27cb" binding="query_scrollable">
+        <constraints>
+          <grid row="7" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <horizontalScrollBarPolicy value="31"/>
+          <verticalScrollBarPolicy value="22"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="322f2" binding="query" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints/>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+        </children>
+      </scrollpane>
     </children>
   </grid>
 </form>
