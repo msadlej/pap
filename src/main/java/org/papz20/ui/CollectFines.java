@@ -35,6 +35,7 @@ public class CollectFines extends JPanel {
         ActionListener get_fines_listener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                fine_model.setRowCount(0);
                 int user_id = Integer.parseInt(user_id_field.getText());
                 fines = new Database().viewFines(user_id);
                 int total = 0;

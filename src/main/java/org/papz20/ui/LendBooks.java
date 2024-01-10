@@ -1,7 +1,9 @@
 package main.java.org.papz20.ui;
 
+import main.java.org.papz20.model.Book;
 import main.java.org.papz20.model.Database;
 import main.java.org.papz20.model.Order;
+import main.java.org.papz20.model.User;
 import main.java.org.papz20.services.TransactionService;
 
 import javax.swing.*;
@@ -28,7 +30,7 @@ public class LendBooks extends JPanel {
         setLayout(new BorderLayout());
         add(main_panel, BorderLayout.CENTER);
         order_model = new DefaultTableModel();
-        order_model.setColumnIdentifiers(new String[]{"order_id", "user_id", "copy_id", "status"});
+        order_model.setColumnIdentifiers(new String[]{"order_id", "user_id", "username", "copy_id", "title", "status"});
         order_table.setModel(order_model);
         approve_order.setVisible(false);
         init();
@@ -72,6 +74,7 @@ public class LendBooks extends JPanel {
         ActionListener get_orders_listener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                order_model.setRowCount(0);
                 Database db = new Database();
                 db.connectDB();
                 List<Order> curr_orders = db.getAllOrders();
@@ -80,10 +83,14 @@ public class LendBooks extends JPanel {
                     if (!user_id_field.getText().isBlank() && order.getUserId() != Integer.parseInt(user_id_field.getText())) continue;
                     if (order.getStatus().equals("approved")) continue;
                     orders.add(order);
+                    Book book = db.getOrderBook(order.getId());
+                    User user = db.fetchUser(order.getUserId());
                     order_model.addRow(new String[]{
                             String.valueOf(order.getId()),
                             String.valueOf(order.getUserId()),
+                            user.getUsername(),
                             String.valueOf(order.getCopyId()),
+                            book.getTitle(),
                             order.getStatus()
                     });
                 }
