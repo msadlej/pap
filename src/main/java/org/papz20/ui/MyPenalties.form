@@ -20,7 +20,12 @@
         <children>
           <component id="28d53" class="javax.swing.JTable" binding="penalties_table">
             <constraints/>
-            <properties/>
+            <properties>
+              <enabled value="false"/>
+              <fillsViewportHeight value="true"/>
+              <showVerticalLines value="false"/>
+              <updateSelectionOnSort value="false"/>
+            </properties>
           </component>
         </children>
       </scrollpane>

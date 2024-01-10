@@ -1,6 +1,5 @@
 package main.java.org.papz20.ui;
 
-import main.java.org.papz20.model.Book;
 import main.java.org.papz20.model.Database;
 import main.java.org.papz20.model.Fine;
 
@@ -27,14 +26,19 @@ public class MyPenalties extends JPanel {
     public void load_penalties(int user_id) {
         penalties_model.setRowCount(0); // delete existing data
         Database db = new Database();
+        db.connectDB();
         List<Fine> user_fines = db.viewFines(user_id);
         int total = 0;
         for (Fine fine : user_fines) {
             if (fine.getStatus().equals("unpaid")) {
                 total += fine.getAmount();
-                penalties_model.addRow(new String[]{String.valueOf(fine.getAmount()), fine.getStatus()}); // add new data
+                int gr = fine.getAmount() % 100;
+                int zl = fine.getAmount() / 100;
+                penalties_model.addRow(new String[]{String.format("%d.%02d PLN", zl, gr), fine.getStatus()}); // add new data
             }
         }
-        penalties_total.setText(String.valueOf(total));
+        int total_gr = total % 100;
+        int total_zl = total / 100;
+        penalties_total.setText(String.format("%d.%02d PLN", total_zl, total_gr));
     }
 }
