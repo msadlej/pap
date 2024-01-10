@@ -20,6 +20,7 @@ public class Workspace extends JPanel {
     private JButton my_penalties_select;
     private MyPenalties my_penalties;
     private JButton lend_book_select;
+    private LendBooks lend_books;
     private JButton collect_fines_select;
     private JButton manage_members_select;
     private JButton logOut;
@@ -46,6 +47,9 @@ public class Workspace extends JPanel {
         // init MyPenalties
         my_penalties = new MyPenalties();
 
+        // init LendBooks
+        lend_books = new LendBooks();
+
         // Set Search as starting view
         selectBookSearch();
     }
@@ -62,6 +66,7 @@ public class Workspace extends JPanel {
         initBookSearch();
         initMyBooks();
         initMyPenalties();
+        initLendBooks();
     }
 
     private void initBookSearch() {
@@ -97,6 +102,17 @@ public class Workspace extends JPanel {
         workspace_panel.add(my_penalties, "myPenalties");
     }
 
+    private void initLendBooks() {
+        ActionListener lend_books_select_listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectLendBooks();
+            }
+        };
+        lend_book_select.addActionListener(lend_books_select_listener);
+        workspace_panel.add(lend_books, "lendBooks");
+    }
+
     private void initLogout(ActionListener on_logout) {
         ActionListener logout_listener = new ActionListener() {
             @Override
@@ -130,6 +146,7 @@ public class Workspace extends JPanel {
         search_select.setEnabled(true);
         my_books_select.setEnabled(true);
         my_penalties_select.setEnabled(true);
+        lend_book_select.setEnabled(true);
     }
 
     private void selectBookSearch() {
@@ -148,5 +165,11 @@ public class Workspace extends JPanel {
         enable_buttons();
         my_penalties_select.setEnabled(false);
         workspace_layout.show(workspace_panel, "myPenalties");
+    }
+
+    private void selectLendBooks() {
+        enable_buttons();
+        lend_book_select.setEnabled(false);
+        workspace_layout.show(workspace_panel, "lendBooks");
     }
 }
