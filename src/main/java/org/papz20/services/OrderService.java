@@ -39,6 +39,7 @@ public class OrderService {
         Order order = new Order(orderId, userID, copyId, LocalDate.now().toString(), defaultPeriod, "pending");
         try {
             database.addOrder(order);
+            database.setAvailableCopy(copyId, false);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

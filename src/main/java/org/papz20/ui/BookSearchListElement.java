@@ -41,7 +41,7 @@ public class BookSearchListElement extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new OrderService().createOrder(book.getId(), curr_user_id);
-                System.out.println("Order!");
+                ((JButton)e.getSource()).setEnabled(false);
             }
         });
     }

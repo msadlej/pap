@@ -52,6 +52,7 @@ public class BookSearchPanel extends JPanel{
                 }
                 query_report.setForeground(new Color(0, 0, 0));
                 query_report.setText(String.format("Found %d titles", query_books.size()));
+                update_list(0);
             }
         });
 
@@ -91,7 +92,6 @@ public class BookSearchPanel extends JPanel{
             genre_key = genre;
         }
         query_books = database.selectBookObjects(title_key, author_key, genre_key);
-        update_list(0);
     }
 
     private void update_list(int page_nr) {
@@ -130,7 +130,9 @@ public class BookSearchPanel extends JPanel{
 
     public void clear() {
         curr_user_id = -1;
-        query_books = null;
+        title_search.setText("");
+        author_search.setText("");
+        genre_search.setText("");
         query.removeAll();
     }
 }
