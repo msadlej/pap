@@ -7,7 +7,7 @@
     </constraints>
     <properties>
       <background color="-526087"/>
-      <maximumSize width="2147483647" height="150"/>
+      <maximumSize width="2147483647" height="2147483647"/>
       <preferredSize width="200" height="120"/>
     </properties>
     <border type="etched"/>
