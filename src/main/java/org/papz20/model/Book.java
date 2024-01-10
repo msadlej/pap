@@ -45,7 +45,7 @@ public class Book {
     }
 
     public void setTitle(String title) throws IllegalArgumentException{
-        if (!title.isEmpty() && title.length() <= 30) {
+        if (!title.isEmpty() && title.length() <= 60) {
             this.title = title;
         } else {
             throw new IllegalArgumentException("Title cannot empty or over 60 characters.");
@@ -53,7 +53,7 @@ public class Book {
     }
 
     public void setAuthor(String author) {
-        if (!author.isEmpty() && author.length() <= 30) {
+        if (!author.isEmpty() && author.length() <= 50) {
             this.author = author;
         } else {
             throw new IllegalArgumentException("Author cannot be empty or over 50 characters.");
