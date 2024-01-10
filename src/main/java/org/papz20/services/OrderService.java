@@ -39,6 +39,7 @@ public class OrderService {
         Order order = new Order(orderId, userID, copyId, LocalDate.now().toString(), defaultPeriod, "pending");
         try {
             database.addOrder(order);
+            database.setAvailableCopy(copyId, false);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,6 +66,20 @@ public class OrderService {
             }
         }
         return copies;
+    }
+
+    public boolean rejectOrder(int order_id){
+        try {
+            database.setOrderStatus(order_id, "rejected");
+            Order this_order = database.fetchOrder(order_id);
+            int copy_id = this_order.getCopyId();
+            database.setAvailableCopy(copy_id, true);
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 

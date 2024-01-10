@@ -19,7 +19,7 @@ public class ReceiveReturnedBookService {
             database.setAvailableCopy(copy_id, true);
 
             if(database.isLateTransaction(transaction_id)){
-                database.addFine(transaction_id, 100, "unpaid");
+                database.addFine(transaction_id, 100);
             }
             return true;
         }
