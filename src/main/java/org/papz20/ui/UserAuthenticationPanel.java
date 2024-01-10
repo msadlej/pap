@@ -15,7 +15,7 @@ public class UserAuthenticationPanel extends JPanel {
     private final CardLayout main_card_layout;
     private AuthenticationService authentication_service;
     private CreateAccountService create_account_service;
-    int user_id;
+    private int user_id;
 
 
     public UserAuthenticationPanel() {
