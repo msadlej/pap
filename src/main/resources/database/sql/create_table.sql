@@ -88,4 +88,7 @@ CREATE TABLE `fines`
         ON DELETE CASCADE
 );
 
-
+/* Insert admin user into the database */
+DELETE FROM users WHERE user_id = 1;
+INSERT INTO users (user_id, username, password, first_name, last_name, email, user_type)
+VALUES (1, 'admin', 'pap2023zz20', 'Admin', ' ', 'admin@library.com', 'admin');

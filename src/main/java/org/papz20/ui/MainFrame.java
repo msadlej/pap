@@ -65,6 +65,4 @@ public class MainFrame extends JFrame {
             window.setLocationRelativeTo(null);
         });
     }
-
-
 }
