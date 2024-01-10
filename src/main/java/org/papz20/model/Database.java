@@ -1078,9 +1078,9 @@ public class Database {
         }
     }
 
-    public void setFineStatus(Fine target_fine, boolean new_status){
+    public void setFineStatus(Fine target_fine, String new_status){
         int fine_id = target_fine.getId();
-        setAvailableCopy(fine_id, new_status);
+        setFineStatus(fine_id, new_status);
     }
 
     public List<Fine> viewFines(int user_id) {
