@@ -1107,7 +1107,6 @@ public class Database {
         catch (SQLException e){
             e.printStackTrace();
         }
-
         return fines;
     }
 }

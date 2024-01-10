@@ -66,6 +66,7 @@ public class Workspace extends JPanel {
         setUser(user_id);
         setFunctionalities();
         my_books.load_data(user_id);
+        my_penalties.load_penalties(user_id);
         selectBookSearch();
     }
 
