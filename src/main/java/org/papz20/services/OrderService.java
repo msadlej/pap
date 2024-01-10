@@ -82,7 +82,6 @@ public class OrderService {
         }
     }
 
-
     public boolean removeOrder(int orderID) {
         try {
             database.setOrderStatus(orderID, "hidden");
