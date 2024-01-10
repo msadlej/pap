@@ -2,6 +2,8 @@ package main.java.org.papz20.ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class BookSearchListElement extends JPanel {
     private JPanel main_panel;
@@ -25,6 +27,13 @@ public class BookSearchListElement extends JPanel {
         } else {
             book_availability.setText("Not Available");
             book_availability.setForeground(new Color(255, 156, 149));
+            orderButton.setText("Reserve");
         }
+        orderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Order!");
+            }
+        });
     }
 }
