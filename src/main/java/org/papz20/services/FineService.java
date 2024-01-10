@@ -9,28 +9,18 @@ public class FineService {
 
     public FineService() { this.database = new Database(); }
 
-    public void addFine(Fine fine) {
-        database.addFine(fine);
-    }
-
-    public void addFine(int fine_id, int transaction_id, int amount) {
-        database.addFine(fine_id, transaction_id, amount, "unpaid");
-    }
-
     public void addFine(int transaction_id, int amount) {
         database.addFine(transaction_id, amount, "unpaid");
     }
 
-    public void setFineStatus(int fine_id, String new_status) throws IllegalArgumentException{
+    public void setPaid(Fine fine) throws IllegalArgumentException{
+        int fine_id = fine.getId();
+
         if (database.fetchFine(fine_id) != null) {
-            database.setFineStatus(fine_id, new_status);
+            database.setFineStatus(fine_id, "paid");
         } else {
             throw new IllegalArgumentException("Fine does not exist.");
         }
-    }
-
-    public void setFineStatus(Fine target_fine, String new_status){
-        setFineStatus(target_fine.getId(), new_status);
     }
 
     public List<Fine> viewFines(int user_id) {
