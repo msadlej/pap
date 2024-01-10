@@ -19,6 +19,7 @@ public class CollectFines extends JPanel {
     private DefaultTableModel fine_model;
     private List<Fine> fines;
     private JButton collect_fine;
+    private JLabel fine_total;
 
     public CollectFines() {
         setLayout(new BorderLayout());
@@ -36,6 +37,7 @@ public class CollectFines extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int user_id = Integer.parseInt(user_id_field.getText());
                 fines = new Database().viewFines(user_id);
+                int total = 0;
                 for (Fine fine : fines) {
                     int gr = fine.getAmount() % 100;
                     int zl = fine.getAmount() / 100;
@@ -46,7 +48,13 @@ public class CollectFines extends JPanel {
                                     fine.getStatus()
                             }
                     );
+                    if (fine.getStatus().equals("unpaid")) {
+                        total += fine.getAmount();
+                    }
                 }
+                int total_gr = total % 100;
+                int total_zl = total / 100;
+                fine_total.setText(String.format("%d.%02d PLN", total_zl, total_gr));
             }
         };
         get_fines.addActionListener(get_fines_listener);
