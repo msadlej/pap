@@ -4,8 +4,6 @@ import main.java.org.papz20.model.Book;
 import main.java.org.papz20.model.Database;
 import main.java.org.papz20.model.Order;
 import main.java.org.papz20.model.Transaction;
-import main.java.org.papz20.services.OrderService;
-import main.java.org.papz20.services.TransactionService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
