@@ -381,6 +381,31 @@ public class Database {
         return -1;
     }
 
+    public Book getOrderBook(int order_id){
+        Book target_book = null;
+
+        String sql = "SELECT books.book_id " +
+                "FROM orders "  +
+                "JOIN copies ON orders.copy_id = copies.copy_id " +
+                "JOIN books on copies.book_id = books.book_id " +
+                "WHERE orders.order_id = ?";
+
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, order_id);
+
+            ResultSet results = statement.executeQuery();
+            if (results.next()) {
+                int order_book_id = results.getInt("book_id");
+                target_book = fetchBook(order_book_id);
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return target_book;
+    }
+
     ///part: Copy
     public List<Copy> getAllCopies(){
         List<Copy> all_copies = new ArrayList<>();
