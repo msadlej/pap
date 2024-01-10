@@ -27,6 +27,7 @@ public class TransactionService {
 
             this_transaction = new Transaction(transaction_id, order_id, user_id, copy_id, checkout_date, due_date, "checked out");
             database.addTransaction(this_transaction);
+            database.setOrderStatus(order_id, "approved");
         }catch (Exception e){
             e.printStackTrace();
         }
