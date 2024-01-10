@@ -354,6 +354,33 @@ public class Database {
         return false;
     }
 
+    public int getPenaltyBookId(int penalty_id){
+        int penalty_book_id;
+
+        String sql = "SELECT books.book_id " +
+                "FROM fines " +
+                "JOIN transactions ON fines.transaction_id = transactions.transaction_id " +
+                "JOIN orders ON transactions.order_id = orders.order_id " +
+                "JOIN copies ON orders.copy_id = copies.copy_id " +
+                "JOIN books on copies.book_id = books.book_id " +
+                "WHERE fines.fine_id = ?";
+
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, penalty_id);
+
+            ResultSet results = statement.executeQuery();
+            if (results.next()) {
+                penalty_book_id = results.getInt("book_id");
+                return penalty_book_id;
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     ///part: Copy
     public List<Copy> getAllCopies(){
         List<Copy> all_copies = new ArrayList<>();
