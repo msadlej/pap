@@ -1108,6 +1108,11 @@ public class Database {
         addFine(fine_id, transaction_id, amount, status);
     }
 
+    public void addFine(int transaction_id, int amount) {
+        int fine_id = getNextId("fines");
+        addFine(fine_id, transaction_id, amount, "unpaid");
+    }
+
     public void setFineStatus(int fine_id, String new_status){
         String sql = "UPDATE fines SET fine_status = ? WHERE fine_id = ?";
 
