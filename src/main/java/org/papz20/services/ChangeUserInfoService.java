@@ -14,24 +14,8 @@ public class ChangeUserInfoService {
         this.database = new Database();
     }
 
-    private int getUsernameId(String username){
-        String query = "SELECT user_id FROM users WHERE username = ?";
-        try (Connection connection = database.connectDB();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)){
-
-            preparedStatement.setString(1, username);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
-                return resultSet.getInt("user_id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return -1;
-    }
-
     public boolean ChangeUserPassword(String username, String new_password){
-        int user_id = getUsernameId(username);
+        int user_id = database.getUsernameId(username);
         try{
             User target_user = database.fetchUser(user_id);
             target_user.setPassword(new_password);
@@ -42,7 +26,7 @@ public class ChangeUserInfoService {
         }
     }
     public boolean ChangeUserUsername(String old_username, String new_username){
-        int user_id = getUsernameId(old_username);
+        int user_id = database.getUsernameId(old_username);
         try{
             User target_user = database.fetchUser(user_id);
             target_user.setUsername(new_username);
@@ -54,7 +38,7 @@ public class ChangeUserInfoService {
     }
 
     public boolean ChangeUserFirstName(String username, String new_first_name){
-        int user_id = getUsernameId(username);
+        int user_id = database.getUsernameId(username);
         try{
             User target_user = database.fetchUser(user_id);
             target_user.setFirstName(new_first_name);
@@ -66,7 +50,7 @@ public class ChangeUserInfoService {
     }
 
     public boolean ChangeUserLastName(String username, String new_last_name){
-        int user_id = getUsernameId(username);
+        int user_id = database.getUsernameId(username);
         try{
             User target_user = database.fetchUser(user_id);
             target_user.setLastName(new_last_name);
@@ -78,7 +62,7 @@ public class ChangeUserInfoService {
     }
 
     public boolean ChangeUserEmail(String username, String new_email){
-        int user_id = getUsernameId(username);
+        int user_id = database.getUsernameId(username);
         try{
             User target_user = database.fetchUser(user_id);
             target_user.setEmail(new_email);
