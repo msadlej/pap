@@ -92,4 +92,15 @@ public class OrderService {
             return false;
         }
     }
+
+    public boolean getAllOrders() {
+        try {
+            database.getAllOrders();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
