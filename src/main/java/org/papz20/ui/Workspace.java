@@ -18,6 +18,7 @@ public class Workspace extends JPanel {
     private JButton my_books_select;
     private MyBooksPanel my_books;
     private JButton my_penalties_select;
+    private MyPenalties my_penalties;
     private JButton lend_book_select;
     private JButton collect_fines_select;
     private JButton manage_members_select;
@@ -42,6 +43,9 @@ public class Workspace extends JPanel {
         // init MyBooksPanel
         my_books = new MyBooksPanel();
 
+        // init MyPenalties
+        my_penalties = new MyPenalties();
+
         // Set Search as starting view
         selectBookSearch();
     }
@@ -50,18 +54,14 @@ public class Workspace extends JPanel {
         setUser(user_id);
         setFunctionalities();
         my_books.load_data(user_id);
-    }
-
-    private void setUser(int user_id) {
-        Database db = new Database();
-        user = db.fetchUser(user_id);
-        username_field.setText(user.getUsername());
+        selectBookSearch();
     }
 
     public void init(ActionListener on_logout) {
         initLogout(on_logout);
         initBookSearch();
         initMyBooks();
+        initMyPenalties();
     }
 
     private void initBookSearch() {
@@ -86,6 +86,17 @@ public class Workspace extends JPanel {
         workspace_panel.add(my_books, "myBooks");
     }
 
+    private void initMyPenalties() {
+        ActionListener my_penalties_select_listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectMyPenalties();
+            }
+        };
+        my_penalties_select.addActionListener(my_penalties_select_listener);
+        workspace_panel.add(my_penalties, "myPenalties");
+    }
+
     private void initLogout(ActionListener on_logout) {
         ActionListener logout_listener = new ActionListener() {
             @Override
@@ -94,6 +105,13 @@ public class Workspace extends JPanel {
             }
         };
         logOut.addActionListener(logout_listener);
+    }
+
+
+    private void setUser(int user_id) {
+        Database db = new Database();
+        user = db.fetchUser(user_id);
+        username_field.setText(user.getUsername());
     }
 
     private void setFunctionalities() {
@@ -124,5 +142,11 @@ public class Workspace extends JPanel {
         enable_buttons();
         my_books_select.setEnabled(false);
         workspace_layout.show(workspace_panel, "myBooks");
+    }
+
+    private void selectMyPenalties() {
+        enable_buttons();
+        my_penalties_select.setEnabled(false);
+        workspace_layout.show(workspace_panel, "myPenalties");
     }
 }
