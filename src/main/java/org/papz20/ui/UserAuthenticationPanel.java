@@ -48,6 +48,8 @@ public class UserAuthenticationPanel extends JPanel {
                     on_login.actionPerformed(e);
                 } else {
                     login_panel.showMessage("Invalid username or password!");
+                } else {
+                    on_login.actionPerformed(e);
                 }
             }
         };
