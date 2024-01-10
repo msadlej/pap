@@ -67,6 +67,7 @@ public class CollectFines extends JPanel {
                 for (Fine fine : fines) {
                     service.setPaid(fine);
                     fine_model.setValueAt("paid", i++, 2);
+                    fine_total.setText(String.format("0.00 PLN"));
                 }
             }
         };
