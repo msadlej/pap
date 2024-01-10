@@ -1,6 +1,5 @@
 package main.java.org.papz20.model;
 
-import javax.swing.plaf.basic.BasicTreeUI;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -832,6 +831,10 @@ public class Database {
         }
     }
 
+    public void addOrder(int user_id, int copy_id, String date, int period){
+        addOrder(user_id, copy_id, date, period, "pending");
+    }
+
     public void addOrder(int user_id, int copy_id, String date, int period, String status){
         int order_id = getNextId("orders");
         addOrder(order_id, user_id, copy_id, date, period, status);
@@ -990,13 +993,12 @@ public class Database {
             PreparedStatement statement = conn.prepareStatement(sql)) {
 
             statement.setInt(1, transaction_id);
+            ResultSet results = statement.executeQuery();
 
-            try(ResultSet results = statement.executeQuery()){
-                if (results.next()) {
-                    LocalDate due_date = LocalDate.parse(results.getString("due_date"));
-                    LocalDate current_date = LocalDate.now();
-                    return current_date.isAfter(due_date);
-                }
+            if (results.next()) {
+                LocalDate due_date = LocalDate.parse(results.getString("due_date"));
+                LocalDate current_date = LocalDate.now();
+                return current_date.isAfter(due_date);
             }
         }
         catch (SQLException e){
