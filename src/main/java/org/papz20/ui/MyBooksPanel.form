@@ -36,6 +36,7 @@
             <properties>
               <enabled value="false"/>
               <fillsViewportHeight value="true"/>
+              <gridColor color="-1"/>
               <intercellSpacing width="1" height="3"/>
               <showHorizontalLines value="true"/>
               <showVerticalLines value="false"/>
@@ -56,6 +57,7 @@
             <properties>
               <enabled value="false"/>
               <fillsViewportHeight value="true"/>
+              <gridColor color="-1"/>
               <intercellSpacing width="1" height="3"/>
               <showVerticalLines value="false"/>
               <updateSelectionOnSort value="false"/>
