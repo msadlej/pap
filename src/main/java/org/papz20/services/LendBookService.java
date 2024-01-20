@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
 
 public class LendBookService {
-    private Database database;
+    private final Database database;
 
     public LendBookService() { this.database = new Database(); }
 

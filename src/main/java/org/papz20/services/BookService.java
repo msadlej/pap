@@ -5,7 +5,7 @@ import main.java.org.papz20.model.Book;
 import java.util.List;
 
 public class BookService {
-    private Database database;
+    private final Database database;
 
     public BookService() { this.database = new Database(); }
 

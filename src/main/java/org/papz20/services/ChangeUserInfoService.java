@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 
 public class ChangeUserInfoService {
-    private Database database;
+    private final Database database;
 
     public ChangeUserInfoService() {
         this.database = new Database();

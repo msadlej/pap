@@ -5,7 +5,7 @@ import main.java.org.papz20.model.User;
 
 
 public class CreateRemoveMemberService {
-    private Database database;
+    private final Database database;
 
     public CreateRemoveMemberService() { this.database = new Database(); }
 
