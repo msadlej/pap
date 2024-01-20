@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class TransactionService {
-    private Database database;
+    private final Database database;
 
     public TransactionService() { this.database = new Database(); }
 

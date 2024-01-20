@@ -5,7 +5,7 @@ import main.java.org.papz20.model.Fine;
 import java.util.List;
 
 public class FineService {
-    private Database database;
+    private final Database database;
 
     public FineService() { this.database = new Database(); }
 

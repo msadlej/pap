@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 
 public class ChangeUserInfoService {
-    private Database database;
+    private final Database database;
 
     public ChangeUserInfoService() {
         this.database = new Database();
@@ -25,6 +25,7 @@ public class ChangeUserInfoService {
             return false;
         }
     }
+
     public boolean ChangeUserUsername(String old_username, String new_username){
         int user_id = database.getUsernameId(old_username);
         try{

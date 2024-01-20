@@ -5,10 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 public class AuthenticationService {
-    private Database database;
+    private final Database database;
+
     public AuthenticationService() {
         this.database = new Database();
     }
+
     // return user id if user is authenticated, else return -1
     public Integer authenticateUser(String username, String password) {
         String query = "SELECT * FROM users WHERE username = ? AND password = ?";
@@ -30,6 +32,7 @@ public class AuthenticationService {
             return -1;
         }
     }
+
     public boolean changePassword(String username, String oldPassword, String newPassword) {
         String query = "UPDATE users SET password = ? WHERE username = ? AND password = ?";
         try (

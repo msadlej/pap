@@ -4,7 +4,7 @@ import main.java.org.papz20.model.Database;
 import main.java.org.papz20.model.Transaction;
 
 public class ReceiveReturnedBookService {
-    private Database database;
+    private final Database database;
 
     public ReceiveReturnedBookService() { this.database = new Database(); }
 

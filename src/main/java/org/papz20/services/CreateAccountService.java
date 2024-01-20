@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CreateAccountService {
-    private Database database;
+    private final Database database;
 
     public CreateAccountService() {
         this.database = new Database();

@@ -33,7 +33,6 @@ public class OrderService {
             return false;
         }
 
-
         int orderId = database.getNextId("orders");
 
         Order order = new Order(orderId, userID, copyId, LocalDate.now().toString(), defaultPeriod, "pending");
@@ -50,21 +49,13 @@ public class OrderService {
     //fetches all orders with a specific user id using database.getAllOrders()
     public List<Order> fetchUserOrders(int user_id) {
         List <Order> orders = database.getAllOrders();
-        for (Order order : orders) {
-            if (order.getUserId() != user_id) {
-                orders.remove(order);
-            }
-        }
+        orders.removeIf(order -> order.getUserId() != user_id);
         return orders;
     }
 
     public List<Copy> fetchBookCopies(int book_id) {
         List <Copy> copies = database.getAllCopies();
-        for (Copy copy : copies) {
-            if (copy.getBookId() != book_id) {
-                copies.remove(copy);
-            }
-        }
+        copies.removeIf(copy -> copy.getBookId() != book_id);
         return copies;
     }
 
