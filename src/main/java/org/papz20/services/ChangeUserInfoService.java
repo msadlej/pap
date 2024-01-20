@@ -25,6 +25,7 @@ public class ChangeUserInfoService {
             return false;
         }
     }
+
     public boolean ChangeUserUsername(String old_username, String new_username){
         int user_id = database.getUsernameId(old_username);
         try{
