@@ -5,6 +5,7 @@ import main.java.org.papz20.model.Database;
 import main.java.org.papz20.model.Transaction;
 import main.java.org.papz20.model.User;
 import main.java.org.papz20.services.BookService;
+import main.java.org.papz20.services.ReceiveReturnedBookService;
 import main.java.org.papz20.services.TransactionService;
 
 import javax.swing.*;
@@ -39,29 +40,41 @@ public class ReturnBooks extends JPanel {
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                clear();
                 TransactionService transactionService = new TransactionService();
                 int copy_id;
                 if (copy_field.getText().isBlank()) {
-                    clear();
                     select_message.setText("Field is empty!");
                     return;
                 }
                 try {
                     copy_id = Integer.parseInt(copy_field.getText());
                 } catch (NumberFormatException exception) {
-                    clear();
                     select_message.setText("Not a copy id!");
                     return;
                 }
                 transaction = transactionService.getBookTransaction(copy_id);
                 if (transaction == null) {
-                    clear();
                     select_message.setText("No book found!");
                     return;
                 }
-                borrowed_book = new Database().getOrderBook(transaction.getCopyId());
-                borrower = new Database().fetchUser(transaction.getUserId());
+                Database db = new Database();
+                borrowed_book = db.fetchBook(db.fetchCopy(transaction.getCopyId()).getBookId());
+                borrower = db.fetchUser(transaction.getUserId());
                 show_info();
+            }
+        });
+        return_book.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (transaction == null) {
+                    return;
+                }
+                ReceiveReturnedBookService rrbs = new ReceiveReturnedBookService();
+                rrbs.receiveReturnedBook(transaction.getId());
+                transaction = null;
+                return_book.setEnabled(false);
+                message.setText("Book successfully returned!");
             }
         });
         clear();
@@ -75,12 +88,13 @@ public class ReturnBooks extends JPanel {
     private void show_info() {
         book_panel.setVisible(true);
         return_book.setVisible(true);
+        return_book.setEnabled(true);
         book_title.setText(borrowed_book.getTitle());
         book_author.setText(borrowed_book.getAuthor());
         book_genre.setText(borrowed_book.getGenre());
         borrowed_date.setText(String.format("Borrowed: %s", transaction.getCheckoutDate()));
         return_date.setText(String.format("Return Date: %s", transaction.getDueDate()));
         borrower_name.setText(String.format("Borrower: %s", borrower.getUsername()));
-        borrower_id.setText(String.valueOf(borrower.getId()));
+        borrower_id.setText(String.format("Borrower's id: %d", borrower.getId()));
     }
 }
