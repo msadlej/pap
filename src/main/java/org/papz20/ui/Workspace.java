@@ -163,7 +163,9 @@ public class Workspace extends JPanel {
     private void setUser(int user_id) {
         Database db = new Database();
         user = db.fetchUser(user_id);
-        username_field.setText(user.getUsername());
+        String firstn = user.getFirstName();
+        String lastn = user.getLastName();
+        username_field.setText(firstn.substring(0, 1).toUpperCase() + firstn.substring(1) + " " + lastn.substring(0, 1).toUpperCase() + lastn.substring(1));
     }
 
     private void setFunctionalities() {
