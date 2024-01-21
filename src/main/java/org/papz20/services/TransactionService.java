@@ -44,10 +44,9 @@ public class TransactionService {
     public Transaction getBookTransaction(int copy_id){
         Transaction target_transaction = null;
 
-        String sql = "SELECT transactions.transaction_id " +
-                "FROM copies " +
-                "JOIN transactions ON copies.copy_id = transactions.copy_id " +
-                "WHERE transactions.copy_id = ? AND transactions.transaction_status = 'checked out'";
+        String sql = "SELECT transaction_id " +
+                "FROM transactions " +
+                "WHERE copy_id = ? AND transaction_status = 'checked out'";
 
         try (Connection conn = database.connectDB()) {
             PreparedStatement statement = conn.prepareStatement(sql);
