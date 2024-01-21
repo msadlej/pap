@@ -22,7 +22,7 @@ public class ManageMembers extends JPanel{
     private JButton change_password;
     private JTextField new_password_field;
     private JLabel new_password_prompt;
-    private JLabel deletion_prompt;
+    private JLabel prompt;
     private User selected_user;
 
     public ManageMembers() {
@@ -34,10 +34,25 @@ public class ManageMembers extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 clear();
                 // Load data into card and set result as selected user
-                int user_id = Integer.parseInt(user_id_field.getText());
+                String user_id_str = user_id_field.getText();
+                if (user_id_str.isBlank())
+                {
+                    clear();
+                    prompt.setText("Input user id!");
+                    return;
+                }
+                int user_id;
+                try {
+                    user_id = Integer.parseInt(user_id_field.getText());
+                } catch (NumberFormatException exc) {
+                    clear();
+                    prompt.setText("Input is not user id!");
+                    return;
+                }
                 selected_user = new Database().fetchUser(user_id); // TODO: check if valid result
                 if (selected_user == null) {
                     clear();
+                    prompt.setText(String.format("No user under id %d found!", user_id));
                     return;
                 }
                 showComponents();
@@ -54,12 +69,12 @@ public class ManageMembers extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 // TODO: check for unpaid fines and not returned books
                 if (selected_user.getRole().equals("admin")) {
-                    deletion_prompt.setText("Cannot delete admins account!");
+                    prompt.setText("Cannot delete admins account!");
                     return;
                 }
                 new Database().removeUser(selected_user.getId());
                 clear();
-                deletion_prompt.setText("User deleted successfully!");
+                prompt.setText("User deleted successfully!");
                 selected_user = null;
             }
         };
@@ -77,7 +92,6 @@ public class ManageMembers extends JPanel{
             }
         };
         change_password.addActionListener(new_password_listener);
-
         clear();
     }
 
@@ -93,7 +107,7 @@ public class ManageMembers extends JPanel{
         new_password_field.setVisible(false);
         new_password_prompt.setVisible(false);
         new_password_prompt.setText("New password");
-        deletion_prompt.setText("");
+        prompt.setText("");
     }
 
     public void showComponents() {
