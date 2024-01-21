@@ -9,7 +9,7 @@ public class MainFrame extends JFrame {
     private final JPanel main_card_panel;
     private final CardLayout main_card_layout;
     final private UserAuthenticationPanel user_authentication_panel;
-    final private Workspace workspace;
+    final private Workspace workspace = new Workspace();
 
     public MainFrame() {
         main_card_panel = new JPanel();
@@ -40,7 +40,6 @@ public class MainFrame extends JFrame {
     }
 
     private void initWorkspace() {
-        workspace = new Workspace();
         main_card_panel.add(workspace, "workspace");
         ActionListener on_logout = new ActionListener() {
             @Override

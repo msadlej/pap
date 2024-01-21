@@ -49,7 +49,7 @@ public class ManageMembers extends JPanel{
                     prompt.setText("Input is not user id!");
                     return;
                 }
-                selected_user = new Database().fetchUser(user_id); // TODO: check if valid result
+                selected_user = Database.getInstance().fetchUser(user_id); // TODO: check if valid result
                 if (selected_user == null) {
                     clear();
                     prompt.setText(String.format("No user under id %d found!", user_id));
@@ -72,7 +72,7 @@ public class ManageMembers extends JPanel{
                     prompt.setText("Cannot delete admins account!");
                     return;
                 }
-                new Database().removeUser(selected_user.getId());
+                Database.getInstance().removeUser(selected_user.getId());
                 clear();
                 prompt.setText("User deleted successfully!");
                 selected_user = null;
