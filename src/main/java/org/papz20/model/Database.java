@@ -30,14 +30,15 @@ public class Database {
     }
     private Connection connect() throws SQLException {
         String IDEPath = "src/main/resources/database/appDB.db";
-        String JARPath = "database/appDB.db";
         String url = "jdbc:sqlite:" + IDEPath;
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
-            System.out.println(url);
         } catch (SQLException e) {
-            url = "jdbc:sqlite:" + JARPath;
+            String currentPath = Database.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            currentPath = currentPath.substring(0, currentPath.lastIndexOf("/"));
+            String JARPath = "database/appDB.db";
+            url = "jdbc:sqlite:" + currentPath + JARPath;
             try {
                 conn = DriverManager.getConnection(url);
             }
