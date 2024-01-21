@@ -18,15 +18,12 @@ public class MainFrame extends JFrame {
         main_card_layout = new CardLayout();
         main_card_panel.setLayout(main_card_layout);
         user_authentication_panel = new UserAuthenticationPanel();
-        workspace = new Workspace();
     }
 
     public void init() {
         setContentPane(main_card_panel);
         initAuthenticationPanel();
-        initWorkspace();
         main_card_panel.add(user_authentication_panel, "authentication");
-        main_card_panel.add(workspace, "workspace");
         main_card_layout.show(main_card_panel, "authentication");
     }
 
@@ -35,6 +32,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Logging in!");
+                initWorkspace();
                 workspace.login(user_authentication_panel.getUserId());
                 user_authentication_panel.resetUserId();
                 main_card_layout.show(main_card_panel, "workspace");
@@ -44,6 +42,8 @@ public class MainFrame extends JFrame {
     }
 
     private void initWorkspace() {
+        workspace = new Workspace();
+        main_card_panel.add(workspace, "workspace");
         ActionListener on_logout = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
