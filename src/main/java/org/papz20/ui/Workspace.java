@@ -29,7 +29,7 @@ public class Workspace extends JPanel {
     private ReturnBooks return_book;
     private JButton logOut;
     private JLabel username_field;
-
+    private JLabel id_field;
 
 
     private User user;
@@ -182,6 +182,7 @@ public class Workspace extends JPanel {
         Database db = new Database();
         user = db.fetchUser(user_id);
         username_field.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
+        id_field.setText(String.format("Id: %d", user_id));
     }
 
     private void setFunctionalities() {
