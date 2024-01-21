@@ -8,6 +8,7 @@ import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.lang.Math;
@@ -35,6 +36,8 @@ public class BookSearchPanel extends JPanel{
         setLayout(new BorderLayout());
         add(main_panel, BorderLayout.CENTER);
         query.setLayout(new BoxLayout(query, BoxLayout.Y_AXIS));
+        query_books = new ArrayList<>();
+        update_list(0);
 
         searchButton.addActionListener(new ActionListener() {
             @Override
