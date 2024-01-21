@@ -43,7 +43,7 @@ public class TransactionService {
 
     public Transaction getBookTransaction(int copy_id){
         Transaction target_transaction = null;
-        int transaction_id = -1;
+
         String sql = "SELECT transactions.transaction_id " +
                 "FROM copies " +
                 "JOIN transactions ON copies.copy_id = transactions.copy_id " +
@@ -55,7 +55,7 @@ public class TransactionService {
 
             ResultSet result = statement.executeQuery();
             if (result.next()) {
-                transaction_id = result.getInt(1);
+                int transaction_id = result.getInt("transaction_id");
                 target_transaction = database.fetchTransaction(transaction_id);
             }
         }
