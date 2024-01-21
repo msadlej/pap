@@ -24,7 +24,7 @@ public class MyBooksPanel extends JPanel {
         add(main_panel, BorderLayout.CENTER);
 
         book_model = new DefaultTableModel();
-        book_model.setColumnIdentifiers(new String[]{"Title", "Order Date", "Return Date"});
+        book_model.setColumnIdentifiers(new String[]{"Title", "Order Date", "Return Date", "Copy id"});
         books_table.setModel(book_model);
 
         orders_model = new DefaultTableModel();
@@ -45,7 +45,12 @@ public class MyBooksPanel extends JPanel {
             if (transaction.getUserId() != user_id) continue;
             if (transaction.getStatus() == "returned") continue;
             Book book = db.getOrderBook(transaction.getOrderId());
-            book_model.addRow(new String[]{book.getTitle(), transaction.getCheckoutDate(), transaction.getCheckoutDate()});
+            book_model.addRow(new String[]{
+                    book.getTitle(),
+                    transaction.getCheckoutDate(),
+                    transaction.getCheckoutDate(),
+                    String.valueOf(transaction.getCopyId())
+            });
         }
 
         List<Order> orders = db.getAllOrders();

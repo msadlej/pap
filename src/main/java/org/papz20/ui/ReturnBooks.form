@@ -29,7 +29,7 @@
           <text value="Book Copy Id"/>
         </properties>
       </component>
-      <component id="88ec6" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+      <component id="88ec6" class="javax.swing.JTextField" binding="copy_field">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -101,7 +101,7 @@
               <text value="Return Date:"/>
             </properties>
           </component>
-          <component id="b99ab" class="javax.swing.JLabel">
+          <component id="b99ab" class="javax.swing.JLabel" binding="borrower_name">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -109,7 +109,7 @@
               <text value="Borrower: "/>
             </properties>
           </component>
-          <component id="a3e07" class="javax.swing.JLabel">
+          <component id="a3e07" class="javax.swing.JLabel" binding="borrower_id">
             <constraints>
               <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
