@@ -5,7 +5,6 @@ import main.java.org.papz20.model.User;
 import main.java.org.papz20.services.ChangeUserInfoService;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +22,7 @@ public class ManageMembers extends JPanel{
     private JButton change_password;
     private JTextField new_password_field;
     private JLabel new_password_prompt;
-    private JLabel deletion_prompt;
+    private JLabel prompt;
     private User selected_user;
 
     public ManageMembers() {
@@ -35,10 +34,25 @@ public class ManageMembers extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 clear();
                 // Load data into card and set result as selected user
-                int user_id = Integer.parseInt(user_id_field.getText());
+                String user_id_str = user_id_field.getText();
+                if (user_id_str.isBlank())
+                {
+                    clear();
+                    prompt.setText("Input user id!");
+                    return;
+                }
+                int user_id;
+                try {
+                    user_id = Integer.parseInt(user_id_field.getText());
+                } catch (NumberFormatException exc) {
+                    clear();
+                    prompt.setText("Input is not user id!");
+                    return;
+                }
                 selected_user = Database.getInstance().fetchUser(user_id); // TODO: check if valid result
                 if (selected_user == null) {
                     clear();
+                    prompt.setText(String.format("No user under id %d found!", user_id));
                     return;
                 }
                 showComponents();
@@ -55,12 +69,12 @@ public class ManageMembers extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 // TODO: check for unpaid fines and not returned books
                 if (selected_user.getRole().equals("admin")) {
-                    deletion_prompt.setText("Cannot delete admins account!");
+                    prompt.setText("Cannot delete admins account!");
                     return;
                 }
                 Database.getInstance().removeUser(selected_user.getId());
                 clear();
-                deletion_prompt.setText("User deleted successfully!");
+                prompt.setText("User deleted successfully!");
                 selected_user = null;
             }
         };
@@ -94,7 +108,7 @@ public class ManageMembers extends JPanel{
         new_password_field.setVisible(false);
         new_password_prompt.setVisible(false);
         new_password_prompt.setText("New password");
-        deletion_prompt.setText("");
+        prompt.setText("");
     }
 
     public void showComponents() {

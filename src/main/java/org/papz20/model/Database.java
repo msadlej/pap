@@ -73,12 +73,12 @@ public class Database {
 
         String sql = "SELECT MAX(" + id_name + ") FROM " + table_name;
 
-        try (Connection conn = this.connect();
+        try (Connection conn = this.connect()) {
             PreparedStatement statement = conn.prepareStatement(sql);
-             ResultSet result = statement.executeQuery()) {
-                if (result.next()) {
-                    return result.getInt(1) + 1;
-                }
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                return result.getInt(1) + 1;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -98,7 +98,7 @@ public class Database {
         if (Objects.equals(table_name, "transactions"))
             id_name = "transaction_id";
         if (Objects.equals(table_name, "fines"))
-            id_name = "copy_id";
+            id_name = "fine_id";
 
         if (Objects.equals((id_name), "none"))
             throw new IllegalArgumentException("Invalid table name");
@@ -108,14 +108,13 @@ public class Database {
     public int getRowCount(String table_name) {
         String sql = "SELECT COUNT(*) FROM " + table_name;
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql);
-             ResultSet result = statement.executeQuery()) {
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet result = statement.executeQuery();
 
             if (result.next()) {
                 return result.getInt(1);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -130,16 +129,15 @@ public class Database {
 
         try (Connection conn = this.connect()) {
             PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet results = statement.executeQuery();
 
-            try(ResultSet results = statement.executeQuery()){
-                while (results.next()) {
-                    int book_id = results.getInt("book_id");
-                    String title = results.getString("title");
-                    String author = results.getString("author");
-                    String genre = results.getString("genre");
-                    String publish_date = results.getString("publish_date");
-                    all_books.add(new Book(book_id, title, author, genre, publish_date));
-                }
+            while (results.next()) {
+                int book_id = results.getInt("book_id");
+                String title = results.getString("title");
+                String author = results.getString("author");
+                String genre = results.getString("genre");
+                String publish_date = results.getString("publish_date");
+                all_books.add(new Book(book_id, title, author, genre, publish_date));
             }
         }
         catch (SQLException e){
@@ -163,8 +161,8 @@ public class Database {
             genre_key = "%" + genre_key + "%";
         }
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)){
+        try (Connection conn = this.connect()){
+            PreparedStatement statement = conn.prepareStatement(sql);
 
             statement.setString(1, title_key);
             statement.setString(2, author_key);
@@ -210,20 +208,18 @@ public class Database {
         String sql = "SELECT * FROM books WHERE book_id = ?";
         Book selected_book = null;
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)){
-
+        try (Connection conn = this.connect()){
+            PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, book_id);
+            ResultSet results = statement.executeQuery();
 
-            try (ResultSet results = statement.executeQuery()){
-                if (results.next()) {
-                    book_id = results.getInt("book_id");
-                    String title = results.getString("title");
-                    String author = results.getString("author");
-                    String genre = results.getString("genre");
-                    String publish_date = results.getString("publish_date");
-                    selected_book = new Book(book_id, title, author, genre, publish_date);
-                }
+            if (results.next()) {
+                book_id = results.getInt("book_id");
+                String title = results.getString("title");
+                String author = results.getString("author");
+                String genre = results.getString("genre");
+                String publish_date = results.getString("publish_date");
+                selected_book = new Book(book_id, title, author, genre, publish_date);
             }
         }
         catch (SQLException e){
@@ -240,19 +236,18 @@ public class Database {
                 "JOIN orders ON copies.copy_id = orders.copy_id " +
                 "WHERE orders.user_id = ?";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)){
+        try (Connection conn = this.connect()){
+            PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, user_id);
 
-            try(ResultSet results = statement.executeQuery()){
-                while (results.next()) {
-                    int book_id = results.getInt("book_id");
-                    String title = results.getString("title");
-                    String author = results.getString("author");
-                    String genre = results.getString("genre");
-                    String publish_date = results.getString("publish_date");
-                    borrowed_books.add(new Book(book_id, title, author, genre, publish_date));
-                }
+            ResultSet results = statement.executeQuery();
+            while (results.next()) {
+                int book_id = results.getInt("book_id");
+                String title = results.getString("title");
+                String author = results.getString("author");
+                String genre = results.getString("genre");
+                String publish_date = results.getString("publish_date");
+                borrowed_books.add(new Book(book_id, title, author, genre, publish_date));
             }
         }
         catch (SQLException e){
@@ -264,11 +259,9 @@ public class Database {
     public void removeBook(int book_id) {
         String sql = "DELETE FROM books WHERE book_id = ?";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
-
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, book_id);
-
             int rows_affected = statement.executeUpdate();
 
             if (rows_affected > 0) {
@@ -285,12 +278,10 @@ public class Database {
     public void removeBook(Book book) {
         String sql = "DELETE FROM books WHERE book_id = ?";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
-
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
             int book_id = book.getId();
             statement.setInt(1, book_id);
-
             int rows_affected = statement.executeUpdate();
 
             if (rows_affected > 0) {
@@ -307,8 +298,8 @@ public class Database {
     public void addBook(int book_id, String title, String author, String genre, String publish_date) {
         String sql = "INSERT INTO books (book_id, title, author, genre, publish_date) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
 
             statement.setInt(1, book_id);
             statement.setString(2, title);
@@ -337,8 +328,8 @@ public class Database {
     public void addBook(Book new_book) {
         String sql = "INSERT INTO books (book_id, title, author, genre, publish_date) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
 
             statement.setInt(1, new_book.getId());
             statement.setString(2, new_book.getTitle());
@@ -361,15 +352,13 @@ public class Database {
     public boolean copyAvailableBook(int book_id){
         String sql = "SELECT COUNT(*) FROM copies WHERE book_id = ? AND available = true";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)){
-
+        try (Connection conn = this.connect()){
+            PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, book_id);
+            ResultSet results = statement.executeQuery();
 
-            try (ResultSet results = statement.executeQuery()){
-                if (results.next()) {
-                    return (results.getInt(1) > 0);
-                }
+            if (results.next()) {
+                return (results.getInt(1) > 0);
             }
         }
         catch (SQLException e){
@@ -438,14 +427,13 @@ public class Database {
 
         try (Connection conn = this.connect()) {
             PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet results = statement.executeQuery();
 
-            try(ResultSet results = statement.executeQuery()){
-                while (results.next()) {
-                    int copy_id = results.getInt("copy_id");
-                    int book_id = results.getInt("book_id");
-                    boolean available = results.getBoolean("available");
-                    all_copies.add(new Copy(copy_id, book_id, available));
-                }
+            while (results.next()) {
+                int copy_id = results.getInt("copy_id");
+                int book_id = results.getInt("book_id");
+                boolean available = results.getBoolean("available");
+                all_copies.add(new Copy(copy_id, book_id, available));
             }
         }
         catch (SQLException e){
@@ -458,9 +446,8 @@ public class Database {
         String sql = "SELECT * FROM copies WHERE copy_id = ?";
         Copy selected_copy = null;
 
-        try (Connection conn = this.connect();
-            PreparedStatement statement = conn.prepareStatement(sql)){
-
+        try (Connection conn = this.connect()){
+            PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, copy_id);
             ResultSet results = statement.executeQuery();
 
@@ -481,8 +468,8 @@ public class Database {
     public void addCopy(Copy new_copy){
         String sql = "INSERT INTO copies (copy_id, book_id, available) VALUES (?, ?, ?)";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = this.connect()){
+            PreparedStatement statement = conn.prepareStatement(sql);
 
             statement.setInt(1, new_copy.getId());
             statement.setInt(2, new_copy.getBookId());
@@ -503,8 +490,8 @@ public class Database {
     public void addCopy(Book new_book){
         String sql = "INSERT INTO copies (copy_id, book_id, available) VALUES (?, ?, ?)";
 
-        try (Connection conn = this.connect();
-            PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
 
             statement.setInt(1, getNextId("copies"));
             statement.setInt(2, new_book.getId());
@@ -517,7 +504,6 @@ public class Database {
             } else {
                 System.out.println("Failed to add copy.");
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -526,8 +512,8 @@ public class Database {
     public void addCopy(int book_id){
         String sql = "INSERT INTO copies (copy_id, book_id, available) VALUES (?, ?, ?)";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
 
             statement.setInt(1, getNextId("copies"));
             statement.setInt(2, book_id);
@@ -540,7 +526,6 @@ public class Database {
             } else {
                 System.out.println("Failed to add copy.");
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -549,12 +534,10 @@ public class Database {
     public void setAvailableCopy(int copy_id, boolean new_availability){
         String sql = "UPDATE copies SET available = ? WHERE copy_id = ?";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
-
+        try (Connection conn = this.connect()){
+            PreparedStatement statement = conn.prepareStatement(sql);
             statement.setBoolean(1, new_availability);
             statement.setInt(2, copy_id);
-
             int rows_affected = statement.executeUpdate();
 
             if (rows_affected > 0) {
@@ -580,22 +563,20 @@ public class Database {
 
         try (Connection conn = this.connect()) {
             PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet results = statement.executeQuery();
+            while (results.next()) {
+                int user_id = results.getInt("user_id");
+                String username = results.getString("username");
+                String password = results.getString("password");
+                String first_name = results.getString("first_name");
+                String last_name = results.getString("last_name");
+                String email = results.getString("email");
+                String user_type = results.getString("user_type");
 
-            try(ResultSet results = statement.executeQuery()){
-                while (results.next()) {
-                    int user_id = results.getInt("user_id");
-                    String username = results.getString("username");
-                    String password = results.getString("password");
-                    String first_name = results.getString("first_name");
-                    String last_name = results.getString("last_name");
-                    String email = results.getString("email");
-                    String user_type = results.getString("user_type");
-
-                    if (user_type == "member"){
-                        all_users.add(new Member(user_id, first_name, last_name, email, username, password));
-                    }else{
-                        all_users.add(new Admin(user_id, first_name, last_name, email, username, password));
-                    }
+                if (Objects.equals(user_type, "member")){
+                    all_users.add(new Member(user_id, first_name, last_name, email, username, password));
+                }else{
+                    all_users.add(new Admin(user_id, first_name, last_name, email, username, password));
                 }
             }
         }
@@ -608,8 +589,8 @@ public class Database {
     public void addUser(int user_id, String username, String password, String first_name, String last_name, String email, String user_type){
         String sql = "INSERT INTO users (user_id, username, password, first_name, last_name, email, user_type) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
 
             statement.setInt(1, user_id);
             statement.setString(2, username);
@@ -625,7 +606,6 @@ public class Database {
             } else {
                 System.out.println("Failed to add user.");
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -639,8 +619,8 @@ public class Database {
     public void addUser(User new_user){
         String sql = "INSERT INTO users (user_id, username, password, first_name, last_name, email, user_type) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
 
             statement.setInt(1, new_user.getId());
             statement.setString(2, new_user.getUsername());
@@ -669,19 +649,17 @@ public class Database {
     public void removeUser(int user_id){
         String sql = "DELETE FROM users WHERE user_id = ?";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
-
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, user_id);
 
-            int rows_affected = statement.executeUpdate();      //
+            int rows_affected = statement.executeUpdate();
 
             if (rows_affected > 0) {
                 System.out.println("User removed successfully.");
             } else {
                 System.out.println("Failed to remove user.");
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -694,8 +672,8 @@ public class Database {
     public void updateUserData(int user_id, String username, String password, String first_name, String last_name, String email, String user_type){
         String sql = "UPDATE users SET user_id = ?, username = ?, password = ?, first_name = ?, last_name = ?, email = ?, user_type = ? WHERE user_id = ?";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
 
             statement.setInt(1, user_id);
             statement.setString(2, username);
@@ -722,23 +700,22 @@ public class Database {
         String sql = "SELECT * FROM users WHERE user_id = ?";
         User result_user = null;
 
-        try (Connection conn = this.connect();
-            PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, user_id);
-            try (ResultSet result = statement.executeQuery()) {
-                if (result.next()) {
-                    user_id = result.getInt("user_id");
-                    String username = result.getString("username");
-                    String password = result.getString("password");
-                    String first_name = result.getString("first_name");
-                    String last_name = result.getString("last_name");
-                    String email = result.getString("email");
-                    String user_type = result.getString("user_type");
-                    if (Objects.equals(user_type, "member")) {
-                        result_user = new Member(user_id, first_name, last_name, email, username, password);
-                    } else {
-                        result_user = new Admin(user_id, first_name, last_name, email, username, password);
-                    }
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                user_id = result.getInt("user_id");
+                String username = result.getString("username");
+                String password = result.getString("password");
+                String first_name = result.getString("first_name");
+                String last_name = result.getString("last_name");
+                String email = result.getString("email");
+                String user_type = result.getString("user_type");
+                if (Objects.equals(user_type, "member")) {
+                    result_user = new Member(user_id, first_name, last_name, email, username, password);
+                } else {
+                    result_user = new Admin(user_id, first_name, last_name, email, username, password);
                 }
             }
         } catch (SQLException e) {
@@ -751,8 +728,8 @@ public class Database {
 
     public int getUsernameId(String username){
         String query = "SELECT user_id FROM users WHERE username = ?";
-        try (Connection connection = this.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)){
+        try (Connection connection = this.connect()){
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
 
             preparedStatement.setString(1, username);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -773,18 +750,17 @@ public class Database {
 
         try (Connection conn = this.connect()) {
             PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet results = statement.executeQuery();
 
-            try(ResultSet results = statement.executeQuery()){
-                while (results.next()) {
-                    int order_id = results.getInt("order_id");
-                    int user_id = results.getInt("user_id");
-                    int copy_id = results.getInt("copy_id");
-                    String order_date = results.getString("order_date");
-                    int order_period = results.getInt("order_period");
-                    String order_status = results.getString("order_status");
+            while (results.next()) {
+                int order_id = results.getInt("order_id");
+                int user_id = results.getInt("user_id");
+                int copy_id = results.getInt("copy_id");
+                String order_date = results.getString("order_date");
+                int order_period = results.getInt("order_period");
+                String order_status = results.getString("order_status");
 
-                    all_orders.add(new Order(order_id, user_id, copy_id, order_date, order_period, order_status));
-                }
+                all_orders.add(new Order(order_id, user_id, copy_id, order_date, order_period, order_status));
             }
         }
         catch (SQLException e){
@@ -797,20 +773,19 @@ public class Database {
         String sql = "SELECT * FROM orders WHERE order_id = ?";
         Order selected_order  = null;
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, order_id);
-            try (ResultSet result = statement.executeQuery()) {
-                if (result.next()) {
-                    order_id = result.getInt("order_id");
-                    int user_id = result.getInt("user_id");
-                    int copy_id = result.getInt("copy_id");
-                    String order_date = result.getString("order_date");
-                    int order_period = result.getInt("order_period");
-                    String order_status = result.getString("order_status");
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                order_id = result.getInt("order_id");
+                int user_id = result.getInt("user_id");
+                int copy_id = result.getInt("copy_id");
+                String order_date = result.getString("order_date");
+                int order_period = result.getInt("order_period");
+                String order_status = result.getString("order_status");
 
-                    selected_order = new Order(order_id, user_id, copy_id, order_date, order_period, order_status);
-                }
+                selected_order = new Order(order_id, user_id, copy_id, order_date, order_period, order_status);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -832,8 +807,8 @@ public class Database {
     public void addOrder(int order_id, int user_id, int copy_id, String date, int period, String status){
         String sql = "INSERT INTO orders (order_id, user_id, copy_id, order_date, order_period, order_status) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
 
             statement.setInt(1, order_id);
             statement.setInt(2, user_id);
@@ -866,8 +841,8 @@ public class Database {
     public void setOrderStatus(int order_id, String new_status){
         String sql = "UPDATE orders SET order_status = ? WHERE order_id = ?";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
 
             statement.setString(1, new_status);
             statement.setInt(2, order_id);
@@ -898,17 +873,17 @@ public class Database {
         try (Connection conn = this.connect()) {
             PreparedStatement statement = conn.prepareStatement(sql);
 
-            try(ResultSet results = statement.executeQuery()){
-                while (results.next()) {
-                    int transaction_id = results.getInt("transaction_id");
-                    int order_id = results.getInt("order_id");
-                    int user_id = results.getInt("user_id");
-                    int copy_id = results.getInt("copy_id");
-                    String checkout_date = results.getString("checkout_date");
-                    String due_date = results.getString("due_date");
-                    String transaction_status = results.getString("transaction_status");
-                    all_transactions.add(new Transaction(transaction_id, order_id, user_id, copy_id, checkout_date, due_date, transaction_status));
-                }
+            ResultSet results = statement.executeQuery();
+
+            while (results.next()) {
+                int transaction_id = results.getInt("transaction_id");
+                int order_id = results.getInt("order_id");
+                int user_id = results.getInt("user_id");
+                int copy_id = results.getInt("copy_id");
+                String checkout_date = results.getString("checkout_date");
+                String due_date = results.getString("due_date");
+                String transaction_status = results.getString("transaction_status");
+                all_transactions.add(new Transaction(transaction_id, order_id, user_id, copy_id, checkout_date, due_date, transaction_status));
             }
         }
         catch (SQLException e){
@@ -921,21 +896,21 @@ public class Database {
         String sql = "SELECT * FROM transactions WHERE transaction_id = ?";
         Transaction selected_transaction = null;
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, transaction_id);
-            try (ResultSet result = statement.executeQuery()) {
-                if (result.next()) {
-                    transaction_id = result.getInt("transaction_id");
-                    int order_id = result.getInt("order_id");
-                    int user_id = result.getInt("user_id");
-                    int copy_id = result.getInt("copy_id");
-                    String checkout_date = result.getString("checkout_date");
-                    String due_date = result.getString("due_date");
-                    String transaction_status = result.getString("transaction_status");
+            ResultSet result = statement.executeQuery();
 
-                    selected_transaction = new Transaction(transaction_id, order_id, user_id, copy_id, checkout_date, due_date, transaction_status);
-                }
+            if (result.next()) {
+                transaction_id = result.getInt("transaction_id");
+                int order_id = result.getInt("order_id");
+                int user_id = result.getInt("user_id");
+                int copy_id = result.getInt("copy_id");
+                String checkout_date = result.getString("checkout_date");
+                String due_date = result.getString("due_date");
+                String transaction_status = result.getString("transaction_status");
+
+                selected_transaction = new Transaction(transaction_id, order_id, user_id, copy_id, checkout_date, due_date, transaction_status);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -987,8 +962,8 @@ public class Database {
     public void setTransactionStatus(int transaction_id, String new_status){
         String sql = "UPDATE transactions SET transaction_status = ? WHERE transaction_id = ?";
 
-        try(Connection conn = this.connect();
-            PreparedStatement statement = conn.prepareStatement(sql)){
+        try(Connection conn = this.connect()){
+            PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, new_status);
             statement.setInt(2, transaction_id);
 
@@ -1012,8 +987,8 @@ public class Database {
     public boolean isLateTransaction(int transaction_id){
         String sql = "SELECT due_date FROM transactions WHERE transaction_id = ?";
 
-        try (Connection conn = this.connect();
-            PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
 
             statement.setInt(1, transaction_id);
             ResultSet results = statement.executeQuery();
@@ -1052,8 +1027,8 @@ public class Database {
         List<Transaction> user_transactions = new ArrayList<>();
         String sql = "SELECT * FROM transactions WHERE user_id = ?";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)){
+        try (Connection conn = this.connect()){
+            PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, user_id);
 
             ResultSet results = statement.executeQuery();
@@ -1078,18 +1053,18 @@ public class Database {
         String sql = "SELECT * FROM fines WHERE fine_id = ?";
         Fine selected_fine = null;
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1,fine_id);
-            try (ResultSet result = statement.executeQuery()) {
-                if (result.next()) {
-                    fine_id = result.getInt("fine_id");
-                    int transaction_id = result.getInt("transaction_id");
-                    int fine_amount = result.getInt("fine_amount");
-                    String fine_status = result.getString("fine_status");
+            ResultSet result = statement.executeQuery();
 
-                    selected_fine = new Fine(fine_id, transaction_id, fine_amount, fine_status);
-                }
+            if (result.next()) {
+                fine_id = result.getInt("fine_id");
+                int transaction_id = result.getInt("transaction_id");
+                int fine_amount = result.getInt("fine_amount");
+                String fine_status = result.getString("fine_status");
+
+                selected_fine = new Fine(fine_id, transaction_id, fine_amount, fine_status);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1105,14 +1080,13 @@ public class Database {
         try (Connection conn = this.connect()) {
             PreparedStatement statement = conn.prepareStatement(sql);
 
-            try(ResultSet results = statement.executeQuery()){
-                while (results.next()) {
-                    int fine_id = results.getInt("fine_id");
-                    int transaction_id = results.getInt("transaction_id");
-                    int fine_amount = results.getInt("fine_amount");
-                    String fine_status = results.getString("fine_status");
-                    all_fines.add(new Fine(fine_id, transaction_id, fine_amount, fine_status));
-                }
+            ResultSet results = statement.executeQuery();
+            while (results.next()) {
+                int fine_id = results.getInt("fine_id");
+                int transaction_id = results.getInt("transaction_id");
+                int fine_amount = results.getInt("fine_amount");
+                String fine_status = results.getString("fine_status");
+                all_fines.add(new Fine(fine_id, transaction_id, fine_amount, fine_status));
             }
         }
         catch (SQLException e){
@@ -1166,8 +1140,8 @@ public class Database {
     public void setFineStatus(int fine_id, String new_status){
         String sql = "UPDATE fines SET fine_status = ? WHERE fine_id = ?";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = this.connect()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
 
             statement.setString(1, new_status);
             statement.setInt(2, fine_id);
@@ -1199,15 +1173,14 @@ public class Database {
         try (Connection conn = this.connect()) {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, user_id);
+            ResultSet results = statement.executeQuery();
 
-            try(ResultSet results = statement.executeQuery()){
-                while (results.next()) {
-                    int fine_id = results.getInt("fine_id");
-                    int transaction_id = results.getInt("transaction_id");
-                    int fine_amount = results.getInt("fine_amount");
-                    String fine_status = results.getString("fine_status");
-                    fines.add(new Fine(fine_id, transaction_id, fine_amount, fine_status));
-                }
+            while (results.next()) {
+                int fine_id = results.getInt("fine_id");
+                int transaction_id = results.getInt("transaction_id");
+                int fine_amount = results.getInt("fine_amount");
+                String fine_status = results.getString("fine_status");
+                fines.add(new Fine(fine_id, transaction_id, fine_amount, fine_status));
             }
         }
         catch (SQLException e){
