@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 public class TransactionService {
     private final Database database;
 
-    public TransactionService() { this.database = new Database(); }
+    public TransactionService() { this.database = Database.getInstance(); }
 
     public Transaction createTransactionFromOrder(int order_id){
         Transaction this_transaction = null;

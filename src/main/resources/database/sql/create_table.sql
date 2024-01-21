@@ -88,4 +88,8 @@ CREATE TABLE `fines`
         ON DELETE CASCADE
 );
 
+/* Add default admin user */
+INSERT INTO users (user_id, username, password, first_name, last_name, email, user_type)
+VALUES (1, 'default_admin', 'pap2023zz20', 'Super', 'Admin', 'libman@pap.com', 'admin');
+
 

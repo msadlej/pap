@@ -5,6 +5,7 @@ import main.java.org.papz20.model.User;
 import main.java.org.papz20.services.ChangeUserInfoService;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,7 +36,7 @@ public class ManageMembers extends JPanel{
                 clear();
                 // Load data into card and set result as selected user
                 int user_id = Integer.parseInt(user_id_field.getText());
-                selected_user = new Database().fetchUser(user_id); // TODO: check if valid result
+                selected_user = Database.getInstance().fetchUser(user_id); // TODO: check if valid result
                 if (selected_user == null) {
                     clear();
                     return;
@@ -57,7 +58,7 @@ public class ManageMembers extends JPanel{
                     deletion_prompt.setText("Cannot delete admins account!");
                     return;
                 }
-                new Database().removeUser(selected_user.getId());
+                Database.getInstance().removeUser(selected_user.getId());
                 clear();
                 deletion_prompt.setText("User deleted successfully!");
                 selected_user = null;

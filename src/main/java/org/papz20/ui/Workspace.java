@@ -161,7 +161,7 @@ public class Workspace extends JPanel {
 
 
     private void setUser(int user_id) {
-        Database db = new Database();
+        Database db = Database.getInstance();
         user = db.fetchUser(user_id);
         String firstn = user.getFirstName();
         String lastn = user.getLastName();
