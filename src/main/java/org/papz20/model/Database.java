@@ -73,7 +73,7 @@ public class Database {
         if (Objects.equals(table_name, "transactions"))
             id_name = "transaction_id";
         if (Objects.equals(table_name, "fines"))
-            id_name = "copy_id";
+            id_name = "fine_id";
 
         if (Objects.equals((id_name), "none"))
             throw new IllegalArgumentException("Invalid table name");
