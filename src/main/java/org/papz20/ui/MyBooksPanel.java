@@ -43,7 +43,7 @@ public class MyBooksPanel extends JPanel {
         List<Transaction> transactions = db.getAllTransactions();
         for (Transaction transaction : transactions) {
             if (transaction.getUserId() != user_id) continue;
-            if (transaction.getStatus() == "returned") continue;
+            if (transaction.getStatus().equals("returned")) continue;
             Book book = db.getOrderBook(transaction.getOrderId());
             book_model.addRow(new String[]{
                     book.getTitle(),
