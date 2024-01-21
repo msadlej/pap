@@ -20,6 +20,7 @@ public class CollectFines extends JPanel {
     private List<Fine> fines;
     private JButton collect_fine;
     private JLabel fine_total;
+    private JLabel message;
 
     public CollectFines() {
         setLayout(new BorderLayout());
@@ -36,7 +37,18 @@ public class CollectFines extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 fine_model.setRowCount(0);
-                int user_id = Integer.parseInt(user_id_field.getText());
+                message.setText(" ");
+                if (user_id_field.getText().isBlank()) {
+                    message.setText("No user id provided!");
+                    return;
+                }
+                int user_id;
+                try {
+                    user_id = Integer.parseInt(user_id_field.getText());
+                } catch (NumberFormatException exception) {
+                    message.setText("Incorrect user id!");
+                    return;
+                }
                 fines = new Database().viewFines(user_id);
                 int total = 0;
                 for (Fine fine : fines) {
