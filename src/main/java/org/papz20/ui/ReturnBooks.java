@@ -55,7 +55,7 @@ public class ReturnBooks extends JPanel {
                 }
                 transaction = transactionService.getBookTransaction(copy_id);
                 if (transaction == null) {
-                    select_message.setText("No book found!");
+                    select_message.setText("No order found!");
                     return;
                 }
                 Database db = new Database();
