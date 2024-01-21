@@ -75,7 +75,7 @@ public class LendBooks extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 order_model.setRowCount(0);
-                Database db = new Database();
+                Database db = Database.getInstance();
                 db.connectDB();
                 List<Order> curr_orders = db.getAllOrders();
                 orders = new ArrayList<Order>();

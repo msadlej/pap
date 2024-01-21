@@ -7,7 +7,7 @@ import java.util.List;
 public class FineService {
     private final Database database;
 
-    public FineService() { this.database = new Database(); }
+    public FineService() { this.database = Database.getInstance(); }
 
     public void addFine(int transaction_id, int amount) {
         database.addFine(transaction_id, amount, "unpaid");

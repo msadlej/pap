@@ -6,7 +6,7 @@ import main.java.org.papz20.model.Transaction;
 public class ReceiveReturnedBookService {
     private final Database database;
 
-    public ReceiveReturnedBookService() { this.database = new Database(); }
+    public ReceiveReturnedBookService() { this.database = Database.getInstance(); }
 
     public boolean receiveReturnedBook(int transaction_id){
         try{

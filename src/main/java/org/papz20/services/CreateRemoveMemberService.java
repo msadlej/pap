@@ -7,7 +7,7 @@ import main.java.org.papz20.model.User;
 public class CreateRemoveMemberService {
     private final Database database;
 
-    public CreateRemoveMemberService() { this.database = new Database(); }
+    public CreateRemoveMemberService() { this.database = Database.getInstance(); }
 
     public boolean addUser(User new_user){
         int user_id = new_user.getId();

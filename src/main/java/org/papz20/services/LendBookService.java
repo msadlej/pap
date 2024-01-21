@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class LendBookService {
     private final Database database;
 
-    public LendBookService() { this.database = new Database(); }
+    public LendBookService() { this.database = Database.getInstance(); }
 
     public boolean lendBook(int order_id){
         try{

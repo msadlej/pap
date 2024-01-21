@@ -1,5 +1,11 @@
 package main.java.org.papz20.model;
 
+import javax.xml.crypto.Data;
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,19 +19,38 @@ import java.time.LocalDate;
 
 public class Database {
     /// part: misc
-    private Connection connect() {
-        String url = "jdbc:sqlite:src/main/resources/database/appDB.db";
+    private static Database instance;
+    private static final String DB_URL = "database/appDB.db";
+    private Database() {}
+    public static Database getInstance() {
+        if (instance == null) {
+            instance = new Database();
+        }
+        return instance;
+    }
+    private Connection connect() throws SQLException {
+        String IDEPath = "src/main/resources/database/appDB.db";
+        String JARPath = "database/appDB.db";
+        String url = "jdbc:sqlite:" + IDEPath;
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
+            System.out.println(url);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            url = "jdbc:sqlite:" + JARPath;
+            try {
+                conn = DriverManager.getConnection(url);
+            }
+            catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         return conn;
     }
     public Connection connectDB() {
         try {
             Connection conn = this.connect();
+            conn.setAutoCommit(true);
             System.out.println("Connection to SQLite has been established.");
             return conn;
         } catch (Exception e) {
@@ -576,7 +601,6 @@ public class Database {
             statement.setString(7, user_type);
 
             int rows_affected = statement.executeUpdate();
-
             if (rows_affected > 0) {
                 System.out.println("User added successfully.");
             } else {
@@ -607,7 +631,6 @@ public class Database {
             statement.setString(7, new_user.getRole());
 
             int rows_affected = statement.executeUpdate();
-
             if (rows_affected > 0) {
                 System.out.println("User added successfully.");
             } else {

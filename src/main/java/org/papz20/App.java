@@ -1,6 +1,7 @@
 package main.java.org.papz20;
 
 
+import main.java.org.papz20.model.Database;
 import main.java.org.papz20.ui.MainFrame;
 
 import javax.swing.*;
