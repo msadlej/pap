@@ -202,6 +202,7 @@ public class Workspace extends JPanel {
         my_books_select.setEnabled(true);
         my_penalties_select.setEnabled(true);
         lend_book_select.setEnabled(true);
+        return_book_select.setEnabled(true);
         collect_fines_select.setEnabled(true);
         manage_members_select.setEnabled(true);
     }
@@ -232,7 +233,7 @@ public class Workspace extends JPanel {
 
     private void selectReturnBooks() {
         enable_buttons();
-        manage_members_select.setEnabled(false);
+        return_book_select.setEnabled(false);
         workspace_layout.show(workspace_panel, "returnBooks");
     }
 
