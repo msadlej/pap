@@ -13,19 +13,40 @@ import java.time.LocalDate;
 
 public class Database {
     /// part: misc
-    private Connection connect() {
-        String url = "jdbc:sqlite:src/main/resources/database/appDB.db";
+    private static Database instance;
+    private static final String DB_URL = "database/appDB.db";
+    private Database() {}
+    public static Database getInstance() {
+        if (instance == null) {
+            instance = new Database();
+        }
+        return instance;
+    }
+    private Connection connect() throws SQLException {
+        String IDEPath = "src/main/resources/database/appDB.db";
+        String url = "jdbc:sqlite:" + IDEPath;
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            String currentPath = Database.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            currentPath = currentPath.substring(0, currentPath.lastIndexOf("/"));
+            System.out.println(currentPath);
+            String JARPath = "/database/appDB.db";
+            url = "jdbc:sqlite:" + currentPath + JARPath;
+            try {
+                conn = DriverManager.getConnection(url);
+            }
+            catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         return conn;
     }
     public Connection connectDB() {
         try {
             Connection conn = this.connect();
+            conn.setAutoCommit(true);
             System.out.println("Connection to SQLite has been established.");
             return conn;
         } catch (Exception e) {

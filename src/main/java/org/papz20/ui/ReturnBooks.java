@@ -58,7 +58,7 @@ public class ReturnBooks extends JPanel {
                     select_message.setText("No order found!");
                     return;
                 }
-                Database db = new Database();
+                Database db = Database.getInstance();
                 borrowed_book = db.fetchBook(db.fetchCopy(transaction.getCopyId()).getBookId());
                 borrower = db.fetchUser(transaction.getUserId());
                 show_info();

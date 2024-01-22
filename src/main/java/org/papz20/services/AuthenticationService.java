@@ -1,5 +1,7 @@
 package main.java.org.papz20.services;
 import main.java.org.papz20.model.Database;
+
+import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +10,7 @@ public class AuthenticationService {
     private final Database database;
 
     public AuthenticationService() {
-        this.database = new Database();
+        this.database = Database.getInstance();
     }
 
     // return user id if user is authenticated, else return -1

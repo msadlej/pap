@@ -37,7 +37,7 @@ public class MyBooksPanel extends JPanel {
         book_model.setRowCount(0);
         orders_model.setRowCount(0);
 
-        Database db = new Database();
+        Database db = Database.getInstance();
         db.connectDB();
 
         List<Transaction> transactions = db.getAllTransactions();

@@ -31,7 +31,7 @@ public class BookSearchPanel extends JPanel{
 
 
     public BookSearchPanel() {
-        database = new Database();
+        database = Database.getInstance();
         database.connectDB();
         setLayout(new BorderLayout());
         add(main_panel, BorderLayout.CENTER);
@@ -99,7 +99,7 @@ public class BookSearchPanel extends JPanel{
 
     private void update_list(int page_nr) {
         query.removeAll();
-        Database db = new Database();
+        Database db = Database.getInstance();
         db.connectDB();
         ListIterator<Book> it = query_books.subList(page_nr * 5, Math.min(query_books.size(), page_nr * 5 + 5)).listIterator();
         while (it.hasNext()) {

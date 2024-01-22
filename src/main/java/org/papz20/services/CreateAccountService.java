@@ -11,7 +11,7 @@ public class CreateAccountService {
     private final Database database;
 
     public CreateAccountService() {
-        this.database = new Database();
+        this.database = Database.getInstance();
     }
 
     private boolean isUsernameTaken(String username) {

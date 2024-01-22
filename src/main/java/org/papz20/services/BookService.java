@@ -7,7 +7,7 @@ import java.util.List;
 public class BookService {
     private final Database database;
 
-    public BookService() { this.database = new Database(); }
+    public BookService() { this.database = Database.getInstance(); }
 
     public void addBook(Book book) {
         database.addBook(book);

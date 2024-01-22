@@ -17,7 +17,7 @@ public class OrderService {
     private final Database database;
     private final int defaultPeriod = 14;
 
-    public OrderService() { this.database = new Database(); }
+    public OrderService() { this.database = Database.getInstance(); }
 
     public boolean createOrder(int bookID, int userID) {
         // get order id as the first available id from copies list

@@ -25,7 +25,7 @@ public class MyPenalties extends JPanel {
 
     public void load_penalties(int user_id) {
         penalties_model.setRowCount(0); // delete existing data
-        Database db = new Database();
+        Database db = Database.getInstance();
         db.connectDB();
         List<Fine> user_fines = db.viewFines(user_id);
         int total = 0;

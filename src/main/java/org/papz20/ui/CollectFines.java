@@ -49,7 +49,7 @@ public class CollectFines extends JPanel {
                     message.setText("Incorrect user id!");
                     return;
                 }
-                fines = new Database().viewFines(user_id);
+                fines = Database.getInstance().viewFines(user_id);
                 int total = 0;
                 for (Fine fine : fines) {
                     int gr = fine.getAmount() % 100;

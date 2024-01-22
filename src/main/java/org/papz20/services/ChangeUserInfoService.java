@@ -11,7 +11,7 @@ public class ChangeUserInfoService {
     private final Database database;
 
     public ChangeUserInfoService() {
-        this.database = new Database();
+        this.database = Database.getInstance();
     }
 
     public boolean ChangeUserPassword(String username, String new_password){
