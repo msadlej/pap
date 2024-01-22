@@ -1,11 +1,10 @@
 #!/bin/bash
 
+HOME_DIR=$(eval echo ~${SUDO_USER})
 JAR_FILE=LibMan.jar
 DB_FILE=database/appDB.db
 SQL_SCRIPT=database/sql/create_table.sql
-
-EXTRACT_DIR=./tmp
-INSTALL_DIR=/opt/LibMan
+INSTALL_DIR=$HOME_DIR/LibMan
 mkdir -p $INSTALL_DIR
 
 # Function to print a progress bar
@@ -41,9 +40,9 @@ done
 print_progress 10
 echo
 
-# Installing OpenJDK 8
-log_process "Installing OpenJDK 8 ..."
-apt-get install -y openjdk-8-jdk > /dev/null 2>&1 &
+# Installing OpenJDK 17
+log_process "Installing OpenJDK 17..."
+yes | apt install openjdk-17-jdk openjdk-17-jre > /dev/null 2>&1 &
 pid_java=$!
 while kill -0 $pid_java 2> /dev/null; do
     print_progress 50
@@ -82,13 +81,16 @@ echo "Initializing database ..."
 chmod 777 $INSTALL_DIR/$DB_FILE
 sqlite3 $INSTALL_DIR/$DB_FILE < $INSTALL_DIR/$SQL_SCRIPT
 
+# Provide executable permissions
+chmod +x $INSTALL_DIR/LibMan.jar
+chown -R "$SUDO_USER:$SUDO_USER" $INSTALL_DIR
 echo "[Desktop Entry]
 Name = Library Management
 Exec = java -jar $INSTALL_DIR/LibMan.jar
 Type = Application
-Categories = Utility;" > /usr/share/applications/LibMan.desktop
+Categories = Utility;" > LibMan.desktop
 
-# Provide executable permissions
-chmod +x $INSTALL_DIR/LibMan.jar
-chown -R "$USER:$USER" $INSTALL_DIR
+chown "$USER:$USER" LibMan.desktop
+cp LibMan.desktop /usr/share/applications
+chmod +x /usr/share/applications/LibMan.desktop
 echo "Installation complete."

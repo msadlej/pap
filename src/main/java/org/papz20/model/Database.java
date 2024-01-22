@@ -37,7 +37,8 @@ public class Database {
         } catch (SQLException e) {
             String currentPath = Database.class.getProtectionDomain().getCodeSource().getLocation().getPath();
             currentPath = currentPath.substring(0, currentPath.lastIndexOf("/"));
-            String JARPath = "database/appDB.db";
+            System.out.println(currentPath);
+            String JARPath = "/database/appDB.db";
             url = "jdbc:sqlite:" + currentPath + JARPath;
             try {
                 conn = DriverManager.getConnection(url);
