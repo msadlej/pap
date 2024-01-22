@@ -1,11 +1,5 @@
 package main.java.org.papz20.model;
 
-import javax.xml.crypto.Data;
-import java.io.File;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -603,6 +597,7 @@ public class Database {
             statement.setString(7, user_type);
 
             int rows_affected = statement.executeUpdate();
+
             if (rows_affected > 0) {
                 System.out.println("User added successfully.");
             } else {
@@ -633,6 +628,7 @@ public class Database {
             statement.setString(7, new_user.getRole());
 
             int rows_affected = statement.executeUpdate();
+
             if (rows_affected > 0) {
                 System.out.println("User added successfully.");
             } else {

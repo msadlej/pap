@@ -1,5 +1,7 @@
 package main.java.org.papz20.ui;
 
+import main.java.org.papz20.services.AuthenticationService;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -40,6 +42,7 @@ public class MainFrame extends JFrame {
     }
 
     private void initWorkspace() {
+        workspace = new Workspace();
         main_card_panel.add(workspace, "workspace");
         ActionListener on_logout = new ActionListener() {
             @Override
@@ -50,4 +53,18 @@ public class MainFrame extends JFrame {
         };
         workspace.init(on_logout);
     }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            MainFrame window = new MainFrame();
+            window.init();
+            window.setTitle("Library");
+            window.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            window.setSize(800, 600);
+            window.setVisible(true);
+            window.setLocationRelativeTo(null);
+        });
+    }
+
+
 }

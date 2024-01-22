@@ -92,6 +92,7 @@ public class ManageMembers extends JPanel{
             }
         };
         change_password.addActionListener(new_password_listener);
+
         clear();
     }
 

@@ -90,7 +90,7 @@ Exec = java -jar $INSTALL_DIR/LibMan.jar
 Type = Application
 Categories = Utility;" > LibMan.desktop
 
-chown "$USER:$USER" LibMan.desktop
+chown "$SUDO_USER:$SUDO_USER" LibMan.desktop
 cp LibMan.desktop /usr/share/applications
 chmod +x /usr/share/applications/LibMan.desktop
 echo "Installation complete."
