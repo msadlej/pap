@@ -1,11 +1,11 @@
 #!/bin/bash
 
-HOME_DIR=$(eval echo ~${SUDO_USER})
+HOME_DIR=$(eval echo ~"${SUDO_USER}")
 JAR_FILE=LibMan.jar
 DB_FILE=database/appDB.db
 SQL_SCRIPT=database/sql/create_table.sql
-INSTALL_DIR=$HOME_DIR/LibMan
-mkdir -p $INSTALL_DIR
+INSTALL_DIR=$HOME_DIR/.LibMan
+mkdir -p "$INSTALL_DIR"
 
 # Function to print a progress bar
 print_progress() {
@@ -69,21 +69,21 @@ print_progress 100
 echo
 
 echo "Creating application installation directory ..."
-cp ./$JAR_FILE $INSTALL_DIR
+cp ./$JAR_FILE "$INSTALL_DIR"
 # Extract jar file
-cd $INSTALL_DIR
+cd "$INSTALL_DIR" || exit
 echo "Extracting jar file ..."
 jar xvf ./$JAR_FILE > /dev/null 2>&1
 echo "Extracted jar file."
 # Initialize database
 echo "Initializing database ..."
 # Modify write permissions
-chmod 777 $INSTALL_DIR/$DB_FILE
-sqlite3 $INSTALL_DIR/$DB_FILE < $INSTALL_DIR/$SQL_SCRIPT
+chmod 777 "$INSTALL_DIR"/$DB_FILE
+sqlite3 "$INSTALL_DIR"/$DB_FILE < "$INSTALL_DIR"/$SQL_SCRIPT
 
 # Provide executable permissions
-chmod +x $INSTALL_DIR/LibMan.jar
-chown -R "$SUDO_USER:$SUDO_USER" $INSTALL_DIR
+chmod +x "$INSTALL_DIR"/LibMan.jar
+chown -R "$SUDO_USER:$SUDO_USER" "$INSTALL_DIR"
 echo "[Desktop Entry]
 Name = Library Management
 Exec = java -jar $INSTALL_DIR/LibMan.jar
