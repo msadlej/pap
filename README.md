@@ -1,6 +1,6 @@
-# PAP2023Z-Z20
+# Projakt
 
-## Temat projektu
+## Temat
 
 Program zarządzania biblioteką
 
